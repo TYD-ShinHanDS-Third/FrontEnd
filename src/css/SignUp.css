@@ -1,0 +1,45 @@
+body {
+  max-width: 1800px;
+  max-height: 1800px;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.circle {
+  width: 120%;
+  height: 120%;
+  margin: 0 auto;
+  position: absolute;
+  left: -10%;
+  top: -60%;
+  background-color: #518e65;
+  border-radius: 50%;
+  z-index: 1;
+}
+.front {
+  position: relative;
+  z-index: 2;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.logo {
+  margin: 10%;
+  object-fit: cover;
+}
+
+input {
+  width: 50%;
+  height: 40px;
+  border: 1px solid #40513b;
+  border-radius: 5px;
+  outline: none;
+  padding-left: 10px;
+  background-color: white;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+input::placeholder {
+  color: black;
+}
