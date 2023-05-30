@@ -1,24 +1,67 @@
 import React from "react";
 import "../css/MainPage.css";
+import { Routes, Route, Link } from "react-router-dom";
+
+import LoanList from "./loan/LoanList";
+import HouseMap from "./pan/HouseMap";
+import PanList from "./pan/PanList";
+import MyPage from "./my/MyPage";
 
 function MainPage(props) {
   return (
     <div>
       <div className="header">
         <div>
-          <img className="logo" src="image/Logo.svg"></img>
+          <img className="logo" src="image/Round_logo.svg"></img>
         </div>
+
         <div className="menubar">
-          <h3 className="menu">공고조회</h3>
-          <h3 className="menu">주택확인</h3>
-          <h3 className="menu">대출확인</h3>
-          <h3 className="menu">마이페이지</h3>
-          <button className="menu">로그인</button>
-          <button className="menu">회원가입</button>
+          <Link
+            to="/hows/notice"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <h3 className="menu">공고조회</h3>
+          </Link>
+          <Link
+            to="/hows/find"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <h3 className="menu">주택확인</h3>
+          </Link>
+          <Link
+            to="/hows/loan"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <h3 className="menu">대출확인</h3>
+          </Link>
+          <Link
+            to="/hows/mypage"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <h3 className="menu">마이페이지</h3>
+          </Link>
+          <Link
+            to="/hows/find"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <button className="menu">로그인</button>
+          </Link>
+          <Link to="/hows/find">
+            <button className="menu">회원가입</button>
+          </Link>
         </div>
       </div>
       <div className="content">
-        <div className="img_con"></div>
+        <div className="img_con">
+          <Routes>
+            <Route path="notice" element={<PanList />}></Route>
+            <Route path="find" element={<HouseMap />}></Route>
+            <Route path="loan" element={<LoanList />}></Route>
+            <Route path="mypage" element={<MyPage />}></Route>
+            {/* <Route path="login" element={<Login />}></Route>
+        <Route path="signup" element={<SignUp />}></Route> */}
+          </Routes>
+        </div>
       </div>
     </div>
   );
