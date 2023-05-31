@@ -12,7 +12,7 @@ function MainPage(props) {
     <div>
       <div className="header">
         <div>
-          <img className="logo" src="image/Round_logo.svg"></img>
+          <img className="logo" src="image/Round_logo.svg" alt="logo"></img>
         </div>
 
         <div className="menubar">
@@ -54,12 +54,10 @@ function MainPage(props) {
       <div className="content">
         <div className="img_con">
           <Routes>
-            <Route path="notice" element={<PanList />}></Route>
+            <Route path="notice/*" element={<PanList />}></Route>
             <Route path="find" element={<HouseMap />}></Route>
             <Route path="loan" element={<LoanList />}></Route>
             <Route path="mypage" element={<MyPage />}></Route>
-            {/* <Route path="login" element={<Login />}></Route>
-        <Route path="signup" element={<SignUp />}></Route> */}
           </Routes>
         </div>
       </div>
