@@ -41,12 +41,12 @@ function MainPage(props) {
             <h3 className="menu">마이페이지</h3>
           </Link>
           <Link
-            to="/hows/find"
+            to="/hows/auth/login"
             style={{ textDecoration: "none", color: "black" }}
           >
             <button className="menu">로그인</button>
           </Link>
-          <Link to="/hows/signup">
+          <Link to="/hows/auth/signup">
             <button className="menu">회원가입</button>
           </Link>
         </div>
