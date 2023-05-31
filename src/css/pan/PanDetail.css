@@ -1,0 +1,60 @@
+.notice {
+    height: 600px;
+    border: 2px solid #609966;
+    border-radius: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+  .notice::-webkit-scrollbar {
+    width: 7px; /* 스크롤바의 너비 */
+  }
+  
+  .notice::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #609966; /* 스크롤바의 색상 */
+    border-radius: 10px;
+  }
+  
+  .notice::-webkit-scrollbar-track {
+    background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
+  }
+
+  .noticeDetail{
+    display: grid;
+    grid-template-rows: 0.5fr 2.5fr 2fr;
+    grid-template-areas: 
+    "noticeHeader" "noticeBody" "noticeFooter";
+    row-gap: 3%;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .noticeHeader{
+    grid-area: noticeHeader;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr 1fr;
+    grid-template-areas: "noticeTitle" "noticeFav" "noticeDate";
+    align-items: center;
+    justify-items: center;
+    margin-top: 2%;
+  }
+  .noticeTitle{
+    grid-area: "noticeTitle";
+  }
+  .noticeFav{
+    grid-area: "noticeFav";
+  }
+  .noticeDate{
+    grid-area: "noticeDate";
+  }
+  .noticeBody{
+    grid-area: noticeBody;
+    width: 70%;
+    height: 100%;
+    margin: 0;
+  }
+
+  .noticeFooter{
+    grid-area: noticeFooter;
+    width: 90%;
+  }

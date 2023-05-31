@@ -1,0 +1,31 @@
+
+.noticelist {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 3fr;
+    grid-template-areas: "fav . recruiting" "noticeTable noticeTable noticeTable";
+    align-items: start;
+    justify-items: center;
+    height: 600px;
+    border: 2px solid #609966;
+    border-radius: 10px;
+  }
+  .noticeTable {
+    grid-area: noticeTable;
+  }
+  Table{
+    border: 1px solid #609966;
+  }
+  .fav {
+    grid-area: fav;
+    margin-top: 15%;
+  }
+  
+  .recruiting {
+    grid-area: recruiting;
+    margin-top: 15%;  
+  }
+  
+  .line {
+    grid-area: line;
+  }
