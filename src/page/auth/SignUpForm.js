@@ -89,7 +89,7 @@ function SignUpForm(props) {
                         id="demo-simple-select-standard"
                         onChange={bankChange}
                         label="은행명"
-                        //fullWidth="100%"
+                        value={bank}
                       >
                         <MenuItem value={"신한"}>신한</MenuItem>
                         <MenuItem value={"국민"}>국민</MenuItem>
