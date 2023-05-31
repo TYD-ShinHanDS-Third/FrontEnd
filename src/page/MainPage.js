@@ -46,7 +46,7 @@ function MainPage(props) {
           >
             <button className="menu">로그인</button>
           </Link>
-          <Link to="/hows/find">
+          <Link to="/hows/signup">
             <button className="menu">회원가입</button>
           </Link>
         </div>
