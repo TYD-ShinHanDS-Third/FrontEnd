@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../../css/SignUp.css";
+import {
+  Collapse,
+  FormControl,
+  Grid,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 
 function SignUp(props) {
+  const [bank, setBank] = React.useState("");
+
+  const bankChange = (event) => {
+    setBank(event.target.value);
+  };
+
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
   const checkId = (event) => {
     //
   };
@@ -9,26 +33,173 @@ function SignUp(props) {
     //
   };
   return (
-    <div>
+    <div className="entire">
       <div className="circle"></div>
       <div className="front">
-        <img className="logo" src="image/Logo.svg" width="100px" />
-        <form>
-          <input name="memberName" placeholder="이름" />
-          <br />
-          <input name="memberId" placeholder="아이디" />
-          <button onClick={checkId}>중복체크</button>
-          <br />
-          <input name="pswd" placeholder="비밀번호" />
-          <br />
-          <input name="pswdChk" placeholder="비밀번호 확인" />
-          <span>확인</span>
-          <br />
-          <input name="bDay" placeholder="생년월일" />
-          <br />
-          <input name="Phone" placeholder="전화번호" />
-          <button onClick={checkPhone}>전화번호 인증</button>
-        </form>
+        <img className="logoSignup" src="../image/Logo.svg" />
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={8}>
+            <input id="memberName" name="memberName" placeholder="이름" />
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <input id="memberId" name="memberId" placeholder="아이디" />
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <button onClick={checkId}>중복체크</button>
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <input id="pswd" name="pswd" placeholder="비밀번호" />
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <input id="pswdChk" name="pswdChk" placeholder="비밀번호 확인" />
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <span>확인</span>
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <input id="bDay" name="bDay" placeholder="생년월일" />
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <input id="phone" name="phone" placeholder="전화번호" />
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <button onClick={checkPhone}>전화번호 인증</button>
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: "600px",
+                bgcolor: "background.paper",
+                fontSize: "10%",
+              }}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
+            >
+              <ListItemButton onClick={handleClick}>
+                <ListItemText primary="추가 정보 입력" />
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem sx={{ pl: 2, minHeight: 80 }}>
+                    <Grid item xs={12} sm={3}>
+                      <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 80 }}
+                      >
+                        <InputLabel id="demo-simple-select-standard-label">
+                          은행
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          onChange={bankChange}
+                          label="은행명"
+                          fullWidth="100%"
+                        >
+                          <MenuItem value={"신한"}>신한</MenuItem>
+                          <MenuItem value={"국민"}>국민</MenuItem>
+                          <MenuItem value={"우리"}>우리</MenuItem>
+                          <MenuItem value={"하나"}>하나</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={9}>
+                      <input name="accNo" placeholder="계좌번호" />
+                    </Grid>
+                  </ListItem>
+                  <ListItem sx={{ pl: 3 }}>
+                    <Grid item xs={12} sm={3}>
+                      <span>직장유무</span>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <div class="select">
+                        <input
+                          type="radio"
+                          id="select1"
+                          name="hasJob"
+                          value="true"
+                          label="hasJob"
+                        />
+                        <label for="select1">유</label>
+                        <input
+                          type="radio"
+                          id="select2"
+                          name="hasJob"
+                          value="false"
+                          label="hasJob"
+                        />
+                        <label for="select2">무</label>
+                      </div>
+                    </Grid>
+                  </ListItem>
+                  <ListItem sx={{ pl: 2 }}>
+                    <Grid item xs={12} sm={8}>
+                      <input name="jobName" placeholder="직장명" />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <input name="jobName" placeholder="입사년도" />
+                    </Grid>
+                  </ListItem>
+                  <ListItem sx={{ pl: 3 }}>
+                    <Grid item xs={12} sm={3}>
+                      <span>결혼</span>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <div class="select">
+                        <input
+                          type="radio"
+                          id="select3"
+                          name="marry"
+                          value="false"
+                          label="marry"
+                        />
+                        <label for="select3">미혼</label>
+                        <input
+                          type="radio"
+                          id="select4"
+                          name="marry"
+                          value="true"
+                          label="marry"
+                        />
+                        <label for="select4">기혼</label>
+                      </div>
+                    </Grid>
+                  </ListItem>
+                  <ListItem sx={{ pl: 3 }}>
+                    <Grid item xs={12} sm={3}>
+                      <span>자녀</span>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <div class="select">
+                        <input
+                          type="radio"
+                          id="select5"
+                          name="hasChild"
+                          value="true"
+                          label="hasChild"
+                        />
+                        <label for="select5">유</label>
+                        <input
+                          type="radio"
+                          id="select6"
+                          name="hasChild"
+                          value="false"
+                          label="hasChild"
+                        />
+                        <label for="select6">무</label>
+                      </div>
+                    </Grid>
+                  </ListItem>
+                </List>
+              </Collapse>
+            </List>
+          </Grid>
+          <Grid item xs={12} sm={8}>
+            <button id="signUpBtn">회원가입</button>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
