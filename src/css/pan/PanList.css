@@ -1,7 +1,7 @@
 .panlist {
   display: grid;
   grid-template-columns: 0.3fr 1fr 0.2fr 5fr 0.3fr;
-  grid-template-areas: ". region . noticelist .";
+  grid-template-areas: ". region . noticearea .";
   align-items: center;
   width: 100%;
   height: 100%;
@@ -36,31 +36,7 @@
 
 /* noticelist */
 
-.noticelist {
-  grid-area: noticelist;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.5fr 3fr;
-  grid-template-areas: "fav . recruiting" "noticeTable noticeTable noticeTable";
-  align-items: center;
-  justify-items: center;
-  height: 600px;
-  border: 2px solid #609966;
-  border-radius: 10px;
+.noticearea{
+  grid-area: noticearea;
 }
 
-.noticeTable {
-  grid-area: noticeTable;
-}
-
-.fav {
-  grid-area: fav;
-}
-
-.recruiting {
-  grid-area: recruiting;
-}
-
-.line {
-  grid-area: line;
-}
