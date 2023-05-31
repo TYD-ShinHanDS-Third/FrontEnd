@@ -33,6 +33,7 @@ function SignUpForm(props) {
   };
   return (
     <div>
+      <img className="logoSignup" src="../../image/Logo.svg" alt="hows" />
       <Grid container spacing={1}>
         <Grid item xs={12} sm={8}>
           <input id="memberName" name="memberName" placeholder="이름" />

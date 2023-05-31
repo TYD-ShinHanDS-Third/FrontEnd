@@ -8,7 +8,6 @@ function SignUp(props) {
     <div className="entire">
       <div className="circle"></div>
       <div className="front">
-        <img className="logoSignup" src="../../image/Logo.svg" alt="hows" />
         <Routes>
           <Route path="/signup" element={<SignUpForm />}></Route>
           <Route path="/login" element={<Login />}></Route>
