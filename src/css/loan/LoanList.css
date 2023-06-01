@@ -52,25 +52,25 @@
 .loanbtn{
     grid-area: loanbtn;
     display: flex;
+    align-items: center;
     justify-content: flex-end;
 }
-.applybtn{
+
+/* .applybtn{
     background-color: #031389;
     color: #FFFFFF;
-    width: 13%;
-    margin-right: 3%;
+    width: 100%;
     border-radius: 10px;
-}
+} */
 
 .limitbtn{
     background-color: #FFFEDD;
-    width: 13%;
-    margin-right: 3%;
+    width: 100%;
     border-radius: 10px;
 }
 .consultbtn{
-    background-color: #609966;
+    background-color: #031389;
     color: #FFFFFF;
-    width: 13%;
+    width: 100%;
     border-radius: 10px;
 }

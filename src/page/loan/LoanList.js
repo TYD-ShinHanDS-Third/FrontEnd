@@ -59,34 +59,15 @@ function LoanList(props) {
             </div>
           </Link>
           <div className="loanbtn">
-            <button className="applybtn">신청하기</button>
-            <button className="limitbtn">한도조회</button>
-            <button className="consultbtn">상담신청</button>
-          </div>
-        </div>
-      </div>
-
-      <div className="loanbody">
-        <hr className="loanhr" />
-        <div className="loan">
-          <Link
-            to="/hows/loan/detail"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <div className="loantitle">
-              <h2>버팀목 전세자금 대출</h2>
-            </div>
-            <div className="loandis">
-              <p>
-                주택을 임차하는 근로자 및 서민의 주거 안정을 위한 주택 도시
-                기금을 재원으로 하는 전세자금대출 상품
-              </p>
-            </div>
-          </Link>
-          <div className="loanbtn">
-            <button className="applybtn">신청하기</button>
-            <button className="limitbtn">한도조회</button>
-            <button className="consultbtn">상담신청</button>
+            <Link
+              to="/hows/loan/detail/limit"
+              style={{ marginRight: "3%", width: "12%" }}
+            >
+              <button className="limitbtn">한도조회</button>
+            </Link>
+            <Link to="/hows/loan/detail/consult" style={{ width: "12%" }}>
+              <button className="consultbtn">상담신청</button>
+            </Link>
           </div>
         </div>
 
@@ -108,9 +89,15 @@ function LoanList(props) {
             </div>
           </Link>
           <div className="loanbtn">
-            <button className="applybtn">신청하기</button>
-            <button className="limitbtn">한도조회</button>
-            <button className="consultbtn">상담신청</button>
+            <Link
+              to="/hows/loan/detail/limit"
+              style={{ marginRight: "3%", width: "12%" }}
+            >
+              <button className="limitbtn">한도조회</button>
+            </Link>
+            <Link to="/hows/loan/detail/consult" style={{ width: "12%" }}>
+              <button className="consultbtn">상담신청</button>
+            </Link>
           </div>
         </div>
       </div>
