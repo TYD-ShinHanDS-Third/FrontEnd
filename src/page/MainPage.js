@@ -6,13 +6,19 @@ import LoanList from "./loan/LoanList";
 import HouseMap from "./pan/HouseMap";
 import PanList from "./pan/PanList";
 import MyPage from "./my/MyPage";
+import LoanDetail from "./loan/LoanDetail";
+import LoanLimit from "./loan/LoanLimit";
+import LoanApply from "./loan/LoanApply";
+import LoanUploadDoc from "./loan/LoanUploadDoc";
 
 function MainPage(props) {
   return (
     <div>
       <div className="header">
         <div>
-          <img className="logo" src="image/Round_logo.svg" alt="logo"></img>
+          <Link to="/hows">
+            <img className="logo" src="/image/Round_logo.svg" alt="logo"></img>
+          </Link>
         </div>
 
         <div className="menubar">
@@ -57,6 +63,9 @@ function MainPage(props) {
             <Route path="notice/*" element={<PanList />}></Route>
             <Route path="find" element={<HouseMap />}></Route>
             <Route path="loan" element={<LoanList />}></Route>
+            <Route path="loan/detail" element={<LoanDetail />}></Route>
+            <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
+            <Route path="loan/detail/consult" element={<LoanApply />}></Route>
             <Route path="mypage" element={<MyPage />}></Route>
           </Routes>
         </div>
