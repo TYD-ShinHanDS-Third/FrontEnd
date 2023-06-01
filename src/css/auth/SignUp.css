@@ -10,21 +10,21 @@ body {
 .circle {
   width: 120%;
   height: 120%;
-  margin: 0 auto;
   position: absolute;
   left: -10%;
   top: -60%;
+  margin: 0 auto;
+  z-index: 1;
   background-color: #518e65;
   border-radius: 50%;
-  z-index: 1;
 }
 
 .front {
   position: absolute;
-  z-index: 2;
   width: 50%;
   top: 50%;
   left: 50%;
+  z-index: 2;
   transform: translate(-35%, -45%);
 }
 
@@ -38,9 +38,9 @@ body {
 input {
   width: 95%;
   height: 40px;
+  text-align: center;
   border: 1px solid #40513b;
   border-radius: 5px;
-  text-align: center;
 }
 
 #memberName,
@@ -60,12 +60,12 @@ input {
 }
 .select input[type="radio"] + label {
   display: inline-block;
-  cursor: pointer;
   height: 24px;
   width: 90px;
+  text-align: center;
+  cursor: pointer;
   border: 1px solid #518e65;
   line-height: 24px;
-  text-align: center;
   font-weight: bold;
   font-size: 13px;
 }
