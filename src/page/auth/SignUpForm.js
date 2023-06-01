@@ -171,18 +171,26 @@ function SignUpForm(props) {
                         type="radio"
                         id="select5"
                         name="hasChild"
-                        value="true"
+                        value="false"
                         label="hasChild"
                       />
-                      <label htmlFor="select5">유</label>
+                      <label htmlFor="select5">무</label>
                       <input
                         type="radio"
                         id="select6"
                         name="hasChild"
-                        value="false"
+                        value="true"
                         label="hasChild"
                       />
-                      <label htmlFor="select6">무</label>
+                      <label htmlFor="select6">1명</label>
+                      <input
+                        type="radio"
+                        id="select7"
+                        name="hasChild"
+                        value="true"
+                        label="hasChild"
+                      />
+                      <label htmlFor="select7">2명이상</label>
                     </div>
                   </Grid>
                 </ListItem>
