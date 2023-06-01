@@ -6,6 +6,7 @@ import LoanList from "./loan/LoanList";
 import HouseMap from "./pan/HouseMap";
 import PanList from "./pan/PanList";
 import MyPage from "./my/MyPage";
+import MyEdit from "./my/MyEdit";
 
 function MainPage(props) {
   return (
@@ -35,7 +36,7 @@ function MainPage(props) {
             <h3 className="menu">대출확인</h3>
           </Link>
           <Link
-            to="/hows/mypage"
+            to="/hows/my/mypage"
             style={{ textDecoration: "none", color: "black" }}
           >
             <h3 className="menu">마이페이지</h3>
@@ -57,7 +58,8 @@ function MainPage(props) {
             <Route path="notice/*" element={<PanList />}></Route>
             <Route path="find" element={<HouseMap />}></Route>
             <Route path="loan" element={<LoanList />}></Route>
-            <Route path="mypage" element={<MyPage />}></Route>
+            <Route path="my/mypage" element={<MyPage />}></Route>
+            <Route path="my/myedit" element={<MyEdit />}></Route>
           </Routes>
         </div>
       </div>

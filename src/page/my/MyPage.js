@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const sample = [
   {
@@ -110,7 +111,9 @@ export default function MyPage(props) {
           </div>
         </div>
         <div className="myEdit">
-          <button className="editBtn">회원정보 수정</button>
+          <Link to="/hows/my/myedit">
+            <button className="editBtn">회원정보 수정</button>
+          </Link>
         </div>
       </div>
     </div>
