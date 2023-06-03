@@ -20,7 +20,7 @@ function SignUpForm(props) {
     setBank(event.target.value);
   };
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -65,8 +65,7 @@ function SignUpForm(props) {
         <Grid item xs={12} sm={8}>
           <List
             sx={{
-              width: "100%",
-              maxWidth: "600px",
+              width: "95%",
               bgcolor: "background.paper",
               fontSize: "10%",
             }}
