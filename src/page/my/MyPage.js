@@ -111,7 +111,7 @@ export default function MyPage(props) {
           </div>
         </div>
         <div className="myEdit">
-          <Link to="/hows/my/myedit">
+          <Link to="/hows/my/myedit" className="editLink">
             <button className="editBtn">회원정보 수정</button>
           </Link>
         </div>
