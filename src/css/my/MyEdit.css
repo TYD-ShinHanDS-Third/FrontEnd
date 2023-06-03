@@ -1,55 +1,127 @@
-body {
-  overflow-x: hidden;
-}
-.entire {
-  max-width: 1800px;
-  height: 1200px;
-  background-color: #f5f5f5;
-}
-
-.circle {
-  width: 120%;
-  height: 120%;
-  position: absolute;
-  left: -10%;
-  top: -60%;
+.myEditBody{
+  display: grid;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
-  z-index: 1;
-  background-color: #518e65;
-  border-radius: 50%;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.front {
-  position: absolute;
-  width: 50%;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  transform: translate(-35%, -45%);
+.editContainer1 {
+  grid-column: 1 / 2;
+  display: grid;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
 }
 
-.logoSignup {
-  max-width: 200px;
-  width: 20%;
-  margin-left: 22%;
-  object-fit: cover;
+.editItem{
+  display: flex;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  padding: 3%;
+}
+
+#editName {
+  grid-column: 2 / 6;
+  grid-row: 1 / 2;
+}
+
+#editId {
+  grid-column: 2 / 6;
+  grid-row: 2 / 3;
+}
+
+#editPw {
+  grid-column: 2 / 6;
+  grid-row: 3 / 4;
+}
+
+#editPwChk {
+  grid-column: 2 / 6;
+  grid-row: 4 / 5;
+}
+
+#editBirth {
+  grid-column: 2 / 6;
+  grid-row: 5 / 6;
+}
+
+#editPhone {
+  grid-column: 2 / 6;
+  grid-row: 6 / 7;
 }
 
 input {
-  width: 95%;
+  width: 100%;
   height: 40px;
   text-align: center;
   border: 1px solid #40513b;
   border-radius: 5px;
 }
 
-#memberName,
-#memberId,
-#pswd,
-#pswdChk,
-#bDay,
-#phone {
-  margin-bottom: 3%;
+.myEditBtn {
+  grid-column: 6 / 7;
+  grid-row: 3/4;
+}
+
+.deleteBtn{
+  grid-column: 1 / 2;
+  grid-row: 6/7;
+}
+
+.editContainer2 {
+  grid-column: 2 / 3;
+  display: grid;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+}
+
+#addInfo {
+  grid-column: 1 / 7;
+  grid-row: 1/2;
+  font-size: 150%;
+  font-weight: 1000;
+}
+
+#editBank {
+  grid-column: 1 / 7;
+  grid-row: 2/3;
+}
+
+#editHasJob {
+  grid-column: 1 / 7;
+  grid-row: 3/4;
+}
+
+#hireDate{
+  width: 30%;
+  margin-left: 2%;
+}
+
+#editJob {
+  grid-column: 1 / 7;
+  grid-row: 4/5;
+}
+
+#editMarry {
+  grid-column: 1 / 7;
+  grid-row: 5/6;
+}
+
+#editHasChild {
+  grid-column: 1 / 7;
+  grid-row: 6/7;
 }
 
 .select {
@@ -83,16 +155,15 @@ button {
   height: 80%;
 }
 
-#signUpBtn {
-  width: 100%;
-  height: 80%;
-  margin-top: 3%;
-}
-
 input::placeholder {
   color: black;
 }
 
+input:focus {
+  outline: 1px solid #518e65
+}
+
 span {
   font-size: 15px;
+  margin-right: 5%;
 }
