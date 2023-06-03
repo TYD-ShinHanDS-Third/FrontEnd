@@ -53,6 +53,9 @@ function MyEdit(props) {
         <div className="editItem" id="addInfo">
           추가 정보
         </div>
+        <div className="saveBtn">
+          <button>저장</button>
+        </div>
       <div className="editItem" id="editBank">
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 80 }}>
                       <InputLabel id="demo-simple-select-standard-label">

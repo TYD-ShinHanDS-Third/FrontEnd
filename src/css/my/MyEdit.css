@@ -88,10 +88,20 @@ input {
 }
 
 #addInfo {
-  grid-column: 1 / 7;
+  grid-column: 1 / 6;
   grid-row: 1/2;
   font-size: 150%;
   font-weight: 1000;
+}
+
+.saveBtn{
+  grid-column: 6 / 7;
+  grid-row: 1/2;
+}
+
+.saveBtn button{
+  width: max-content;
+  height: max-content;
 }
 
 #editBank {
@@ -120,7 +130,7 @@ input {
 }
 
 #editHasChild {
-  grid-column: 1 / 7;
+  grid-column: 1 / 6;
   grid-row: 6/7;
 }
 
@@ -148,11 +158,6 @@ input {
 .select input[type="radio"]:checked + label {
   background-color: #518e65;
   color: #fff;
-}
-
-button {
-  width: max-content;
-  height: 80%;
 }
 
 input::placeholder {
