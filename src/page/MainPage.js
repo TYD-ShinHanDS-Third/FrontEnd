@@ -13,6 +13,7 @@ import LoanUploadDoc from "./loan/LoanUploadDoc";
 import ManPage from "./admin/ManPage";
 import MainMenu from "./MainMenu";
 import AdminMenu from "./admin/AdminMenu";
+import MyEdit from "./my/MyEdit";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
@@ -38,7 +39,6 @@ function logo(location) {
     );
   }
 }
-import MyEdit from "./my/MyEdit";
 
 function MainPage(props) {
   const location = useLocation();
