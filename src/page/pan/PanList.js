@@ -25,6 +25,7 @@ function PanList(props) {
           <li>서울</li>
         </ul>
       </div>
+
       <div className="noticearea">
         <Routes>
           <Route path="detail" element={<PanDetail />}></Route>

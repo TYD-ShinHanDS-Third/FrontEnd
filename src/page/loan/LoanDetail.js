@@ -25,6 +25,7 @@ function LoanDetail(props) {
           </Link>
         </div>
       </div>
+
       <div className="loandetail_body">
         <hr className="loanhr" />
         <Routes>

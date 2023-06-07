@@ -26,6 +26,7 @@ function LoanUploadDoc(props) {
           <button className="upload_btn">업로드</button>
         </div>
       </div>
+
       <div className="loanapplybtn">
         <div className="file_desc">
           <p>

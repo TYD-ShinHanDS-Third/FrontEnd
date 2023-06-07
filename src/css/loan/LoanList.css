@@ -1,59 +1,56 @@
-.loanList{
-    display: grid;
-    grid-template-rows: 0.5fr 3fr;
-    grid-template-columns: 0.3fr 5fr 0.3fr;
-    grid-template-areas: 
-    ". loanheader ." ". loanbody .";
-    margin-top: 5%;
-    overflow-y: auto;
+.loanList {
+  display: grid;
+  grid-template-rows: 0.5fr 3fr;
+  grid-template-columns: 0.3fr 5fr 0.3fr;
+  grid-template-areas: ". loanheader ." ". loanbody .";
+  margin-top: 5%;
+  overflow-y: auto;
+}
+.loanheader {
+  grid-area: loanheader;
+  display: grid;
+  grid-template-columns: 3fr 3fr 1fr;
+  grid-template-areas: "pageTitle . comSelector";
+}
+.pageTitle {
+  grid-area: pageTitle;
+}
+.comSelector {
+  grid-area: comSelector;
 }
 
-.loanheader{
-    grid-area: loanheader;
-    display: grid;
-    grid-template-columns: 3fr 3fr 1fr;
-     grid-template-areas: 
-    "pageTitle . comSelector"
-}
-.pageTitle{
-    grid-area: pageTitle;
-}
-.comSelector{
-    grid-area: comSelector;
+.loanbody {
+  grid-area: loanbody;
 }
 
-.loanbody{
-    grid-area: loanbody;
+.loanhr {
+  border: 0;
+  height: 3px;
+  background-color: black;
 }
 
-.loanhr{
-    border: 0;
-    height: 3px;
-    background-color: black;
+.loan {
+  display: grid;
+  grid-template-rows: 0.5fr 0.5fr;
+  grid-template-areas: "loantitle" "loanbtn";
+  align-items: center;
+}
+.loantitle {
+  grid-area: loantitle;
+}
+.loantitle h2 {
+  margin-bottom: 0px;
+}
+.loandis {
+  grid-area: loandis;
+  margin-left: 1%;
 }
 
-.loan{
-    display: grid;
-    grid-template-rows: 0.5fr 0.5fr;
-    grid-template-areas: "loantitle" "loanbtn";
-    align-items: center;
-}
-.loantitle{
-    grid-area: loantitle;
-}
-.loantitle h2{
-    margin-bottom: 0px;
-}
-.loandis{
-    grid-area: loandis;
-    margin-left: 1%;
-}
-
-.loanbtn{
-    grid-area: loanbtn;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.loanbtn {
+  grid-area: loanbtn;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 /* .applybtn{
@@ -63,14 +60,14 @@
     border-radius: 10px;
 } */
 
-.limitbtn{
-    background-color: #FFFEDD;
-    width: 100%;
-    border-radius: 10px;
+.limitbtn {
+  background-color: #fffedd;
+  width: 100%;
+  border-radius: 10px;
 }
-.consultbtn{
-    background-color: #031389;
-    color: #FFFFFF;
-    width: 100%;
-    border-radius: 10px;
+.consultbtn {
+  background-color: #031389;
+  color: #ffffff;
+  width: 100%;
+  border-radius: 10px;
 }

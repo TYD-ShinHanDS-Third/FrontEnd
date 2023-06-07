@@ -19,9 +19,11 @@ function PanDetail(props) {
           <StarIcon className="noticeFav" />
           <h3 className="noticeDate">2023-05-08 ~ 2023-05-25</h3>
         </div>
+
         <div className="noticeBody">
           <Kakao />
         </div>
+
         <div className="noticeFooter">
           <TableContainer>
             <Table
