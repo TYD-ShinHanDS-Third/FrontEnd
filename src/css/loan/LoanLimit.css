@@ -1,0 +1,21 @@
+.loanlimit {
+  display: grid;
+  grid-template-rows: 0.5fr 3fr;
+  grid-template-columns: 0.3fr 5fr 0.3fr;
+  grid-template-areas: ". loanlimit_header ." ". loanlimit_body .";
+  margin-top: 5%;
+  overflow-y: auto;
+}
+.loanlimit_header {
+  grid-area: loanlimit_header;
+  display: grid;
+  grid-template-columns: 3fr 2.5fr 3fr;
+  grid-template-areas: "loanlimit_title . .";
+}
+.loanlimit_body {
+  grid-area: loanlimit_body;
+}
+
+.loanlimit_title {
+  grid-area: loanlimit_title;
+}

@@ -1,0 +1,65 @@
+.uplods {
+  display: grid;
+  grid-area: uplods;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas: "files loanapplybtn";
+  justify-items: stretch;
+}
+.files {
+  grid-area: files;
+}
+
+.loanapplybtn {
+  display: grid;
+  grid-area: loanapplybtn;
+  margin-right: 10%;
+  align-items: end;
+  justify-items: end;
+}
+.file {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas: "h2 button";
+  align-items: center;
+}
+.upload_btn {
+  grid-area: button;
+  margin-left: 10%;
+  height: 40%;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: #c1d0b5;
+}
+.file > h2 {
+  grid-area: h2;
+}
+.file > h2 {
+  background-color: #99a98f;
+  padding: 13px;
+  padding-right: 20px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.file2 > h2 {
+  background-color: #f5f0bb;
+  padding: 13px;
+  width: 100%;
+  border-radius: 15px;
+}
+.file_desc {
+  background-color: #f5f0bb;
+  opacity: 80%;
+  padding: 10%;
+  border-radius: 15px;
+}
+
+.finalapply_btn {
+  width: 100%;
+  height: 30%;
+  background-color: #031389;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 8%;
+}

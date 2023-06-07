@@ -1,0 +1,50 @@
+.loandetail {
+  display: grid;
+  grid-template-rows: 0.5fr 3fr;
+  grid-template-columns: 0.3fr 5fr 0.3fr;
+  grid-template-areas:
+    ". loandetail_header ."
+    ". loandetail_body .";
+  margin-top: 5%;
+  overflow-y: auto;
+}
+.loandetail_header {
+  grid-area: loandetail_header;
+  display: grid;
+  grid-template-columns: 3fr 2fr 4fr;
+  grid-template-areas: "loandetail_title . loandetail_btn";
+}
+.loandetail_body {
+  grid-area: loandetail_body;
+}
+
+.loandetail_title {
+  grid-area: loandetail_title;
+}
+.loandetail_btn {
+  grid-area: loandetail_btn;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.detail_apply {
+  grid-area: detail_apply;
+}
+/* .detail_applybtn{
+    background-color: #031389;
+    color: #FFFFFF;
+    width: 150%;
+    border-radius: 10px;
+} */
+
+.detail_limitbtn {
+  background-color: #fffedd;
+  width: 150%;
+  border-radius: 10px;
+}
+.detail_consultbtn {
+  background-color: #031389;
+  color: #ffffff;
+  width: 150%;
+  border-radius: 10px;
+}
