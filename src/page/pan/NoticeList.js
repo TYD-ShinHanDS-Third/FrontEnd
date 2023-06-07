@@ -18,7 +18,6 @@ function NoticeList(props) {
         <Checkbox defaultChecked color="success" />
         관심있는 공고만 보기
       </label>
-
       <label className="recruiting">
         <Checkbox defaultChecked color="success" />
         모집중인 공고만 보기

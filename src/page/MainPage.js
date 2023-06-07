@@ -12,6 +12,7 @@ import LoanApply from "./loan/LoanApply";
 import ManPage from "./admin/ManPage";
 import MainMenu from "./MainMenu";
 import AdminMenu from "./admin/AdminMenu";
+import MyEdit from "./my/MyEdit";
 import BankMenu from "./bank/BankMenu";
 import BankMainPage from "./bank/BankMainPage";
 
@@ -68,6 +69,8 @@ function MainPage(props) {
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
             <Route path="mypage" element={<MyPage />}></Route>
             <Route path="admin/*" element={<ManPage />}></Route>
+            <Route path="my/mypage" element={<MyPage />}></Route>
+            <Route path="my/myedit" element={<MyEdit />}></Route>
             <Route path="bank/*" element={<BankMainPage />}></Route>
           </Routes>
         </div>

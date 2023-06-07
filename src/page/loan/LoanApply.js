@@ -28,12 +28,13 @@ function LoanApply(props) {
             style={{
               width: "100%",
               height: "90%",
-              textAlign: "left"
+              textAlign: "left",
             }}
           />
           <button className="send">전송</button>
         </div>
       </div>
+
       <Link to="/hows/loan/detail/limit/uploaddocs">
         <button className="consultbtn">대출 자료 제출</button>
       </Link>
