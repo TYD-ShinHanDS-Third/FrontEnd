@@ -13,6 +13,9 @@
   .noticeTable {
     grid-area: noticeTable;
   }
+  Table{
+    border: 1px solid #609966;
+  }
   .fav {
     grid-area: fav;
     margin-top: 15%;

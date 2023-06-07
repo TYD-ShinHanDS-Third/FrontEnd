@@ -17,7 +17,7 @@ function MainMenu(props) {
         <h3 className="menu">대출확인</h3>
       </Link>
       <Link
-        to="/hows/mypage"
+        to="/hows/my/mypage"
         style={{ textDecoration: "none", color: "black" }}
       >
         <h3 className="menu">마이페이지</h3>

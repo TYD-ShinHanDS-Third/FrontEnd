@@ -1,0 +1,101 @@
+.myPage {
+  display: grid;
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+}
+
+.myContainer {
+  display: grid;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 5% 2%;
+}
+
+.calendar {
+  grid-column: 1 / 4;
+  grid-row: 1 / 6;
+  width: 90%;
+  height: 90%;
+  padding: 5%;
+  background-color: white;
+  border-radius: 5%;
+  box-shadow: 1px 1px 10px 0px gray;
+}
+
+.myLoan {
+  grid-column: 4 / 6;
+  grid-row: 1 / 3;
+  width: 90%;
+  height: 90%;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
+  background-color: white;
+  border-radius: 5%;
+  box-shadow: 1px 1px 10px 0px gray;
+  overflow: auto;
+}
+
+.myLoan::-webkit-scrollbar {
+  width: 7px; /* 스크롤바의 너비 */
+}
+
+.myLoan::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #609966; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.myLoan::-webkit-scrollbar-track {
+  background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
+}
+
+.myReturn {
+  grid-column: 4 / 6;
+  grid-row: 3 / 5;
+  width: 90%;
+  height: 80%;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
+  background-color: white;
+  border-radius: 5%;
+  box-shadow: 1px 1px 10px 0px gray;
+}
+
+.returnPrice p {
+  font-size: 10%;
+  margin-bottom: -5%;
+  color: #518e65;
+}
+
+.myEdit {
+  display:flex;
+  grid-column: 4 / 6;
+  grid-row: 5 / 6;
+  width: 100%;
+  height: 90%;
+  padding: 5%;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.editLink{
+  width: 70%;
+  height: 50%;
+}
+
+.editBtn {
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-color: #99a98f;
+  border-radius: 30px;
+  box-shadow: 1px 1px 10px 0px gray;
+}

@@ -13,6 +13,7 @@ import LoanUploadDoc from "./loan/LoanUploadDoc";
 import ManPage from "./admin/ManPage";
 import MainMenu from "./MainMenu";
 import AdminMenu from "./admin/AdminMenu";
+import MyEdit from "./my/MyEdit";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
@@ -59,6 +60,8 @@ function MainPage(props) {
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
             <Route path="mypage" element={<MyPage />}></Route>
             <Route path="admin/*" element={<ManPage />}></Route>
+            <Route path="my/mypage" element={<MyPage />}></Route>
+            <Route path="my/myedit" element={<MyEdit />}></Route>
           </Routes>
         </div>
       </div>

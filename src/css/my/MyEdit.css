@@ -1,0 +1,174 @@
+.myEditBody{
+  display: grid;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.editContainer1 {
+  grid-column: 1 / 2;
+  display: grid;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.editItem{
+  display: flex;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  padding: 3%;
+}
+
+#editName {
+  grid-column: 2 / 6;
+  grid-row: 1 / 2;
+}
+
+#editId {
+  grid-column: 2 / 6;
+  grid-row: 2 / 3;
+}
+
+#editPw {
+  grid-column: 2 / 6;
+  grid-row: 3 / 4;
+}
+
+#editPwChk {
+  grid-column: 2 / 6;
+  grid-row: 4 / 5;
+}
+
+#editBirth {
+  grid-column: 2 / 6;
+  grid-row: 5 / 6;
+}
+
+#editPhone {
+  grid-column: 2 / 6;
+  grid-row: 6 / 7;
+}
+
+input {
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #40513b;
+  border-radius: 5px;
+}
+
+.myEditBtn {
+  grid-column: 6 / 7;
+  grid-row: 3/4;
+}
+
+.deleteBtn{
+  grid-column: 1 / 2;
+  grid-row: 6/7;
+}
+
+.editContainer2 {
+  grid-column: 2 / 3;
+  display: grid;
+  width: 90%;
+  height: 90%;
+  align-items: center;
+  justify-items: center;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+}
+
+#addInfo {
+  grid-column: 1 / 6;
+  grid-row: 1/2;
+  font-size: 150%;
+  font-weight: 1000;
+}
+
+.saveBtn{
+  grid-column: 6 / 7;
+  grid-row: 1/2;
+}
+
+.saveBtn button{
+  width: max-content;
+  height: max-content;
+}
+
+#editBank {
+  grid-column: 1 / 7;
+  grid-row: 2/3;
+}
+
+#editHasJob {
+  grid-column: 1 / 7;
+  grid-row: 3/4;
+}
+
+#hireDate{
+  width: 30%;
+  margin-left: 2%;
+}
+
+#editJob {
+  grid-column: 1 / 7;
+  grid-row: 4/5;
+}
+
+#editMarry {
+  grid-column: 1 / 7;
+  grid-row: 5/6;
+}
+
+#editHasChild {
+  grid-column: 1 / 6;
+  grid-row: 6/7;
+}
+
+.select {
+  padding: 15px 10px;
+}
+.select input[type="radio"] {
+  display: none;
+}
+.select input[type="radio"] + label {
+  display: inline-block;
+  height: 24px;
+  width: 90px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #518e65;
+  line-height: 24px;
+  font-weight: bold;
+  font-size: 13px;
+}
+.select input[type="radio"] + label {
+  background-color: #fff;
+  color: #518e65;
+}
+.select input[type="radio"]:checked + label {
+  background-color: #518e65;
+  color: #fff;
+}
+
+input::placeholder {
+  color: black;
+}
+
+input:focus {
+  outline: 1px solid #518e65
+}
+
+span {
+  font-size: 15px;
+  margin-right: 5%;
+}

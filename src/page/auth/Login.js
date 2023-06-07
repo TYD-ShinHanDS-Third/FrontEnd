@@ -3,14 +3,11 @@ import "../../css/auth/Login.css";
 import { Grid } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PhotoCameraFrontOutlinedIcon from "@mui/icons-material/PhotoCameraFrontOutlined";
-import { Link } from "react-router-dom";
 
 function Login(props) {
   return (
     <div>
-      <Link to="/hows">
-        <img className="logoLogin" src="/image/Logo.svg" alt="hows" />
-      </Link>
+      <img className="logoLogin" src="/image/Logo.svg" alt="hows" />
       <div className="loginBox">
         <div className="loginForm">
           <Grid container spacing={1}>
