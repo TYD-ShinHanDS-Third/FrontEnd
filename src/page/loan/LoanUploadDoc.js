@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/loan/LoanUploadDoc.css";
+import { Link } from "react-router-dom";
 
 function LoanUploadDoc(props) {
   return (
@@ -35,7 +36,9 @@ function LoanUploadDoc(props) {
             심사 후 결과는 핸드폰 번호로 안내될 예정입니다.
           </p>
         </div>
-        <button className="finalapply_btn">신청하기</button>
+        <Link to="/hows/loan/detail/consult/success" style={{}}>
+          <button className="finalapply_btn">신청하기</button>
+        </Link>
       </div>
     </div>
   );
