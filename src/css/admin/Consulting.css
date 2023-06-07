@@ -1,0 +1,10 @@
+.consulting{
+    display: grid;
+    grid-template-columns:  3fr 2fr;
+    grid-template-areas: 
+    "loanapply_detail loanapply_chat";
+    overflow-y: auto;
+    height: 580px;
+    align-items: center;
+    justify-items: center;
+}
