@@ -1,19 +1,6 @@
 import React from "react";
-import "../../css/loan/LoanList.css";
-
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { Link } from "react-router-dom";
 
 function LoanList(props) {
-  const [bank, setBank] = React.useState("");
-
-  const handleChange = (event) => {
-    setBank(event.target.value);
-  };
-
   return (
     <div className="loanList">
       <div className="loanheader">
