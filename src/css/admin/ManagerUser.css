@@ -1,0 +1,23 @@
+.manageuser{
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 3%;
+    justify-content: center;
+    overflow-y: auto;
+}
+.userlist_header{
+    padding-top: 15px;
+    font-size: medium;
+    font-weight: bold;
+    text-align: center;  
+}
+.man_userlist{
+    width: 100%;
+    background-color: #E8E7E7;
+    border-radius: 10px;
+}
+
+.MuiTableCell-root{
+    text-align: center;  
+}
