@@ -87,6 +87,7 @@ function SignUpForm(props) {
                       <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
+                        name="accBank"
                         onChange={bankChange}
                         label="은행명"
                         value={bank}
@@ -132,7 +133,7 @@ function SignUpForm(props) {
                     <input name="jobName" placeholder="직장명" />
                   </Grid>
                   <Grid item xs={12} sm={4}>
-                    <input name="jobName" placeholder="입사년도" />
+                    <input name="hireDate" placeholder="입사년도" />
                   </Grid>
                 </ListItem>
                 <ListItem sx={{ pl: 3 }}>
@@ -170,7 +171,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select5"
                         name="hasChild"
-                        value="false"
+                        value="0"
                         label="hasChild"
                       />
                       <label htmlFor="select5">무</label>
@@ -178,7 +179,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select6"
                         name="hasChild"
-                        value="true"
+                        value="1"
                         label="hasChild"
                       />
                       <label htmlFor="select6">1명</label>
@@ -186,7 +187,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select7"
                         name="hasChild"
-                        value="true"
+                        value="2"
                         label="hasChild"
                       />
                       <label htmlFor="select7">2명이상</label>
