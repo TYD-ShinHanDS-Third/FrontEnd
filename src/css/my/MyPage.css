@@ -76,7 +76,7 @@
 }
 
 .myEdit {
-  display:flex;
+  display: flex;
   grid-column: 4 / 6;
   grid-row: 5 / 6;
   width: 100%;
@@ -86,7 +86,7 @@
   align-items: flex-end;
 }
 
-.editLink{
+.editLink {
   width: 70%;
   height: 50%;
 }
