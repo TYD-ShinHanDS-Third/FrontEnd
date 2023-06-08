@@ -1,0 +1,39 @@
+[
+    {
+        "panId" : 2015122300013545, 
+        "panName" : "서울시 행복주택",
+        "location" :  "서울",
+        "panStartDate" : "2023-12-01",
+        "panEndDate": "2023-12-02",
+        "panState" : "공고중",
+        "favorite" : false
+    },
+    {
+        "panId" : 2015122300013643, 
+        "panName" : "경기도 행복주택",
+        "location" :  "경기",
+        "panStartDate" : "2023-11-20",
+        "panEndDate": "2023-12-01",
+        "panState" : "공고중",
+        "favorite" : true
+    },
+    {
+        "panId" : 2015122300013642, 
+        "panName" : "강원도 행복주택",
+        "location" :  "강원",
+        "panStartDate" : "2023-05-01",
+        "panEndDate": "2023-05-02",
+        "panState" : "접수마감",
+        "favorite" : false
+    },
+    {
+        "panId" : 2015122300013641, 
+        "panName" : "제주도 행복주택",
+        "location" :  "제주",
+        "panStartDate" : "2023-07-01",
+        "panEndDate": "2023-07-02",
+        "panState" : "접수마감",
+        "favorite" : true
+    }
+    
+]
