@@ -24,7 +24,7 @@ function HouseMap(props) {
                 sx={{
                   width: "100%",
                   maxWidth: 360,
-                  bgcolor: "background.paper"
+                  bgcolor: "background.paper",
                 }}
               >
                 <nav>
@@ -53,6 +53,7 @@ function HouseMap(props) {
             </div>
           </div>
         </div>
+
         <div className="kakaomap">
           <Kakao />
         </div>

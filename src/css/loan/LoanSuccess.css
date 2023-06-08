@@ -1,0 +1,29 @@
+.circle {
+  top: -70%;
+}
+
+.logoSuccess {
+  max-width: 500px;
+  width: 40%;
+  margin-left: 15%;
+  margin-top: -30%;
+}
+
+.sucBox {
+  display: flex;
+  width: 50%;
+  height: 15%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35%;
+  background-color: #518e65;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  z-index: 3;
+}
+
+.sucMsg {
+  color: white;
+  text-align: center;
+}
