@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/my/MyEdit.css";
 import {
   Collapse,
@@ -40,43 +40,46 @@ function MyEdit(props) {
     hasChild: "",
   });
 
-  const URL = "http://localhost:3000/data/myPage/members.json";
+  useEffect(() => {
+    const URL = "http://localhost:3000/data/myPage/members.json";
+    axios
+      .get(URL, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+      })
+      .then((res) => {
+        console.dir(res);
+        console.log("res.data : " + res.data[0].);
 
-  axios
-    .post(URL, JSON.stringify(userInfo), {
-      headers: {
-        "Content-Type": `application/json`,
-      },
-    })
-    .then((res) => {
-      console.log("res.data.accessToken : " + res.headers.authorization);
+        alert("complete");
+        //console.log(res.data);
+      })
+      .catch((ex) => {
+        console.log("fail : " + ex);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
 
-      alert("complete");
-      console.log(res.data);
-    })
-    .catch((ex) => {
-      console.log("login requset fail : " + ex);
-    })
-    .finally(() => {
-      console.log("login request end");
+    setState({
+      memberId: "",
+      pswd: "",
+      memberName: "",
+      bDay: "",
+      phone: "",
+      role: "",
+      level: "",
+      accBank: "",
+      accNo: "",
+      hasJob: null,
+      jobName: "",
+      hireDate: "",
+      marry: null,
+      hasChild: "",
     });
+  }, []);
 
-  setState({
-    memberId: "",
-    pswd: "",
-    memberName: "",
-    bDay: "",
-    phone: "",
-    role: "",
-    level: "",
-    accBank: "",
-    accNo: "",
-    hasJob: null,
-    jobName: "",
-    hireDate: "",
-    marry: null,
-    hasChild: "",
-  });
   return (
     <div className="myEditBody">
       <div className="editContainer1">
