@@ -25,3 +25,11 @@
 .line {
   grid-area: line;
 }
+.MuiTableBody-root {
+  width: 100%;
+  overflow-y: auto;
+}
+.star {
+  background-color: transparent;
+  height: 12px;
+}
