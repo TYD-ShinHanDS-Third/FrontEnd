@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../css/my/MyEdit.css";
 import {
   Collapse,
@@ -8,6 +8,7 @@ import {
   Select,
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import axios from "axios";
 
 function MyEdit(props) {
   const [bank, setBank] = React.useState("");
@@ -21,6 +22,61 @@ function MyEdit(props) {
   const handleClick = () => {
     setOpen(!open);
   };
+
+  const [userInfo, setState] = useState({
+    memberId: "",
+    pswd: "",
+    memberName: "",
+    bDay: "",
+    phone: "",
+    role: "",
+    level: "",
+    accBank: "",
+    accNo: "",
+    hasJob: null,
+    jobName: "",
+    hireDate: "",
+    marry: null,
+    hasChild: "",
+  });
+
+  const URL = "http://localhost:3000/data/myPage/members.json";
+
+  axios
+    .post(URL, JSON.stringify(userInfo), {
+      headers: {
+        "Content-Type": `application/json`,
+      },
+    })
+    .then((res) => {
+      console.log("res.data.accessToken : " + res.headers.authorization);
+
+      alert("complete");
+      console.log(res.data);
+    })
+    .catch((ex) => {
+      console.log("login requset fail : " + ex);
+    })
+    .finally(() => {
+      console.log("login request end");
+    });
+
+  setState({
+    memberId: "",
+    pswd: "",
+    memberName: "",
+    bDay: "",
+    phone: "",
+    role: "",
+    level: "",
+    accBank: "",
+    accNo: "",
+    hasJob: null,
+    jobName: "",
+    hireDate: "",
+    marry: null,
+    hasChild: "",
+  });
   return (
     <div className="myEditBody">
       <div className="editContainer1">
