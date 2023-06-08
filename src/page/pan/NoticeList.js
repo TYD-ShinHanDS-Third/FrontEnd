@@ -44,19 +44,20 @@ function NoticeList({ panList, filterFavorite, filterOnNotice, favorite }) {
 
   return (
     <div className="noticelist">
-      <label className="fav">
-        <Checkbox color="success" onClick={(event) => favNotice(event)} />
-        관심있는 공고만 보기
-      </label>
-      <label className="recruiting">
-        <Checkbox color="success" onClick={(event) => onNotice(event)} />
-        모집중인 공고만 보기
-      </label>
-
+      <div className="notice_checkbox">
+        <label className="fav">
+          <Checkbox color="success" onClick={(event) => favNotice(event)} />
+          관심있는 공고
+        </label>
+        <label className="recruiting">
+          <Checkbox color="success" onClick={(event) => onNotice(event)} />
+          모집중인 공고
+        </label>
+      </div>
       <hr className="line" />
       <TableContainer
         className="noticeTable"
-        style={{ width: "95%", height: "95%" }}
+        style={{ width: "95%", height: "100%" }}
       >
         <Table sx={{ minWidth: 500 }} size="small" aria-label="a dense table">
           <TableHead>
@@ -79,7 +80,8 @@ function NoticeList({ panList, filterFavorite, filterOnNotice, favorite }) {
                 >
                   <TableCell name="panId">
                     <Link
-                      to="detail"
+                      to={`detail/panid:${item.panId}`}
+                      state={{ fav: item.favorite }}
                       style={{ textDecoration: "none", color: "green" }}
                     >
                       {item.panId}

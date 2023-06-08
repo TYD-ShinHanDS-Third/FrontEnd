@@ -22,7 +22,7 @@ const locationlist = [
   "전라남도",
   "경상북도",
   "경상남도",
-  "제주특별자치시도",
+  "제주특별자치시도"
 ];
 
 function PanList(props) {
@@ -44,7 +44,9 @@ function PanList(props) {
       });
   }
 
-  const filterLocation = (index) => {};
+  const filterLocation = (item) => {
+    console.log("받아온 item으로 request하기");
+  };
 
   const filterFavorite = (event) => {
     console.log("좋아요 한 공고만 가져오기");
@@ -60,8 +62,12 @@ function PanList(props) {
     <div className="panlist">
       <div className="region_content">
         <ul className="region_list">
-          {locationlist.forEach((item, index) => {
-            <li key={index}>{item}</li>;
+          {locationlist.map((item, index) => {
+            return (
+              <li key={item} onClick={() => filterLocation(item)}>
+                {item}
+              </li>
+            );
           })}
         </ul>
       </div>

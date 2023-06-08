@@ -9,8 +9,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import StarIcon from "@mui/icons-material/Star";
 import Kakao from "./Kakao";
+import { useLocation } from "react-router-dom";
 
 function PanDetail(props) {
+  const location = useLocation();
+  const fav = location.state;
+
   return (
     <div className="notice">
       <div className="noticeDetail">
