@@ -6,24 +6,13 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  radioClasses,
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import axios from "axios";
 
 function MyEdit(props) {
-  const [bank, setBank] = React.useState("");
-
-  const bankChange = (event) => {
-    setBank(event.target.value);
-  };
-
-  const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
-  const [userInfo, setState] = useState({
+  const [userInfo, setUserInfo] = useState({
     memberId: "",
     pswd: "",
     memberName: "",
@@ -33,12 +22,25 @@ function MyEdit(props) {
     level: "",
     accBank: "",
     accNo: "",
-    hasJob: null,
+    hasJob: "",
     jobName: "",
     hireDate: "",
-    marry: null,
+    marry: "",
     hasChild: "",
   });
+
+  const [bank, setBank] = useState("");
+
+  const bankChange = (event) => {
+    setBank(event.target.value);
+    setUserInfo({ ...userInfo, accBank: bank });
+    console.log(userInfo.accBank);
+  };
+
+  const inputChange = (event) => {
+    setUserInfo(...event.target.value);
+    //document.querySelector('input[name="pnt"]:checked').val();
+  };
 
   useEffect(() => {
     const URL = "http://localhost:3000/data/myPage/members.json";
@@ -50,10 +52,9 @@ function MyEdit(props) {
       })
       .then((res) => {
         console.dir(res);
-        console.log("res.data : " + res.data[0].);
 
-        alert("complete");
-        //console.log(res.data);
+        setUserInfo(res.data);
+        setBank(userInfo.accBank);
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -61,36 +62,47 @@ function MyEdit(props) {
       .finally(() => {
         console.log("request end");
       });
-
-    setState({
-      memberId: "",
-      pswd: "",
-      memberName: "",
-      bDay: "",
-      phone: "",
-      role: "",
-      level: "",
-      accBank: "",
-      accNo: "",
-      hasJob: null,
-      jobName: "",
-      hireDate: "",
-      marry: null,
-      hasChild: "",
-    });
   }, []);
 
+  // const bankArea = document
+  //   .getElementById("demo-simple-select-standard").child
+  // const bankArea = document.querySelector(
+  //   ".MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+  // );
+  // bankArea = "신한";
+  // console.log("useInfo_bank2" + bankArea);
+  console.log("useInfo_bank" + userInfo.accBank);
+
+  console.log("userInfo:" + userInfo.memberId);
   return (
     <div className="myEditBody">
       <div className="editContainer1">
         <div className="editItem" id="editName">
-          <input id="memberName" name="memberName" placeholder="이름" />
+          <input
+            id="memberName"
+            name="memberName"
+            placeholder="이름"
+            value={userInfo.memberName}
+            onChange={inputChange}
+          />
         </div>
         <div className="editItem" id="editId">
-          <input id="memberId" name="memberId" placeholder="아이디" />
+          <input
+            id="memberId"
+            name="memberId"
+            placeholder="아이디"
+            value={userInfo.memberId}
+            readOnly
+          />
         </div>
         <div className="editItem" id="editPw">
-          <input id="pswd" name="pswd" placeholder="비밀번호" />
+          <input
+            id="pswd"
+            name="pswd"
+            placeholder="비밀번호"
+            value={userInfo.pswd}
+            onChange={inputChange}
+          />
         </div>
         <div className="myEditBtn">
           <button>수정</button>
@@ -99,13 +111,25 @@ function MyEdit(props) {
           <input id="pswdChk" name="pswdChk" placeholder="비밀번호 확인" />
         </div>
         <div className="editItem" id="editBirth">
-          <input id="bDay" name="bDay" placeholder="생년월일" />
+          <input
+            id="bDay"
+            name="bDay"
+            placeholder="생년월일"
+            value={userInfo.bDay}
+            readOnly
+          />
         </div>
         <div className="deleteBtn">
           <button>탈퇴</button>
         </div>
         <div className="editItem" id="editPhone">
-          <input id="phone" name="phone" placeholder="전화번호" />
+          <input
+            id="phone"
+            name="phone"
+            placeholder="전화번호"
+            value={userInfo.phone}
+            readOnly
+          />
         </div>
       </div>
       <div className="editContainer2">
@@ -131,7 +155,12 @@ function MyEdit(props) {
               <MenuItem value={"하나"}>하나</MenuItem>
             </Select>
           </FormControl>
-          <input name="accNo" placeholder="계좌번호" />
+          <input
+            name="accNo"
+            placeholder="계좌번호"
+            value={userInfo.accNo}
+            onChange={inputChange}
+          />
         </div>
         <div className="editItem" id="editHasJob">
           <span>직장유무</span>
@@ -142,6 +171,7 @@ function MyEdit(props) {
               name="hasJob"
               value="true"
               label="hasJob"
+              checked={userInfo.hasJob === true}
             />
             <label htmlFor="select1">유</label>
             <input
@@ -150,14 +180,26 @@ function MyEdit(props) {
               name="hasJob"
               value="false"
               label="hasJob"
+              checked={userInfo.hasJob === false}
             />
             <label htmlFor="select2">무</label>
           </div>
         </div>
 
         <div className="editItem" id="editJob">
-          <input name="jobName" placeholder="직장명" />
-          <input id="hireDate" name="hireDate" placeholder="입사년도" />
+          <input
+            name="jobName"
+            placeholder="직장명"
+            value={userInfo.jobName}
+            onChange={inputChange}
+          />
+          <input
+            id="hireDate"
+            name="hireDate"
+            placeholder="입사년도"
+            value={userInfo.hireDate}
+            onChange={inputChange}
+          />
         </div>
         <div className="editItem" id="editMarry">
           <span>결혼</span>
@@ -168,6 +210,7 @@ function MyEdit(props) {
               name="marry"
               value="false"
               label="marry"
+              checked={userInfo.marry === false}
             />
             <label htmlFor="select3">미혼</label>
             <input
@@ -176,6 +219,7 @@ function MyEdit(props) {
               name="marry"
               value="true"
               label="marry"
+              checked={userInfo.marry === true}
             />
             <label htmlFor="select4">기혼</label>
           </div>
@@ -190,6 +234,7 @@ function MyEdit(props) {
               name="hasChild"
               value="false"
               label="hasChild"
+              checked={userInfo.hasChild === "0"}
             />
             <label htmlFor="select5">무</label>
             <input
@@ -198,6 +243,7 @@ function MyEdit(props) {
               name="hasChild"
               value="true"
               label="hasChild"
+              checked={userInfo.hasChild === "1"}
             />
             <label htmlFor="select6">1명</label>
             <input
@@ -206,6 +252,7 @@ function MyEdit(props) {
               name="hasChild"
               value="true"
               label="hasChild"
+              checked={userInfo.hasChild === "2"}
             />
             <label htmlFor="select7">2명이상</label>
           </div>
