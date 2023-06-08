@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PhotoCameraFrontOutlinedIcon from "@mui/icons-material/PhotoCameraFrontOutlined";
 import axios from "axios";
+import { Cookies } from "react-cookie";
 
 function Login(props) {
   const [userInfo, setState] = useState({
@@ -32,7 +33,9 @@ function Login(props) {
         //props.loginCallBack(true);
         alert("complete");
         console.log(res.data);
-        localStorage.setItem("jwtToken", res.headers.authorization);
+        //localStorage.setItem("jwtToken", res.headers.authorization);
+        const cookies = new Cookies();
+        cookies.set("jwtToken", res.headers.authorization);
         //setAuthToken(res.headers.authorization);
         // props.history.push({
         //   pathname: "/chooselantern",
