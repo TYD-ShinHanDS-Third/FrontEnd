@@ -30,36 +30,36 @@ function SignUpForm(props) {
       setMember({
         ...member,
         accBank: "",
-        accNo: "",
-        hasJob: "",
-        jobName: "",
-        hireDate: "",
-        marry: "",
-        hasChild: "",
+        accno: "",
+        hasjob: null,
+        jobname: "",
+        hiredate: null,
+        marry: null,
+        haschild: null,
       });
     }
   };
 
   const memberInit = {
-    memberId: "",
+    memberid: "",
+    membername: "",
     pswd: "",
-    memberName: "",
-    bDay: "",
+    bday: null,
     phone: "",
-    role: "",
-    level: "",
+    roles: "USER",
     accBank: "",
-    accNo: "",
-    hasJob: "",
-    jobName: "",
-    hireDate: "",
-    marry: "",
-    hasChild: "",
+    accno: "",
+    hasjob: null,
+    hiredate: null,
+    marry: null,
+    haschild: null,
+    jobname: "",
   };
 
   const [member, setMember] = useState(memberInit);
 
   //오류메시지 상태저장
+  const [idMessage, setIdMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
   const [birthMessage, setBirthMessage] = useState("");
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
@@ -81,8 +81,11 @@ function SignUpForm(props) {
   };
 
   const handleSignup = (e) => {
-    setMember({ ...member, [e.target.name]: e.target.value });
-    if (e.target.name === "memberId") {
+    if (e.target.name !== "pswdChk") {
+      setMember({ ...member, [e.target.name]: e.target.value });
+    }
+
+    if (e.target.name === "memberid") {
       setIsCheckId(false);
     } else if (e.target.name === "phone") {
       const phoneRegex = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
@@ -93,7 +96,7 @@ function SignUpForm(props) {
         setPhoneMessage("올바른 전화번호 형식이에요 : )");
         setIsPhone(true);
       }
-    } else if (e.target.name === "bDay") {
+    } else if (e.target.name === "bday") {
       const birthRegex =
         /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
       if (!birthRegex.test(e.target.value)) {
@@ -125,28 +128,31 @@ function SignUpForm(props) {
 
   //아이디 중복 체크
   const checkId = (event) => {
-    setIsCheckId(true);
-    const url = "/member/signup";
-    // axios
-    //   .post(url, JSON.stringify(member.memberId), {
-    //     headers: {
-    //       "Content-Type": `application/json`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     if (res.data.count === 0) {
-    //       idChk = 1;
-    //       console.log("아이디 사용 가능");
-    //     } else {
-    //       console.log("아이디 사용 불가");
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   })
-    //   .finally(() => {
-    //     console.log("request end");
-    //   });
+    const url = "/member/checkDuplicateId";
+    axios
+      .get(url, {
+        params: {
+          memberid: member.memberid,
+        },
+      })
+      .then((res) => {
+        console.dir(res.data);
+        if (res.data === "사용가능한아이디입니다.") {
+          console.log("아이디 사용 가능");
+          setIsCheckId(true);
+          setIdMessage("사용 가능한 아이디)");
+        } else {
+          console.log("아이디 사용 불가");
+          setIsCheckId(false);
+          setIdMessage("사용 불가한 아이디)");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
   };
 
   //전화번호 인증
@@ -158,21 +164,22 @@ function SignUpForm(props) {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
       const url = "/member/authPhone";
-      axios
-        .post(url, JSON.stringify(member.phone), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          setAuthAns("res.data.authNum");
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(() => {
-          console.log("request end");
-        });
+      setAuthAns("1234");
+      // axios
+      //   .post(url, JSON.stringify(member.phone), {
+      //     headers: {
+      //       "Content-Type": `application/json`,
+      //     },
+      //   })
+      //   .then((res) => {
+      //     setAuthAns("res.data.authNum");
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   })
+      //   .finally(() => {
+      //     console.log("request end");
+      //   });
     }
   };
 
@@ -189,25 +196,29 @@ function SignUpForm(props) {
   //유효성 검사
 
   //회원가입
-  async function signup() {
+  function signup() {
     const url = "/member/signup";
     console.log(member);
 
-    // await axios
-    //   .post(url, JSON.stringify(member), {
-    //     headers: {
-    //       "Content-Type": `application/json`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log("signup success");
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   })
-    //   .finally(() => {
-    //     console.log("request end");
-    //   });
+    axios
+      .post(url, JSON.stringify(member), {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+      })
+      .then((res) => {
+        if (res.data === "success") {
+          console.log("signup success");
+        } else {
+          console.log("signup fail");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
   }
 
   return (
@@ -216,16 +227,21 @@ function SignUpForm(props) {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={8}>
           <input
-            id="memberName"
-            name="memberName"
+            id="membername"
+            name="membername"
             placeholder="이름"
             onChange={handleSignup}
           />
         </Grid>
         <Grid item xs={12} sm={8}>
+          {member.memberid.length > 0 && (
+            <span className={`message ${isCheckId ? "success" : "error"}`}>
+              {idMessage}
+            </span>
+          )}
           <input
-            id="memberId"
-            name="memberId"
+            id="memberid"
+            name="memberid"
             placeholder="아이디"
             onChange={handleSignup}
           />
@@ -259,14 +275,14 @@ function SignUpForm(props) {
           />
         </Grid>
         <Grid item xs={12} sm={8}>
-          {member.bDay.length > 0 && (
+          {member.bday !== null && (
             <span className={`message ${isBirth ? "success" : "error"}`}>
               {birthMessage}
             </span>
           )}
           <input
-            id="bDay"
-            name="bDay"
+            id="bday"
+            name="bday"
             placeholder="생년월일"
             onChange={handleSignup}
           />
@@ -339,7 +355,7 @@ function SignUpForm(props) {
                   </Grid>
                   <Grid item xs={12} sm={9}>
                     <input
-                      name="accNo"
+                      name="accno"
                       placeholder="계좌번호"
                       onChange={handleSignup}
                     />
@@ -354,18 +370,18 @@ function SignUpForm(props) {
                       <input
                         type="radio"
                         id="select1"
-                        name="hasJob"
+                        name="hasjob"
                         value="true"
-                        label="hasJob"
+                        label="hasjob"
                         onChange={handleSignup}
                       />
                       <label htmlFor="select1">유</label>
                       <input
                         type="radio"
                         id="select2"
-                        name="hasJob"
+                        name="hasjob"
                         value="false"
-                        label="hasJob"
+                        label="hasjob"
                         onChange={handleSignup}
                       />
                       <label htmlFor="select2">무</label>
@@ -375,14 +391,14 @@ function SignUpForm(props) {
                 <ListItem sx={{ pl: 2 }}>
                   <Grid item xs={12} sm={8}>
                     <input
-                      name="jobName"
+                      name="jobname"
                       placeholder="직장명"
                       onChange={handleSignup}
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <input
-                      name="hireDate"
+                      name="hiredate"
                       placeholder="입사년도"
                       onChange={handleSignup}
                     />
@@ -424,27 +440,27 @@ function SignUpForm(props) {
                       <input
                         type="radio"
                         id="select5"
-                        name="hasChild"
+                        name="haschild"
                         value="0"
-                        label="hasChild"
+                        label="haschild"
                         onChange={handleSignup}
                       />
                       <label htmlFor="select5">무</label>
                       <input
                         type="radio"
                         id="select6"
-                        name="hasChild"
+                        name="haschild"
                         value="1"
-                        label="hasChild"
+                        label="haschild"
                         onChange={handleSignup}
                       />
                       <label htmlFor="select6">1명</label>
                       <input
                         type="radio"
                         id="select7"
-                        name="hasChild"
+                        name="haschild"
                         value="2"
-                        label="hasChild"
+                        label="haschild"
                         onChange={handleSignup}
                       />
                       <label htmlFor="select7">2명이상</label>
@@ -458,7 +474,7 @@ function SignUpForm(props) {
         <Grid item xs={12} sm={8}>
           <button
             id="signUpBtn"
-            onClick={signup}
+            onClick={() => signup()}
             disabled={
               !(
                 isPhone &&
@@ -466,8 +482,8 @@ function SignUpForm(props) {
                 isPasswordConfirm &&
                 isCheckId &&
                 isCheckPhone &&
-                member.memberName !== "" &&
-                !member.memberId !== "" &&
+                member.membername !== "" &&
+                !member.memberid !== "" &&
                 !member.pswd !== ""
               )
             }
