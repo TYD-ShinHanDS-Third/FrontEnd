@@ -52,9 +52,12 @@ export default function MyPage(props) {
   const [favoriteList, setFavoriteList] = useState([]);
 
   async function changeEvent(arr) {
-    arr.forEach((element, index) => {
-      setFavorite(initEvent);
-      setFavorite({ ...favorite, panId: element.panId });
+    console.log(arr);
+    await arr.forEach((element, index) => {
+      //setFavorite(initEvent);
+      const title = element.panId;
+      console.log(element.panId);
+      setFavorite({ ...favorite, panId: title });
       setFavorite({ ...favorite, title: element.panName });
       setFavorite({ ...favorite, start: element.panStartDate });
       setFavorite({ ...favorite, end: element.panendDate });
@@ -78,6 +81,7 @@ export default function MyPage(props) {
             : "white",
       });
       setFavoriteList([...favoriteList, favorite]);
+      console.log(favorite);
     });
   }
 
@@ -99,7 +103,7 @@ export default function MyPage(props) {
   }
 
   useEffect(() => {
-    getFavorites();
+    getFavorites("22");
     console.log("2" + favorite.title);
   }, []);
   return (
