@@ -11,6 +11,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { object } from "prop-types";
+import { useEffect } from "react";
 
 const sample = [
   {
@@ -32,7 +36,72 @@ const sample = [
   },
 ];
 
+const initEvent = {
+  title: "",
+  panId: "",
+  start: "",
+  end: "",
+  backgroundColor: "",
+  borderColor: "",
+  textColor: "",
+};
+
 export default function MyPage(props) {
+  const [favorite, setFavorite] = useState(initEvent);
+
+  const [favoriteList, setFavoriteList] = useState([]);
+
+  async function changeEvent(arr) {
+    arr.forEach((element, index) => {
+      setFavorite(initEvent);
+      setFavorite({ ...favorite, panId: element.panId });
+      setFavorite({ ...favorite, title: element.panName });
+      setFavorite({ ...favorite, start: element.panStartDate });
+      setFavorite({ ...favorite, end: element.panendDate });
+      setFavorite({
+        ...favorite,
+        backgroundColor:
+          { index } % 3 === 0
+            ? "#031389"
+            : { index } % 3 === 1
+            ? "#FFFEDD"
+            : "#609966",
+      });
+      setFavorite({ ...favorite, borderColor: favorite.backgroundColor });
+      setFavorite({
+        ...favorite,
+        textColor:
+          { index } % 3 === 0
+            ? "white"
+            : { index } % 3 === 1
+            ? "black"
+            : "white",
+      });
+      setFavoriteList([...favoriteList, favorite]);
+    });
+  }
+
+  async function getFavorites(token) {
+    const url = "http://localhost:3000/data/myPage/panFavorites.json";
+    await axios
+      .get(url)
+      .then(function (response) {
+        //setFavoriteList(response);
+        console.dir(response.data);
+        changeEvent(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+  }
+
+  useEffect(() => {
+    getFavorites();
+    console.log("2" + favorite.title);
+  }, []);
   return (
     <div className="myPage">
       <div className="myContainer">
@@ -41,33 +110,7 @@ export default function MyPage(props) {
             defaultView="dayGridMonth"
             plugins={[dayGridPlugin]}
             height={"auto"}
-            events={[
-              {
-                title:
-                  "화성남양뉴타운 B9 · B10블록 행복주택 입주자격완화 추가모집 공고(소득, 자산 배제)",
-                start: "2023-06-13",
-                end: "2023-06-16",
-                backgroundColor: "#031389",
-                borderColor: "#031389",
-                textColor: "white",
-              },
-              {
-                title: "천안부성A-1BL 행복주택 입주자 추가 모집",
-                start: "2023-06-22",
-                end: "2023-06-24",
-                backgroundColor: "#FFFEDD",
-                borderColor: "#FFFEDD",
-                textColor: "black",
-              },
-              {
-                title: "[경기북부]기존주택 등 매입임대주택 예비입주자 모집",
-                start: "2023-06-26",
-                end: "2023-06-28",
-                backgroundColor: "#609966",
-                borderColor: "#609966",
-                textColor: "white",
-              },
-            ]}
+            events={favoriteList}
           />
         </div>
         <div className="myLoan">

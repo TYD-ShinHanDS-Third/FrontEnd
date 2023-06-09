@@ -1,0 +1,30 @@
+[
+  {
+    "panId": 2015122300013545,
+    "memberId": "ckdrua1",
+    "panName": "강원도 행복주택",
+    "panStartDate": "2023-05-01",
+    "panendDate": "2023-05-02"
+  },
+  {
+    "panId": 2015122300013641,
+    "memberId": "ckdrua1",
+    "panName": "제주도 행복주택",
+    "panStartDate": "2023-07-01",
+    "panendDate": "2023-07-02"
+  },
+  {
+    "panId": 2015122300013545,
+    "memberId": "ckdrua1",
+    "panName": "서울시 행복주택",
+    "panStartDate": "2023-12-01",
+    "panendDate": "2023-12-02"
+  },
+  {
+    "panId": 2015122300013643,
+    "memberId": "ckdrua1",
+    "panName": "경기도 행복주택",
+    "panStartDate": "2023-11-20",
+    "panendDate": "2023-12-01"
+  }
+]
