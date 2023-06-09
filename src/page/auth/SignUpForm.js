@@ -197,7 +197,7 @@ function SignUpForm(props) {
 
   //회원가입
   function signup() {
-    const url = "/member/signup";
+    const url = "http://192.168.0.22:8888/member/signup";
     console.log(member);
 
     axios
@@ -207,7 +207,7 @@ function SignUpForm(props) {
         },
       })
       .then((res) => {
-        if (res.data === "success") {
+        if (res.data === "success.") {
           console.log("signup success");
         } else {
           console.log("signup fail");
@@ -371,7 +371,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select1"
                         name="hasjob"
-                        value="true"
+                        value="1"
                         label="hasjob"
                         onChange={handleSignup}
                       />
@@ -380,7 +380,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select2"
                         name="hasjob"
-                        value="false"
+                        value="0"
                         label="hasjob"
                         onChange={handleSignup}
                       />
@@ -414,7 +414,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select3"
                         name="marry"
-                        value="false"
+                        value="0"
                         label="marry"
                         onChange={handleSignup}
                       />
@@ -423,7 +423,7 @@ function SignUpForm(props) {
                         type="radio"
                         id="select4"
                         name="marry"
-                        value="true"
+                        value="1"
                         label="marry"
                         onChange={handleSignup}
                       />
