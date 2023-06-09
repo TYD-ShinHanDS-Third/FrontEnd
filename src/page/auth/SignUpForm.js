@@ -12,8 +12,7 @@ import {
   Select,
 } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import React, { useState } from "react";
 
 function SignUpForm(props) {
   const [bank, setBank] = React.useState("");
@@ -70,13 +69,22 @@ function SignUpForm(props) {
   const [isBirth, setIsBirth] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
-  //아이디 중복 체크, 전화번호 인증 여부 확인
+  //아이디 중복 체크
   const [isCheckId, setIsCheckId] = useState(false);
+
+  //전화번호 인증 여부 확인
+  const [authAns, setAuthAns] = useState(""); //인증번호
+  const [authInput, setAuthInput] = useState(""); //사용자가 입력한 인증번호
   const [isCheckPhone, setIsCheckPhone] = useState(false);
+  const handleAuth = (e) => {
+    setAuthInput(e.target.value);
+  };
 
   const handleSignup = (e) => {
     setMember({ ...member, [e.target.name]: e.target.value });
-    if (e.target.name === "phone") {
+    if (e.target.name === "memberId") {
+      setIsCheckId(false);
+    } else if (e.target.name === "phone") {
       const phoneRegex = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
       if (!phoneRegex.test(e.target.value)) {
         setPhoneMessage("전화번호 형식이 틀렸어요 010-0000-0000");
@@ -103,11 +111,17 @@ function SignUpForm(props) {
         setPasswordConfirmMessage("비밀번호가 틀려요");
         setIsPasswordConfirm(false);
       }
+    } else if (e.target.name === "pswd") {
+      const passChk = document.getElementById("pswdChk").value;
+      if (passChk === e.target.value) {
+        setPasswordConfirmMessage("비밀번호가 일치해요 : )");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호가 틀려요");
+        setIsPasswordConfirm(false);
+      }
     }
   };
-
-  var idChk = 0;
-  var phoneChk = 0;
 
   //아이디 중복 체크
   const checkId = (event) => {
@@ -137,8 +151,39 @@ function SignUpForm(props) {
 
   //전화번호 인증
   const checkPhone = (event) => {
-    //
-    setIsCheckPhone(true);
+    //난수 받아와서 사용자 입력과 같은지 비교
+    if (!isPhone) {
+      alert("전화번호를 입력해주세요");
+    } else {
+      var authbox = document.getElementById("authBox");
+      authbox.style.display = "block";
+      const url = "/member/authPhone";
+      axios
+        .post(url, JSON.stringify(member.phone), {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then((res) => {
+          setAuthAns("res.data.authNum");
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("request end");
+        });
+    }
+  };
+
+  const clickAuth = (e) => {
+    if (authInput === authAns) {
+      setIsCheckPhone(true);
+    } else {
+      console.log("num" + authInput);
+      console.log("auth" + authAns);
+      alert("인증번호가 틀렸습니다.");
+    }
   };
 
   //유효성 검사
@@ -186,7 +231,9 @@ function SignUpForm(props) {
           />
         </Grid>
         <Grid item xs={12} sm={2}>
-          <button onClick={checkId}>중복체크</button>
+          <button onClick={checkId} disabled={isCheckId}>
+            중복체크
+          </button>
         </Grid>
         <Grid item xs={12} sm={8}>
           <input
@@ -236,9 +283,22 @@ function SignUpForm(props) {
             placeholder="전화번호"
             onChange={handleSignup}
           />
+          <div id="authBox">
+            <input
+              id="phoneAuth"
+              name="phoneAuth"
+              placeholder="인증번호"
+              onChange={handleAuth}
+            />
+            <button id="authBtn" onClick={clickAuth} disabled={isCheckPhone}>
+              인증
+            </button>
+          </div>
         </Grid>
         <Grid item xs={12} sm={2}>
-          <button onClick={checkPhone}>전화번호 인증</button>
+          <button onClick={checkPhone} disabled={isCheckPhone}>
+            전화번호 인증
+          </button>
         </Grid>
         <Grid item xs={12} sm={8}>
           <List
