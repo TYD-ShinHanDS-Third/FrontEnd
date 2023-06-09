@@ -197,7 +197,7 @@ function SignUpForm(props) {
 
   //회원가입
   function signup() {
-    const url = "http://192.168.0.22:8888/member/signup";
+    const url = "/member/signup";
     console.log(member);
 
     axios
