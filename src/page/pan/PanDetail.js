@@ -7,25 +7,92 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import StarIcon from "@mui/icons-material/Star";
+import HomeIcon from "@mui/icons-material/Home";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Kakao from "./Kakao";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
-function PanDetail(props) {
+function PanDetail({ favorite }) {
   const location = useLocation();
-  const fav = location.state;
+  const panInfo = location.state.panInfo;
+  const [fav, setFav] = useState(panInfo.favorite);
+  const [panDetail, setPandetail] = useState([]);
+
+  const [address, setAddress] = useState("");
+  const [addressName, setAddressName] = useState("");
+
+  const history = useNavigate();
+
+  useEffect(() => {
+    getDetailList(panInfo.panid);
+  }, []);
+
+  //좋아요 기능 하기
+  const like = (item) => {
+    if (item.favorite === true) {
+      item.favorite = false;
+      setFav(false);
+      favorite(item.panId, item.favorite);
+    } else {
+      item.favorite = true;
+      setFav(true);
+      favorite(item.panId, item.favorite);
+    }
+  };
+
+  //axios 이쪽 버전
+  async function getDetailList(panId) {
+    console.log(panId);
+    const listurl = "/hows/notice/detail";
+    await axios
+      .get(listurl, {
+        params: {
+          panid: panId,
+        },
+      })
+      .then(function (response) {
+        setPandetail(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  const goList = () => {
+    history("/hows/notice");
+  };
 
   return (
     <div className="notice">
       <div className="noticeDetail">
         <div className="noticeHeader">
-          <h1 className="noticeTitle">남양주시 행복주택 예비 입주자 모집</h1>
-          <StarIcon className="noticeFav" />
-          <h3 className="noticeDate">2023-05-08 ~ 2023-05-25</h3>
+          <button className="goList" onClick={() => goList()}>
+            목록으로 돌아가기
+          </button>
+          <h2 className="noticeTitle">{panInfo.panname}</h2>
+          <div className="noticeFav">
+            {panInfo.favorite === true ? (
+              <button className="tag" onClick={() => like(panInfo)}>
+                <HomeIcon />
+              </button>
+            ) : (
+              <button className="tag">
+                <HomeOutlinedIcon onClick={() => like(panInfo)} />
+              </button>
+            )}
+          </div>
+          <h3 className="noticeDate">
+            {panInfo.panstartdate} ~ {panInfo.panenddate}
+          </h3>
         </div>
 
         <div className="noticeBody">
-          <Kakao />
+          <Kakao
+            address={panDetail.address}
+            addressName={panDetail.addressname}
+          />
         </div>
 
         <div className="noticeFooter">
@@ -40,48 +107,21 @@ function PanDetail(props) {
                   <TableCell>공고 번호</TableCell>
                   <TableCell>공고 이름</TableCell>
                   <TableCell>지역</TableCell>
-                  <TableCell>공고 게시일</TableCell>
-                  <TableCell>공고 마감일</TableCell>
-                  <TableCell>접수기간 종료일</TableCell>
-                  <TableCell>서류 제출 대상자 발표일</TableCell>
+                  <TableCell>서류 접수 시작일</TableCell>
+                  <TableCell>서류 접수 종료일</TableCell>
+                  <TableCell>당첨자 발표일</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell>공고 번호</TableCell>
-                  <TableCell>공고 이름</TableCell>
-                  <TableCell>지역</TableCell>
-                  <TableCell>공고 게시일</TableCell>
-                  <TableCell>공고 마감일</TableCell>
-                  <TableCell>접수기간 종료일</TableCell>
-                  <TableCell>서류 제출 대상자 발표일</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-
-            <Table
-              sx={{ minWidth: 500 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>서류 접수기간 시작일</TableCell>
-                  <TableCell>서류 접수기간 종료일</TableCell>
-                  <TableCell>당첨자 발표일</TableCell>
-                  <TableCell>계약기간 종료일</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>서류 접수기간 시작일</TableCell>
-                  <TableCell>서류 접수기간 종료일</TableCell>
-                  <TableCell>당첨자 발표일</TableCell>
-                  <TableCell>계약기간 종료일</TableCell>
+                  <TableCell>{panInfo.panid}</TableCell>
+                  <TableCell>{panInfo.panname}</TableCell>
+                  <TableCell>{panInfo.location}</TableCell>
+                  <TableCell>{panDetail.docsstartdate}</TableCell>
+                  <TableCell>{panDetail.docsenddate}</TableCell>
+                  <TableCell>{panDetail.winnersannouncement}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -105,12 +145,12 @@ function PanDetail(props) {
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell>전용면적</TableCell>
-                  <TableCell>단지주소</TableCell>
-                  <TableCell>단지 상세주소</TableCell>
-                  <TableCell>단지명</TableCell>
-                  <TableCell>입주 예정월</TableCell>
-                  <TableCell>총 세대수</TableCell>
+                  <TableCell>{panDetail.area}</TableCell>
+                  <TableCell>{panDetail.address}</TableCell>
+                  <TableCell>{panDetail.detailaddress}</TableCell>
+                  <TableCell>{panDetail.addressname}</TableCell>
+                  <TableCell>{panDetail.moveindate}</TableCell>
+                  <TableCell>{panDetail.totalcount}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

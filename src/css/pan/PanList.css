@@ -1,7 +1,8 @@
 .panlist {
   display: grid;
   grid-template-columns: 0.3fr 1fr 0.2fr 5fr 0.3fr;
-  grid-template-areas: ". region . noticearea .";
+  grid-template-rows: 5fr 0.2fr;
+  grid-template-areas: ". region . noticearea ." ". . . paging .";
   align-items: center;
   width: 100%;
   height: 100%;
@@ -28,7 +29,7 @@
   background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
 }
 
-.region_list{
+.region_list {
   width: 100%;
 }
 
@@ -41,4 +42,16 @@
 
 .noticearea {
   grid-area: noticearea;
+}
+.paging {
+  grid-area: paging;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1%;
+}
+.pagebtn {
+  margin-right: 1%;
+  height: fit-content;
 }

@@ -34,6 +34,7 @@ function HouseMap(props) {
                         <ListItemIcon>
                           <HouseIcon />
                         </ListItemIcon>
+
                         <ListItemText primary="서울시 마포구 000 000 000" />
                       </ListItemButton>
                     </ListItem>
