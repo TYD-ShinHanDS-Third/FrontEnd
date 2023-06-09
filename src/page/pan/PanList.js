@@ -22,22 +22,29 @@ const locationlist = [
   "전라남도",
   "경상북도",
   "경상남도",
-  "제주특별자치시도"
+  "제주특별자치시도",
 ];
 
 function PanList(props) {
   const [panlist, setPanlist] = useState([]);
+  const [pageNum, setPage] = useState("0");
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [pageNum]);
 
   async function getList() {
-    const listurl = "http://localhost:3000/data/pan/panlistData.json";
+    const listurl = "/hows/notice";
     await axios
-      .get(listurl)
+      .get(listurl, {
+        params: {
+          page: pageNum,
+          size: "9",
+        },
+      })
       .then(function (response) {
         setPanlist(response.data);
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -57,6 +64,32 @@ function PanList(props) {
   const favorite = (panId, favorite) => {
     console.log("좋아요 하기 + 좋아요 취소" + panId + " : " + favorite);
   };
+  const changePage = (pageNum) => {
+    setPage(pageNum);
+  };
+
+  // detail 데이터 가져오기
+  // const getPanDetail = (panid) => {
+  //   console.log("데이터 가지로 왔어요");
+  //   getDetailList(panid);
+  // };
+
+  // async function getDetailList(panId) {
+  //   console.log(panId);
+  //   const listurl = "/hows/notice/detail";
+  //   await axios
+  //     .get(listurl, {
+  //       params: {
+  //         panid: panId,
+  //       },
+  //     })
+  //     .then(function (response) {
+  //       setPandetail(response.data[0] + "!!!!!");
+  //     })
+  //     .catch(function (error) {
+  //       console.log("123123W" + error);
+  //     });
+  // }
 
   return (
     <div className="panlist">
@@ -71,10 +104,12 @@ function PanList(props) {
           })}
         </ul>
       </div>
-
       <div className="noticearea">
         <Routes>
-          <Route path="detail" element={<PanDetail />}></Route>
+          <Route
+            path="detail/*"
+            element={<PanDetail favorite={favorite} />}
+          ></Route>
           <Route
             path="/"
             element={
@@ -87,6 +122,18 @@ function PanList(props) {
             }
           ></Route>
         </Routes>
+      </div>
+      <div className="paging">
+        <button className="pagebtn" onClick={() => changePage(1)}>
+          {" "}
+          1
+        </button>
+        <button className="pagebtn" onClick={() => changePage(2)}>
+          2
+        </button>
+        <button className="pagebtn" onClick={() => changePage(3)}>
+          3
+        </button>
       </div>
     </div>
   );

@@ -13,7 +13,13 @@ import Checkbox from "@mui/material/Checkbox";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import axios from "axios";
 
-function NoticeList({ panList, filterFavorite, filterOnNotice, favorite }) {
+function NoticeList({
+  panList,
+  filterFavorite,
+  filterOnNotice,
+  favorite,
+  getPanDetail,
+}) {
   const [panlist, setPanlist] = useState([]);
   const [fav, setFav] = useState(true);
   const [favlist, setFavlist] = useState([]);
@@ -75,23 +81,24 @@ function NoticeList({ panList, filterFavorite, filterOnNotice, favorite }) {
             {panList.map(function (item, index) {
               return (
                 <TableRow
-                  key={item.panId}
+                  key={item.panid}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+                  {/* <TableCell name="panId" onClick={() => detail(item.panid)}> */}
                   <TableCell name="panId">
                     <Link
-                      to={`detail/panid:${item.panId}`}
-                      state={{ fav: item.favorite }}
+                      to={"detail"}
+                      state={{ panInfo: item }}
                       style={{ textDecoration: "none", color: "green" }}
                     >
-                      {item.panId}
+                      {item.panid}
                     </Link>
                   </TableCell>
-                  <TableCell name="panName">{item.panName}</TableCell>
+                  <TableCell name="panname">{item.panname}</TableCell>
                   <TableCell name="location">{item.location}</TableCell>
-                  <TableCell name="panStartDate">{item.panStartDate}</TableCell>
-                  <TableCell name="panEndDate">{item.panEndDate}</TableCell>
-                  <TableCell name="panState">{item.panState}</TableCell>
+                  <TableCell name="panstartdate">{item.panstartdate}</TableCell>
+                  <TableCell name="panenddate">{item.panenddate}</TableCell>
+                  <TableCell name="panstate">{item.panstate}</TableCell>
                   <TableCell name="favorite">
                     {item.favorite === true ? (
                       <button className="star" onClick={() => like(item)}>

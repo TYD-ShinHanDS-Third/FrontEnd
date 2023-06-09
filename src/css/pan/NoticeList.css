@@ -1,15 +1,15 @@
 .noticelist {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.5fr 3fr;
+  grid-template-rows: 0.5fr 4fr;
   grid-template-areas: ". notice_checkbox notice_checkbox" "noticeTable noticeTable noticeTable";
   align-items: start;
   justify-items: center;
-  height: 600px;
+  height: 650px;
   border: 2px solid #609966;
   border-radius: 10px;
 }
-.notice_checkbox{
+.notice_checkbox {
   grid-area: notice_checkbox;
   width: 100%;
   height: 80%;
