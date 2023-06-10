@@ -16,6 +16,16 @@ import axios from "axios";
 import { object } from "prop-types";
 import { useEffect } from "react";
 
+const initEvent = {
+  title: "title",
+  //panId: null,
+  start: "2023-06-10",
+  end: "2023-06-12",
+  backgroundColor: "",
+  borderColor: "",
+  textColor: "",
+};
+
 const sample = [
   {
     loanName: "[신한] 버팀목 전세자금 대출",
@@ -36,63 +46,64 @@ const sample = [
   },
 ];
 
-const initEvent = {
-  title: "",
-  panId: "",
-  start: "",
-  end: "",
-  backgroundColor: "",
-  borderColor: "",
-  textColor: "",
-};
-
 export default function MyPage(props) {
-  const [favorite, setFavorite] = useState(initEvent);
+  const [myPan, setMyPan] = useState(initEvent);
+  const [myPanList, setMyPanList] = useState([]);
 
-  const [favoriteList, setFavoriteList] = useState([]);
+  // async function changeEvent(arr) {
+  //   console.log(arr);
 
-  async function changeEvent(arr) {
-    console.log(arr);
-    await arr.forEach((element, index) => {
-      //setFavorite(initEvent);
-      const title = element.panId;
-      console.log(element.panId);
-      setFavorite({ ...favorite, panId: title });
-      setFavorite({ ...favorite, title: element.panName });
-      setFavorite({ ...favorite, start: element.panStartDate });
-      setFavorite({ ...favorite, end: element.panendDate });
-      setFavorite({
-        ...favorite,
-        backgroundColor:
-          { index } % 3 === 0
-            ? "#031389"
-            : { index } % 3 === 1
-            ? "#FFFEDD"
-            : "#609966",
-      });
-      setFavorite({ ...favorite, borderColor: favorite.backgroundColor });
-      setFavorite({
-        ...favorite,
-        textColor:
-          { index } % 3 === 0
-            ? "white"
-            : { index } % 3 === 1
-            ? "black"
-            : "white",
-      });
-      setFavoriteList([...favoriteList, favorite]);
-      console.log(favorite);
-    });
-  }
+  //   //arr.forEach((element, index) => {
+  //    for (const element of arr) {
+  //     //setFavorite(initEvent);
+  //     console.log(element.panName);
+  //     //setFavorite({ ...favorite, panId: element.panId });
+
+  //     //setMyPan({ ...myPan, title: element.panName });
+  //     //setMyPan({ ...myPan, start: element.panStartDate });
+  //     //setMyPan({ ...myPan, end: element.panendDate });
+  //     let title = element.title;
+  //     setMyPan({ ...myPan, title: element.title });
+  //     setMyPan({ ...myPan, start: element.start });
+  //     setMyPan({ ...myPan, end: element.end });
+  //     // setMyPan({
+  //     //   ...myPan,
+  //     //   backgroundColor:
+  //     //     { index } % 3 === 0
+  //     //       ? "#031389"
+  //     //       : { index } % 3 === 1
+  //     //       ? "#FFFEDD"
+  //     //       : "#609966",
+  //     // });
+  //     // setMyPan({ ...myPan, borderColor: myPan.backgroundColor });
+  //     // setMyPan({
+  //     //   ...myPan,
+  //     //   textColor:
+  //     //     { index } % 3 === 0
+  //     //       ? "white"
+  //     //       : { index } % 3 === 1
+  //     //       ? "black"
+  //     //       : "white",
+  //     // });
+
+  //     setMyPanList([...myPanList, myPan]);
+  //     console.log("1");
+  //   };
+  // }
+  let favoriteList =[];
 
   async function getFavorites(token) {
-    const url = "http://localhost:3000/data/myPage/panFavorites.json";
+    const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
     await axios
       .get(url)
       .then(function (response) {
-        //setFavoriteList(response);
         console.dir(response.data);
-        changeEvent(response.data);
+        
+        for (const [index, element] of response.data.entries()) {
+          const favorite = {title: element.title, strat: element.start, end: element.end};
+          favoriteList.push(favorite);
+        }
+        setMyPanList(favoriteList);
       })
       .catch(function (error) {
         console.log(error);
@@ -102,9 +113,12 @@ export default function MyPage(props) {
       });
   }
 
-  useEffect(() => {
-    getFavorites("22");
-    console.log("2" + favorite.title);
+  useEffect(async () => {
+    await getFavorites("22");
+    console.log("Fa",favoriteList);
+    console.log("myPanList", myPanList);
+
+    console.log("mouted");
   }, []);
   return (
     <div className="myPage">
@@ -114,7 +128,7 @@ export default function MyPage(props) {
             defaultView="dayGridMonth"
             plugins={[dayGridPlugin]}
             height={"auto"}
-            events={favoriteList}
+            events={ favoriteList }
           />
         </div>
         <div className="myLoan">
