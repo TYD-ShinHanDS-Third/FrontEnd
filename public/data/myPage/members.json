@@ -1,16 +1,16 @@
 {
-  "memberId": "hani1004",
+  "memberid": "hani1004",
   "pswd": "yoon1004",
-  "memberName": "윤정한",
-  "bDay": "1995-10-04",
+  "membername": "윤정한",
+  "bday": "1995-10-04",
   "phone": "010-5221-4822",
-  "role": "USER",
+  "roles": "USER",
   "level": "일반",
   "accBank": "신한",
-  "accNo": "1245-16-588674",
-  "hasJob": false,
-  "jobName": null,
-  "hireDate": null,
-  "marry": true,
-  "hasChild": "1"
+  "accno": "1245-16-588674",
+  "hasjob": "0",
+  "jobname": null,
+  "hiredate": null,
+  "marry": "1",
+  "haschild": "1"
 }

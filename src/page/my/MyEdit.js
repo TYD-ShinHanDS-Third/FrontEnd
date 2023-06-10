@@ -11,24 +11,12 @@ import {
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import axios from "axios";
 
+//회원 정보 초기화
 function MyEdit(props) {
   const [userInfo, setUserInfo] = useState({
-    memberId: "",
-    pswd: "",
-    memberName: "",
-    bDay: "",
-    phone: "",
-    role: "",
-    level: "",
-    accBank: "",
-    accNo: "",
-    hasJob: "",
-    jobName: "",
-    hireDate: "",
-    marry: "",
-    hasChild: "",
   });
 
+  //은행명
   const [bank, setBank] = useState("");
 
   const bankChange = (event) => {
@@ -36,13 +24,39 @@ function MyEdit(props) {
     setUserInfo({ ...userInfo, accBank: bank });
     console.log(userInfo.accBank);
   };
+  
+  //비밀번호 확인
+  const [passwordConfirmMessage, setPasswordConfirmMessage] =
+    useState("비밀번호 일치");
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
-  const inputChange = (event) => {
-    setUserInfo(...event.target.value);
-    //document.querySelector('input[name="pnt"]:checked').val();
+  const inputChange = (e) => {
+    if(e.target.name !== "pswdChk"){
+      setUserInfo({...userInfo, [e.target.name]:e.target.value});
+    }
+    if (e.target.name === "pswdChk") {
+      if (userInfo.pswd === e.target.value) {
+        setPasswordConfirmMessage("비밀번호 일치");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호 불일치");
+        setIsPasswordConfirm(false);
+      }
+    } else if (e.target.name === "pswd") {
+      const passChk = document.getElementById("pswdChk").value;
+      if (passChk === e.target.value) {
+        setPasswordConfirmMessage("비밀번호 일치");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호 불일치");
+        setIsPasswordConfirm(false);
+      }
+    }
   };
 
+  //저장된 회원정보 가져오기
   useEffect(() => {
+    
     const URL = "http://localhost:3000/data/myPage/members.json";
     axios
       .get(URL, {
@@ -55,6 +69,7 @@ function MyEdit(props) {
 
         setUserInfo(res.data);
         setBank(userInfo.accBank);
+        document.getElementById("pswdChk").value=res.data.pswd;
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -74,24 +89,102 @@ function MyEdit(props) {
   console.log("useInfo_bank" + userInfo.accBank);
 
   console.log("userInfo:" + userInfo.memberId);
+
+  //회원 탈퇴
+  function withdraw(token){
+    //한번더 확인하는 팝업창 넣기
+
+    const url = "/member/delete";
+    axios
+    .delete(url, {
+      heders: {
+        token: token,
+      },
+    })
+    .then((res) => {
+      if (res.data === "success.") {
+        console.log("delete success");
+      } else {
+        console.log("delete fail");
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(() => {
+      console.log("request end");
+    });
+  }
+
+  //비밀번호 수정
+  function editPswd(token){
+    const url = "/member/updatePswd";
+    axios
+    .post(url, {
+      headers: {
+        "token":token, "pswd": userInfo.pswd
+      },
+    })
+    .then((res) => {
+      if (res.data === "success.") {
+        console.log("delete success");
+      } else {
+        console.log("delete fail");
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(() => {
+      console.log("request end");
+    });
+  }
+
+  //추가 정보 수정
+  function editInfo(token){
+    const url = "/member/updateInfo";
+    axios
+    .post(url, JSON.stringify(userInfo), {
+      headers: {
+        "token":token
+      },
+    })
+    .then((res) => {
+      if (res.data === "success.") {
+        console.log("delete success");
+      } else {
+        console.log("delete fail");
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(() => {
+      console.log("request end");
+    });
+    console.log("us",userInfo);
+  }
+
+
+
   return (
     <div className="myEditBody">
       <div className="editContainer1">
         <div className="editItem" id="editName">
           <input
-            id="memberName"
-            name="memberName"
+            id="membername"
+            name="membername"
             placeholder="이름"
-            value={userInfo.memberName}
-            onChange={inputChange}
+            value={userInfo.membername}
+            readOnly
           />
         </div>
         <div className="editItem" id="editId">
           <input
-            id="memberId"
-            name="memberId"
+            id="memberid"
+            name="memberid"
             placeholder="아이디"
-            value={userInfo.memberId}
+            value={userInfo.memberid}
             readOnly
           />
         </div>
@@ -105,22 +198,35 @@ function MyEdit(props) {
           />
         </div>
         <div className="myEditBtn">
-          <button>수정</button>
+          <button id ="myEditBtn" disabled={!isPasswordConfirm} onClick={() => withdraw("token")}>수정</button>
         </div>
         <div className="editItem" id="editPwChk">
-          <input id="pswdChk" name="pswdChk" placeholder="비밀번호 확인" />
+        <span id="passMsg"
+            
+            className={`message ${isPasswordConfirm ? "success" : "error"}`}
+          >
+            {passwordConfirmMessage}
+          </span>
+          <input
+            id="pswdChk"
+            name="pswdChk"
+            type="password"
+            placeholder="비밀번호 확인"
+            onChange={inputChange}
+          />
+          
         </div>
         <div className="editItem" id="editBirth">
           <input
-            id="bDay"
-            name="bDay"
+            id="bday"
+            name="bday"
             placeholder="생년월일"
-            value={userInfo.bDay}
+            value={userInfo.bday}
             readOnly
           />
         </div>
         <div className="deleteBtn">
-          <button>탈퇴</button>
+          <button id="deleteBtn" onClick={() => withdraw("token")} disabled={!isPasswordConfirm}>탈퇴</button>
         </div>
         <div className="editItem" id="editPhone">
           <input
@@ -137,7 +243,7 @@ function MyEdit(props) {
           추가 정보
         </div>
         <div className="saveBtn">
-          <button>저장</button>
+          <button id="saveBtn" onClick={() => editInfo("token")}>저장</button>
         </div>
         <div className="editItem" id="editBank">
           <FormControl variant="standard" sx={{ m: 1, minWidth: 80 }}>
@@ -156,9 +262,9 @@ function MyEdit(props) {
             </Select>
           </FormControl>
           <input
-            name="accNo"
+            name="accno"
             placeholder="계좌번호"
-            value={userInfo.accNo}
+            value={userInfo.accno}
             onChange={inputChange}
           />
         </div>
@@ -168,19 +274,21 @@ function MyEdit(props) {
             <input
               type="radio"
               id="select1"
-              name="hasJob"
-              value="true"
-              label="hasJob"
-              checked={userInfo.hasJob === true}
+              name="hasjob"
+              value="1"
+              label="hasjob"
+              checked={userInfo.hasjob === "1"}
+              onChange={inputChange}
             />
             <label htmlFor="select1">유</label>
             <input
               type="radio"
               id="select2"
-              name="hasJob"
-              value="false"
-              label="hasJob"
-              checked={userInfo.hasJob === false}
+              name="hasjob"
+              value="0"
+              label="hasjob"
+              checked={userInfo.hasjob === "0"}
+              onChange={inputChange}
             />
             <label htmlFor="select2">무</label>
           </div>
@@ -188,16 +296,16 @@ function MyEdit(props) {
 
         <div className="editItem" id="editJob">
           <input
-            name="jobName"
+            name="jobname"
             placeholder="직장명"
-            value={userInfo.jobName}
+            value={userInfo.jobname}
             onChange={inputChange}
           />
           <input
-            id="hireDate"
-            name="hireDate"
+            id="hiredate"
+            name="hiredate"
             placeholder="입사년도"
-            value={userInfo.hireDate}
+            value={userInfo.hiredate}
             onChange={inputChange}
           />
         </div>
@@ -208,18 +316,20 @@ function MyEdit(props) {
               type="radio"
               id="select3"
               name="marry"
-              value="false"
+              value="0"
               label="marry"
-              checked={userInfo.marry === false}
+              checked={userInfo.marry === "0"}
+              onChange={inputChange}
             />
             <label htmlFor="select3">미혼</label>
             <input
               type="radio"
               id="select4"
               name="marry"
-              value="true"
+              value="1"
               label="marry"
-              checked={userInfo.marry === true}
+              checked={userInfo.marry === "1"}
+              onChange={inputChange}
             />
             <label htmlFor="select4">기혼</label>
           </div>
@@ -231,28 +341,31 @@ function MyEdit(props) {
             <input
               type="radio"
               id="select5"
-              name="hasChild"
-              value="false"
-              label="hasChild"
-              checked={userInfo.hasChild === "0"}
+              name="haschild"
+              value="0"
+              label="haschild"
+              checked={userInfo.haschild === "0"}
+              onChange={inputChange}
             />
             <label htmlFor="select5">무</label>
             <input
               type="radio"
               id="select6"
-              name="hasChild"
-              value="true"
-              label="hasChild"
-              checked={userInfo.hasChild === "1"}
+              name="haschild"
+              value="1"
+              label="haschild"
+              checked={userInfo.haschild === "1"}
+              onChange={inputChange}
             />
             <label htmlFor="select6">1명</label>
             <input
               type="radio"
               id="select7"
-              name="hasChild"
-              value="true"
-              label="hasChild"
-              checked={userInfo.hasChild === "2"}
+              name="haschild"
+              value="2"
+              label="haschild"
+              checked={userInfo.haschild === "2"}
+              onChange={inputChange}
             />
             <label htmlFor="select7">2명이상</label>
           </div>
