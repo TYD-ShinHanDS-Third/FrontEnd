@@ -68,3 +68,10 @@
   margin-left: 3%;
   color: #518e65;
 }
+
+#failLogin {
+  display: none;
+  margin: 0 auto;
+  color: #518e65;
+  font-size: 15px;
+}

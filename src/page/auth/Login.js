@@ -7,52 +7,49 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 
 function Login(props) {
-  const [userInfo, setState] = useState({
-    memberid: "ckdrua1",
-    pswd: "1234",
+  const [user, setUser] = useState({
+    memberid: "",
+    pswd: "",
   });
 
   const handleLogin = (e) => {
-    setState({
-      ...userInfo,
+    setUser({
+      ...user,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSignin = (e) => {
+  async function signIn() {
     const URL = "/member/login";
     axios
-      .post(URL, JSON.stringify(userInfo), {
+      .post(URL, JSON.stringify(user), {
         headers: {
           "Content-Type": `application/json`,
         },
       })
       .then((res) => {
         console.log("res.data.accessToken : " + res.headers.authorization);
-        //axios.defaults.headers.common["Authorization"] = "Bearer " + res.data;
-        //props.loginCallBack(true);
-        alert("complete");
+        document.getElementById("failLogin").style.display = "none";
         console.log(res.data);
-        //localStorage.setItem("jwtToken", res.headers.authorization);
+
+        //cookie로 저장
         const cookies = new Cookies();
         cookies.set("jwtToken", res.headers.authorization);
-        //setAuthToken(res.headers.authorization);
-        // props.history.push({
-        //   pathname: "/chooselantern",
-        // });
+        window.location.href = "/hows";
       })
       .catch((ex) => {
         console.log("login requset fail : " + ex);
+        document.getElementById("failLogin").style.display = "block";
       })
       .finally(() => {
         console.log("login request end");
       });
+  }
 
-    setState({
-      memberid: "",
-      pswd: "",
-    });
+  const handleSignin = (e) => {
+    signIn();
   };
+
   return (
     <div>
       <img className="logoLogin" src="/image/Logo.svg" alt="hows" />
@@ -91,6 +88,9 @@ function Login(props) {
                 로그인
               </button>
             </Grid>
+            <span id="failLogin">
+              로그인 실패했어요. 아이디와 비밀번호를 확인해주세요.
+            </span>
           </Grid>
         </div>
       </div>
