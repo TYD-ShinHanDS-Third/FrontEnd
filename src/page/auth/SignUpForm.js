@@ -15,6 +15,8 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function SignUpForm(props) {
+
+  //은행명
   const [bank, setBank] = React.useState("");
 
   const bankChange = (event) => {
@@ -22,6 +24,7 @@ function SignUpForm(props) {
     setMember({ ...member, accBank: event.target.value });
   };
 
+  //추가 정보 입력창 오픈
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -32,6 +35,7 @@ function SignUpForm(props) {
         accBank: "",
         accno: "",
         hasjob: null,
+        roles: "USER",
         jobname: "",
         hiredate: null,
         marry: null,
@@ -40,6 +44,7 @@ function SignUpForm(props) {
     }
   };
 
+  //멤버 초기화
   const memberInit = {
     memberid: "",
     membername: "",
@@ -59,7 +64,7 @@ function SignUpForm(props) {
   const [member, setMember] = useState(memberInit);
 
   //오류메시지 상태저장
-  const [idMessage, setIdMessage] = useState("");
+  const [idMessage, setIdMessage] = useState("중복인지 확인해주세요");
   const [phoneMessage, setPhoneMessage] = useState("");
   const [birthMessage, setBirthMessage] = useState("");
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
@@ -80,9 +85,11 @@ function SignUpForm(props) {
     setAuthInput(e.target.value);
   };
 
+  //input창에 입력 시 처리(+유효성 검사)
   const handleSignup = (e) => {
     if (e.target.name !== "pswdChk") {
       setMember({ ...member, [e.target.name]: e.target.value });
+      console.log(member);
     }
 
     if (e.target.name === "memberid") {
@@ -183,6 +190,7 @@ function SignUpForm(props) {
     }
   };
 
+  //전화번호 인증번호 확인
   const clickAuth = (e) => {
     if (authInput === authAns) {
       setIsCheckPhone(true);
@@ -192,8 +200,6 @@ function SignUpForm(props) {
       alert("인증번호가 틀렸습니다.");
     }
   };
-
-  //유효성 검사
 
   //회원가입
   function signup() {
@@ -233,12 +239,11 @@ function SignUpForm(props) {
             onChange={handleSignup}
           />
         </Grid>
+        
         <Grid item xs={12} sm={8}>
-          {member.memberid.length > 0 && (
-            <span className={`message ${isCheckId ? "success" : "error"}`}>
+        {member.memberid.length > 0 && (<span className={`message ${isCheckId ? "success" : "error"}`}>
               {idMessage}
-            </span>
-          )}
+            </span>)}
           <input
             id="memberid"
             name="memberid"
@@ -251,6 +256,7 @@ function SignUpForm(props) {
             중복체크
           </button>
         </Grid>
+
         <Grid item xs={12} sm={8}>
           <input
             id="pswd"
@@ -274,6 +280,7 @@ function SignUpForm(props) {
             onChange={handleSignup}
           />
         </Grid>
+
         <Grid item xs={12} sm={8}>
           {member.bday !== null && (
             <span className={`message ${isBirth ? "success" : "error"}`}>
@@ -287,6 +294,7 @@ function SignUpForm(props) {
             onChange={handleSignup}
           />
         </Grid>
+
         <Grid item xs={12} sm={8}>
           {member.phone.length > 0 && (
             <span className={`message ${isPhone ? "success" : "error"}`}>
@@ -316,6 +324,7 @@ function SignUpForm(props) {
             전화번호 인증
           </button>
         </Grid>
+
         <Grid item xs={12} sm={8}>
           <List
             sx={{
@@ -332,6 +341,43 @@ function SignUpForm(props) {
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
+
+              <ListItem sx={{ pl: 3 }}>
+                  <Grid item xs={12} sm={3}>
+                    <span className="addInfoSpan">가입유형</span>
+                  </Grid>
+                  <Grid item xs={12} sm={8}>
+                  <div className="select">
+                      <input
+                        type="radio"
+                        id="selectUser"
+                        name="roles"
+                        value="USER"
+                        label="roles"
+                        onChange={handleSignup}
+                      />
+                      <label htmlFor="selectUser">일반사용자</label>
+                      <input
+                        type="radio"
+                        id="selectADMIN"
+                        name="roles"
+                        value="ADMIN"
+                        label="roles"
+                        onChange={handleSignup}
+                      />
+                      <label htmlFor="selectADMIN">관리자</label>
+                      <input
+                        type="radio"
+                        id="selectBANKER"
+                        name="roles"
+                        value="BANKER"
+                        label="roles"
+                        onChange={handleSignup}
+                      />
+                      <label htmlFor="selectBANKER">은행원</label>
+                    </div></Grid>
+                </ListItem>
+
                 <ListItem sx={{ pl: 2, minHeight: 80 }}>
                   <Grid item xs={12} sm={3}>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 80 }}>
@@ -361,6 +407,7 @@ function SignUpForm(props) {
                     />
                   </Grid>
                 </ListItem>
+
                 <ListItem sx={{ pl: 3 }}>
                   <Grid item xs={12} sm={3}>
                     <span className="addInfoSpan">직장유무</span>
@@ -404,6 +451,7 @@ function SignUpForm(props) {
                     />
                   </Grid>
                 </ListItem>
+
                 <ListItem sx={{ pl: 3 }}>
                   <Grid item xs={12} sm={3}>
                     <span className="addInfoSpan">결혼</span>
@@ -431,6 +479,7 @@ function SignUpForm(props) {
                     </div>
                   </Grid>
                 </ListItem>
+                
                 <ListItem sx={{ pl: 3 }}>
                   <Grid item xs={12} sm={3}>
                     <span className="addInfoSpan">자녀</span>
@@ -466,11 +515,13 @@ function SignUpForm(props) {
                       <label htmlFor="select7">2명이상</label>
                     </div>
                   </Grid>
-                </ListItem>
+                  </ListItem>
+                  
               </List>
             </Collapse>
           </List>
         </Grid>
+
         <Grid item xs={12} sm={8}>
           <button
             id="signUpBtn"
