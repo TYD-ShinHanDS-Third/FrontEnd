@@ -5,6 +5,8 @@ import PanDetail from "./PanDetail";
 import NoticeList from "./NoticeList";
 import axios from "axios";
 import { useRef } from "react";
+import { Cookies } from "react-cookie";
+import { Toll } from "@mui/icons-material";
 
 const locationlist = [
   "서울특별시",
@@ -28,10 +30,11 @@ const locationlist = [
 function PanList(props) {
   const [panlist, setPanlist] = useState([]);
   const [pageNum, setPage] = useState("0");
+  const [onNotice, setOnNotice] = useState(false);
 
   useEffect(() => {
     getList();
-  }, [pageNum]);
+  }, [pageNum, onNotice]);
 
   async function getList() {
     const listurl = "/hows/notice";
@@ -56,10 +59,69 @@ function PanList(props) {
   };
 
   const filterFavorite = (event) => {
-    console.log("좋아요 한 공고만 가져오기");
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+
+    const listurl = "/hows/notice/fav/1";
+    axios
+      .get(listurl, {
+        headers: {
+          token: token,
+        },
+        params: {
+          page: pageNum,
+          size: "9",
+        },
+      })
+      .then(function (response) {
+        setPanlist(response.data);
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const filterOnNotice = (event) => {
-    console.log("모집중인 공고만 가져오기");
+    setOnNotice(true);
+    const listurl = "/hows/notice/fav/2";
+    const cookies = new Cookies();
+    const token =
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJja2RydWExIiwicm9sZXMiOlsiVXNlciJdLCJpYXQiOjE2ODYxODkwNzIsImV4cCI6MTY4NjI3NTQ3Mn0.BuOvMeMhLfIlwMZcGioJbSbxtJnEKE5aWwAj1ntaCPE";
+    axios
+      .get(listurl, {
+        headers: {
+          token: token,
+        },
+        params: {
+          page: pageNum,
+          size: "9",
+        },
+      })
+      .then(function (response) {
+        setPanlist(response.data);
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const filterNotice = (event) => {
+    const listurl = "/hows/notice/fav/3";
+    axios
+      .get(listurl, {
+        params: {
+          page: pageNum,
+          size: "9",
+        },
+      })
+      .then(function (response) {
+        setPanlist(response.data);
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const favorite = (panId, favorite) => {
     console.log("좋아요 하기 + 좋아요 취소" + panId + " : " + favorite);
@@ -67,29 +129,6 @@ function PanList(props) {
   const changePage = (pageNum) => {
     setPage(pageNum);
   };
-
-  // detail 데이터 가져오기
-  // const getPanDetail = (panid) => {
-  //   console.log("데이터 가지로 왔어요");
-  //   getDetailList(panid);
-  // };
-
-  // async function getDetailList(panId) {
-  //   console.log(panId);
-  //   const listurl = "/hows/notice/detail";
-  //   await axios
-  //     .get(listurl, {
-  //       params: {
-  //         panid: panId,
-  //       },
-  //     })
-  //     .then(function (response) {
-  //       setPandetail(response.data[0] + "!!!!!");
-  //     })
-  //     .catch(function (error) {
-  //       console.log("123123W" + error);
-  //     });
-  // }
 
   return (
     <div className="panlist">
@@ -117,6 +156,8 @@ function PanList(props) {
                 panList={panlist}
                 filterFavorite={filterFavorite}
                 filterOnNotice={filterOnNotice}
+                filterNotice={filterNotice}
+                getList={getList}
                 favorite={favorite}
               />
             }

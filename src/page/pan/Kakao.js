@@ -1,12 +1,15 @@
 import { display, height } from "@mui/system";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 const { kakao } = window;
 
 function Kakao(props) {
   useEffect(
     function view() {
       let container = document.getElementById("map");
+
+      var searchInput = new kakao.maps.services.Places();
 
       const mapCenter = new kakao.maps.LatLng(33.450701, 126.570667);
 
@@ -136,6 +139,8 @@ function Kakao(props) {
     }
   }
 
+  const location = useLocation();
+
   return (
     <div style={{ display: "flex", height: "100%", alignItems: "flex-end" }}>
       <div id="map" style={{ width: "95%", height: "100%" }}></div>
@@ -143,16 +148,20 @@ function Kakao(props) {
         id="roadview"
         style={{ width: "95%", height: "100%", display: "none" }}
       ></div>
-      <button
-        onClick={() => setRoad()}
-        style={{
-          height: "fit-content",
-          width: "13%",
-          marginLeft: "3%",
-        }}
-      >
-        {toggle ? "로드뷰 보기" : "지도로 보기"}
-      </button>
+      {location.pathname.includes("/hows/notice/detail") ? (
+        <button
+          onClick={() => setRoad()}
+          style={{
+            height: "fit-content",
+            width: "13%",
+            marginLeft: "3%",
+          }}
+        >
+          {toggle ? "로드뷰 보기" : "지도로 보기"}
+        </button>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

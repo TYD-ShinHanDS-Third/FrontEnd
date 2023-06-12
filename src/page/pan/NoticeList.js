@@ -19,6 +19,8 @@ function NoticeList({
   filterOnNotice,
   favorite,
   getPanDetail,
+  filterNotice,
+  getList,
 }) {
   const [panlist, setPanlist] = useState([]);
   const [fav, setFav] = useState(true);
@@ -38,13 +40,25 @@ function NoticeList({
 
   function favNotice(e) {
     if (e.target.checked === true) {
-      filterFavorite();
+      if (document.getElementById("onNotice").checked === true) {
+        filterNotice(e);
+      } else {
+        filterFavorite(e);
+      }
+    } else if (e.target.checked === false) {
+      getList();
     }
   }
 
   function onNotice(e) {
     if (e.target.checked === true) {
-      filterOnNotice();
+      if (document.getElementById("fav").checked === true) {
+        filterNotice(e);
+      } else {
+        filterOnNotice(e);
+      }
+    } else if (e.target.checked === false) {
+      getList();
     }
   }
 
@@ -52,11 +66,21 @@ function NoticeList({
     <div className="noticelist">
       <div className="notice_checkbox">
         <label className="fav">
-          <Checkbox color="success" onClick={(event) => favNotice(event)} />
+          <Checkbox
+            color="success"
+            name="fav"
+            id="fav"
+            onClick={(event) => favNotice(event)}
+          />
           관심있는 공고
         </label>
         <label className="recruiting">
-          <Checkbox color="success" onClick={(event) => onNotice(event)} />
+          <Checkbox
+            color="success"
+            name="onNotice"
+            id="onNotice"
+            onClick={(event) => onNotice(event)}
+          />
           모집중인 공고
         </label>
       </div>
