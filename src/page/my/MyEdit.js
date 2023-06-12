@@ -56,8 +56,8 @@ function MyEdit(props) {
 
   //저장된 회원정보 가져오기
   useEffect(() => {
-    //const URL = "http://localhost:3000/data/myPage/members.json";
-    const URL = "member/users";
+    const URL = "http://localhost:3000/data/myPage/members.json";
+    //const URL = "member/users";
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
     axios
@@ -70,7 +70,8 @@ function MyEdit(props) {
         console.dir(res);
 
         setUserInfo(res.data);
-        setBank(userInfo.accBank);
+        setBank(res.data.accBank);
+
         document.getElementById("pswdChk").value = res.data.pswd;
       })
       .catch((ex) => {
@@ -79,6 +80,7 @@ function MyEdit(props) {
       .finally(() => {
         console.log("request end");
       });
+    // document.getElementById("demo-simple-select-standard").onchange();
   }, []);
 
   // const bankArea = document
@@ -88,9 +90,6 @@ function MyEdit(props) {
   // );
   // bankArea = "신한";
   // console.log("useInfo_bank2" + bankArea);
-  console.log("useInfo_bank" + userInfo.accBank);
-
-  console.log("userInfo:" + userInfo.memberId);
 
   //회원 탈퇴
   function withdraw(token) {
@@ -176,7 +175,7 @@ function MyEdit(props) {
             id="membername"
             name="membername"
             placeholder="이름"
-            value={userInfo.membername}
+            defaultValue={userInfo.membername}
             readOnly
           />
         </div>
@@ -185,7 +184,7 @@ function MyEdit(props) {
             id="memberid"
             name="memberid"
             placeholder="아이디"
-            value={userInfo.memberid}
+            defaultValue={userInfo.memberid}
             readOnly
           />
         </div>
@@ -227,7 +226,7 @@ function MyEdit(props) {
             id="bday"
             name="bday"
             placeholder="생년월일"
-            value={userInfo.bday}
+            defaultValue={userInfo.bday}
             readOnly
           />
         </div>
@@ -245,7 +244,7 @@ function MyEdit(props) {
             id="phone"
             name="phone"
             placeholder="전화번호"
-            value={userInfo.phone}
+            defaultValue={userInfo.phone}
             readOnly
           />
         </div>
@@ -312,14 +311,14 @@ function MyEdit(props) {
           <input
             name="jobname"
             placeholder="직장명"
-            value={userInfo.jobname}
+            value={userInfo.jobname === null ? "" : userInfo.jobname}
             onChange={inputChange}
           />
           <input
             id="hiredate"
             name="hiredate"
             placeholder="입사년도"
-            value={userInfo.hiredate}
+            value={userInfo.hiredate === null ? "" : userInfo.hiredate}
             onChange={inputChange}
           />
         </div>
