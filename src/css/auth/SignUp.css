@@ -44,6 +44,26 @@ input {
   border-radius: 5px;
 }
 
+#phoneAuth {
+  width: 80%;
+  margin-right: 5%;
+}
+
+#authBox {
+  display: none;
+  margin-bottom: 3%;
+}
+.act {
+  display: block;
+}
+
+#pswdResult {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
 #memberName,
 #memberId,
 #pswd,
@@ -81,11 +101,11 @@ input {
 
 button {
   width: max-content;
-  height: 80%;
+  height: 40px;
 }
 
 #signUpBtn {
-  width: 100%;
+  width: 95%;
   height: 80%;
   margin-top: 3%;
 }
@@ -95,5 +115,17 @@ input::placeholder {
 }
 
 span {
+  font-size: 10px;
+}
+
+.addInfoSpan {
   font-size: 15px;
+}
+
+.success {
+  color: #3f497f;
+}
+
+.error {
+  color: #f7c04a;
 }
