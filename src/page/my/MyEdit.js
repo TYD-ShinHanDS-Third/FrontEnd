@@ -27,7 +27,7 @@ function MyEdit(props) {
 
   //비밀번호 확인
   const [passwordConfirmMessage, setPasswordConfirmMessage] =
-    useState("비밀번호 일치");
+    useState(" ");
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const inputChange = (e) => {
@@ -152,7 +152,7 @@ function MyEdit(props) {
     <div className="myEditBody">
       <div className="myEditForm">
         <div className="editContainer1">
-          <div className="nameLabel">
+        <div className="nameLabel">
             <span>이름</span>
           </div>
           <div className="editItem" id="editName">
@@ -164,6 +164,9 @@ function MyEdit(props) {
               readOnly
             />
           </div>
+          <div className="idLabel">
+            <span>아이디</span>
+          </div>
           <div className="editItem" id="editId">
             <input
               id="memberid"
@@ -173,6 +176,9 @@ function MyEdit(props) {
               readOnly
             />
           </div>
+          <div className="passLabel">
+            <span>비밀번호</span>
+          </div>
           <div className="editItem" id="editPw">
             <input
               id="pswd"
@@ -181,7 +187,9 @@ function MyEdit(props) {
               onChange={inputChange}
             />
           </div>
-
+          <div className="passChkLabel">
+            <span>비밀번호 확인</span>
+          </div>
           <div className="editItem" id="editPwChk">
             <span
               id="passMsg"
@@ -197,6 +205,9 @@ function MyEdit(props) {
               onChange={inputChange}
             />
           </div>
+          <div className="birthLabel">
+            <span>생년월일</span>
+          </div>
           <div className="editItem" id="editBirth">
             <input
               id="bday"
@@ -206,7 +217,9 @@ function MyEdit(props) {
               readOnly
             />
           </div>
-
+          <div className="phoneLabel">
+            <span>전화번호</span>
+          </div>
           <div className="editItem" id="editPhone">
             <input
               id="phone"
@@ -219,7 +232,7 @@ function MyEdit(props) {
         </div>
         <div className="editContainer2">
           <div className="editItem" id="addInfo">
-            추가 정보
+            <h3>추가 정보</h3>
           </div>
 
           <div className="editItem" id="editBank">
@@ -274,6 +287,7 @@ function MyEdit(props) {
           </div>
 
           <div className="editItem" id="editJob">
+          <span style={{fontSize:"10px"}}>직장명</span>
             <input
               name="jobname"
               placeholder="직장명"
