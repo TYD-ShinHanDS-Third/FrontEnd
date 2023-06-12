@@ -23,9 +23,27 @@
   justify-items: center;
   width: 100%;
 }
+
+.searchHeader {
+  display: grid;
+  width: 85%;
+}
+.searchInput {
+  display: flex;
+  height: 60px;
+  margin-bottom: 10px;
+}
+.searchTitle {
+  display: flex;
+  justify-content: center;
+}
+.searchLocationbtn {
+  height: 100%;
+  width: 25%;
+}
 .search {
   border-radius: 10px;
   border: none;
-  height: 80%;
-  width: 90%;
+  height: 95%;
+  margin-right: 10px;
 }
