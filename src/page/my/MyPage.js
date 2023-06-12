@@ -47,8 +47,9 @@ const sample = [
 ];
 
 export default function MyPage(props) {
-  const [myPan, setMyPan] = useState(initEvent);
+  //const [myPan, setMyPan] = useState(initEvent);
   const [myPanList, setMyPanList] = useState([]);
+  const [myLoanList, setMyLoanList] = useState([]);
 
   // async function changeEvent(arr) {
   //   console.log(arr);
@@ -90,25 +91,57 @@ export default function MyPage(props) {
   //     console.log("1");
   //   };
   // }
+
+  //즐겨찾기 불러오기
   let favoriteList = [];
 
   async function getFavorites(token) {
     const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
+
     await axios
       .get(url)
       .then(function (response) {
         console.dir(response.data);
         setMyPanList(response.data);
+        for (const [index, element] of response.data.entries()) {
+          let endDate = new Date(element.end);
+          endDate.setDate(endDate.getDate() + 1);
+          const favorite = {
+            title: element.title,
+            strat: element.start,
+            end: endDate,
+            background:
+              { index } % 3 === 0
+                ? "#031389"
+                : { index } % 3 === 1
+                ? "#FFFEDD"
+                : "#609966",
+          };
+          favoriteList.push(favorite);
+        }
+        //setMyPanList(favoriteList);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+  }
 
-        // for (const [index, element] of response.data.entries()) {
-        //   const favorite = {
-        //     title: element.title,
-        //     strat: element.start,
-        //     end: element.end,
-        //   };
-        //   favoriteList.push(favorite);
-        // }
-        // setMyPanList(favoriteList);
+  //내 대출 목록 불러오기
+  async function getLoanList(token) {
+    const url = "http://localhost:3000/data/myPage/myLoan.json";
+
+    await axios
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(function (response) {
+        console.dir(response.data);
+        setMyLoanList(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -119,12 +152,15 @@ export default function MyPage(props) {
   }
 
   useEffect(() => {
-    getFavorites("22");
-    // console.log("Fa", favoriteList);
-    // console.log("myPanList", myPanList);
+    getFavorites("token");
+    getLoanList("token");
+    // let endDate = new Date("2023-03-02");
+    // endDate.setDate(endDate.getDate() + 1);
+    // console.log(endDate);
 
     console.log("mouted");
   }, []);
+
   return (
     <div className="myPage">
       <div className="myContainer">
@@ -152,14 +188,15 @@ export default function MyPage(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sample.map((loan, index) => (
+                {myLoanList.map((loan, index) => (
                   <TableRow
+                    key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{loan.loanName}</TableCell>
-                    <TableCell>{loan.loanState}</TableCell>
+                    <TableCell>{loan.loanname}</TableCell>
+                    <TableCell>{loan.loanstate}</TableCell>
                     <TableCell>
-                      <a href={loan.applyUrl}>링크</a>
+                      <a href={loan.applyurl}>링크</a>
                     </TableCell>
                   </TableRow>
                 ))}
