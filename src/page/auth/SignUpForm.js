@@ -53,10 +53,10 @@ function SignUpForm(props) {
     roles: "USER",
     accBank: "",
     accno: "",
-    hasjob: null,
+    hasjob: "",
     hiredate: null,
-    marry: null,
-    haschild: null,
+    marry: "",
+    haschild: "",
     jobname: "",
   };
 
