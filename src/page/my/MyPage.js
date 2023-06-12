@@ -15,111 +15,55 @@ import { useState } from "react";
 import axios from "axios";
 import { object } from "prop-types";
 import { useEffect } from "react";
-
-const initEvent = {
-  title: "title",
-  //panId: null,
-  start: "2023-06-10",
-  end: "2023-06-12",
-  backgroundColor: "",
-  borderColor: "",
-  textColor: "",
-};
-
-const sample = [
-  {
-    loanName: "[신한] 버팀목 전세자금 대출",
-    loanState: "준비중",
-    applyUrl: "https://bank.shinhan.com/index.jsp#020305010000",
-  },
-  {
-    loanName: "[국민] KB전세금안심대출",
-    loanState: "거절",
-    applyUrl:
-      "https://obank.kbstar.com/quics?page=C103507&cc=b104363:b104516&isNew=N&prcode=LN20000064&QSL=F",
-  },
-  {
-    loanName: "[우리] 우리WON전세대출(주택보증)",
-    loanState: "거절",
-    applyUrl:
-      "https://spot.wooribank.com/pot/Dream?withyou=POLON0055&cc=c010528:c010531;c012425:c012399&PLM_PDCD=P020006141&PRD_CD=P020006141&HOST_PRD_CD=2031161000000",
-  },
-];
+import Cookies from "universal-cookie";
 
 export default function MyPage(props) {
-  //const [myPan, setMyPan] = useState(initEvent);
   const [myPanList, setMyPanList] = useState([]);
   const [myLoanList, setMyLoanList] = useState([]);
-
-  // async function changeEvent(arr) {
-  //   console.log(arr);
-
-  //   //arr.forEach((element, index) => {
-  //    for (const element of arr) {
-  //     //setFavorite(initEvent);
-  //     console.log(element.panName);
-  //     //setFavorite({ ...favorite, panId: element.panId });
-
-  //     //setMyPan({ ...myPan, title: element.panName });
-  //     //setMyPan({ ...myPan, start: element.panStartDate });
-  //     //setMyPan({ ...myPan, end: element.panendDate });
-  //     let title = element.title;
-  //     setMyPan({ ...myPan, title: element.title });
-  //     setMyPan({ ...myPan, start: element.start });
-  //     setMyPan({ ...myPan, end: element.end });
-  //     // setMyPan({
-  //     //   ...myPan,
-  //     //   backgroundColor:
-  //     //     { index } % 3 === 0
-  //     //       ? "#031389"
-  //     //       : { index } % 3 === 1
-  //     //       ? "#FFFEDD"
-  //     //       : "#609966",
-  //     // });
-  //     // setMyPan({ ...myPan, borderColor: myPan.backgroundColor });
-  //     // setMyPan({
-  //     //   ...myPan,
-  //     //   textColor:
-  //     //     { index } % 3 === 0
-  //     //       ? "white"
-  //     //       : { index } % 3 === 1
-  //     //       ? "black"
-  //     //       : "white",
-  //     // });
-
-  //     setMyPanList([...myPanList, myPan]);
-  //     console.log("1");
-  //   };
-  // }
 
   //즐겨찾기 불러오기
   let favoriteList = [];
 
   async function getFavorites(token) {
-    const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
-
+    //const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
+    const url = "mypage/pan";
     await axios
-      .get(url)
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
       .then(function (response) {
         console.dir(response.data);
-        setMyPanList(response.data);
+        //setMyPanList(response.data);
         for (const [index, element] of response.data.entries()) {
           let endDate = new Date(element.end);
+          console.log(element.end);
+          console.log(endDate);
           endDate.setDate(endDate.getDate() + 1);
+          console.log(endDate);
           const favorite = {
             title: element.title,
-            strat: element.start,
+            start: element.start,
             end: endDate,
-            background:
-              { index } % 3 === 0
+            backgroundColor:
+              index % 3 === 0
                 ? "#031389"
-                : { index } % 3 === 1
+                : index % 3 === 1
                 ? "#FFFEDD"
                 : "#609966",
+            borderColor:
+              index % 3 === 0
+                ? "#031389"
+                : index % 3 === 1
+                ? "#FFFEDD"
+                : "#609966",
+            textColor:
+              index % 3 === 0 ? "white" : index % 3 === 1 ? "black" : "white",
           };
           favoriteList.push(favorite);
         }
-        //setMyPanList(favoriteList);
+        setMyPanList(favoriteList);
       })
       .catch(function (error) {
         console.log(error);
@@ -131,7 +75,7 @@ export default function MyPage(props) {
 
   //내 대출 목록 불러오기
   async function getLoanList(token) {
-    const url = "http://localhost:3000/data/myPage/myLoan.json";
+    const url = "mypage/loan";
 
     await axios
       .get(url, {
@@ -141,6 +85,7 @@ export default function MyPage(props) {
       })
       .then(function (response) {
         console.dir(response.data);
+        console.log("loan", response.data);
         setMyLoanList(response.data);
       })
       .catch(function (error) {
@@ -152,11 +97,10 @@ export default function MyPage(props) {
   }
 
   useEffect(() => {
-    getFavorites("token");
-    getLoanList("token");
-    // let endDate = new Date("2023-03-02");
-    // endDate.setDate(endDate.getDate() + 1);
-    // console.log(endDate);
+    const cookies = new Cookies();
+    const jwtToken = cookies.get("jwtToken");
+    getFavorites(jwtToken);
+    getLoanList(jwtToken);
 
     console.log("mouted");
   }, []);
