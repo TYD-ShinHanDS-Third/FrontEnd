@@ -43,7 +43,7 @@
   white-space: nowrap;
 }
 
-.container-1 input#memberId {
+.container-1 input#memberid {
   width: 80%;
   padding-left: 15%;
   text-align: left;
@@ -67,4 +67,11 @@
   padding: 10px;
   margin-left: 3%;
   color: #518e65;
+}
+
+#failLogin {
+  display: none;
+  margin: 0 auto;
+  color: #518e65;
+  font-size: 15px;
 }
