@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import axios from "axios";
+import { Cookies } from "react-cookie";
 
 //회원 정보 초기화
 function MyEdit(props) {
-  const [userInfo, setUserInfo] = useState({
-  });
+  const [userInfo, setUserInfo] = useState({});
 
   //은행명
   const [bank, setBank] = useState("");
@@ -24,15 +24,15 @@ function MyEdit(props) {
     setUserInfo({ ...userInfo, accBank: bank });
     console.log(userInfo.accBank);
   };
-  
+
   //비밀번호 확인
   const [passwordConfirmMessage, setPasswordConfirmMessage] =
     useState("비밀번호 일치");
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   const inputChange = (e) => {
-    if(e.target.name !== "pswdChk"){
-      setUserInfo({...userInfo, [e.target.name]:e.target.value});
+    if (e.target.name !== "pswdChk") {
+      setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
     if (e.target.name === "pswdChk") {
       if (userInfo.pswd === e.target.value) {
@@ -56,12 +56,14 @@ function MyEdit(props) {
 
   //저장된 회원정보 가져오기
   useEffect(() => {
-    
-    const URL = "http://localhost:3000/data/myPage/members.json";
+    //const URL = "http://localhost:3000/data/myPage/members.json";
+    const URL = "member/users";
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
     axios
       .get(URL, {
         headers: {
-          "Content-Type": `application/json`,
+          token: token,
         },
       })
       .then((res) => {
@@ -69,7 +71,7 @@ function MyEdit(props) {
 
         setUserInfo(res.data);
         setBank(userInfo.accBank);
-        document.getElementById("pswdChk").value=res.data.pswd;
+        document.getElementById("pswdChk").value = res.data.pswd;
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -91,81 +93,80 @@ function MyEdit(props) {
   console.log("userInfo:" + userInfo.memberId);
 
   //회원 탈퇴
-  function withdraw(token){
+  function withdraw(token) {
     //한번더 확인하는 팝업창 넣기
 
     const url = "/member/delete";
     axios
-    .delete(url, {
-      heders: {
-        token: token,
-      },
-    })
-    .then((res) => {
-      if (res.data === "success.") {
-        console.log("delete success");
-      } else {
-        console.log("delete fail");
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .finally(() => {
-      console.log("request end");
-    });
+      .delete(url, {
+        heders: {
+          token: token,
+        },
+      })
+      .then((res) => {
+        if (res.data === "success.") {
+          console.log("delete success");
+        } else {
+          console.log("delete fail");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
   }
 
   //비밀번호 수정
-  function editPswd(token){
+  function editPswd(token) {
     const url = "/member/updatePswd";
     axios
-    .post(url, {
-      headers: {
-        "token":token, "pswd": userInfo.pswd
-      },
-    })
-    .then((res) => {
-      if (res.data === "success.") {
-        console.log("delete success");
-      } else {
-        console.log("delete fail");
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .finally(() => {
-      console.log("request end");
-    });
+      .post(url, {
+        headers: {
+          token: token,
+          pswd: userInfo.pswd,
+        },
+      })
+      .then((res) => {
+        if (res.data === "success.") {
+          console.log("delete success");
+        } else {
+          console.log("delete fail");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
   }
 
   //추가 정보 수정
-  function editInfo(token){
+  function editInfo(token) {
     const url = "/member/updateInfo";
     axios
-    .post(url, JSON.stringify(userInfo), {
-      headers: {
-        "token":token
-      },
-    })
-    .then((res) => {
-      if (res.data === "success.") {
-        console.log("delete success");
-      } else {
-        console.log("delete fail");
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .finally(() => {
-      console.log("request end");
-    });
-    console.log("us",userInfo);
+      .post(url, JSON.stringify(userInfo), {
+        headers: {
+          token: token,
+        },
+      })
+      .then((res) => {
+        if (res.data === "success.") {
+          console.log("delete success");
+        } else {
+          console.log("delete fail");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+    console.log("us", userInfo);
   }
-
-
 
   return (
     <div className="myEditBody">
@@ -198,11 +199,17 @@ function MyEdit(props) {
           />
         </div>
         <div className="myEditBtn">
-          <button id ="myEditBtn" disabled={!isPasswordConfirm} onClick={() => withdraw("token")}>수정</button>
+          <button
+            id="myEditBtn"
+            disabled={!isPasswordConfirm}
+            onClick={() => withdraw("token")}
+          >
+            수정
+          </button>
         </div>
         <div className="editItem" id="editPwChk">
-        <span id="passMsg"
-            
+          <span
+            id="passMsg"
             className={`message ${isPasswordConfirm ? "success" : "error"}`}
           >
             {passwordConfirmMessage}
@@ -214,7 +221,6 @@ function MyEdit(props) {
             placeholder="비밀번호 확인"
             onChange={inputChange}
           />
-          
         </div>
         <div className="editItem" id="editBirth">
           <input
@@ -226,7 +232,13 @@ function MyEdit(props) {
           />
         </div>
         <div className="deleteBtn">
-          <button id="deleteBtn" onClick={() => withdraw("token")} disabled={!isPasswordConfirm}>탈퇴</button>
+          <button
+            id="deleteBtn"
+            onClick={() => withdraw("token")}
+            disabled={!isPasswordConfirm}
+          >
+            탈퇴
+          </button>
         </div>
         <div className="editItem" id="editPhone">
           <input
@@ -243,7 +255,9 @@ function MyEdit(props) {
           추가 정보
         </div>
         <div className="saveBtn">
-          <button id="saveBtn" onClick={() => editInfo("token")}>저장</button>
+          <button id="saveBtn" onClick={() => editInfo("token")}>
+            저장
+          </button>
         </div>
         <div className="editItem" id="editBank">
           <FormControl variant="standard" sx={{ m: 1, minWidth: 80 }}>

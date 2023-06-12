@@ -90,7 +90,7 @@ export default function MyPage(props) {
   //     console.log("1");
   //   };
   // }
-  let favoriteList =[];
+  let favoriteList = [];
 
   async function getFavorites(token) {
     const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
@@ -98,12 +98,17 @@ export default function MyPage(props) {
       .get(url)
       .then(function (response) {
         console.dir(response.data);
-        
-        for (const [index, element] of response.data.entries()) {
-          const favorite = {title: element.title, strat: element.start, end: element.end};
-          favoriteList.push(favorite);
-        }
-        setMyPanList(favoriteList);
+        setMyPanList(response.data);
+
+        // for (const [index, element] of response.data.entries()) {
+        //   const favorite = {
+        //     title: element.title,
+        //     strat: element.start,
+        //     end: element.end,
+        //   };
+        //   favoriteList.push(favorite);
+        // }
+        // setMyPanList(favoriteList);
       })
       .catch(function (error) {
         console.log(error);
@@ -113,10 +118,10 @@ export default function MyPage(props) {
       });
   }
 
-  useEffect(async () => {
-    await getFavorites("22");
-    console.log("Fa",favoriteList);
-    console.log("myPanList", myPanList);
+  useEffect(() => {
+    getFavorites("22");
+    // console.log("Fa", favoriteList);
+    // console.log("myPanList", myPanList);
 
     console.log("mouted");
   }, []);
@@ -128,7 +133,7 @@ export default function MyPage(props) {
             defaultView="dayGridMonth"
             plugins={[dayGridPlugin]}
             height={"auto"}
-            events={ favoriteList }
+            events={myPanList}
           />
         </div>
         <div className="myLoan">
