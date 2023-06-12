@@ -56,14 +56,17 @@ function MyEdit(props) {
 
   //저장된 회원정보 가져오기
   useEffect(() => {
-    const URL = "http://localhost:3000/data/myPage/members.json";
-    //const URL = "member/users";
+    //const URL = "http://localhost:3000/data/myPage/members.json";
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
+    const memberid = cookies.get("memberid");
+    const URL = "/member/mypage/" + memberid;
+
     axios
       .get(URL, {
         headers: {
-          token: token,
+          //token: token,
+          memberid: memberid,
         },
       })
       .then((res) => {
@@ -80,16 +83,8 @@ function MyEdit(props) {
       .finally(() => {
         console.log("request end");
       });
-    // document.getElementById("demo-simple-select-standard").onchange();
+    console.log(userInfo);
   }, []);
-
-  // const bankArea = document
-  //   .getElementById("demo-simple-select-standard").child
-  // const bankArea = document.querySelector(
-  //   ".MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-  // );
-  // bankArea = "신한";
-  // console.log("useInfo_bank2" + bankArea);
 
   //회원 탈퇴
   function withdraw(token) {
