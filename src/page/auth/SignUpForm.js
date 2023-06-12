@@ -15,7 +15,6 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function SignUpForm(props) {
-
   //은행명
   const [bank, setBank] = React.useState("");
 
@@ -239,11 +238,13 @@ function SignUpForm(props) {
             onChange={handleSignup}
           />
         </Grid>
-        
+
         <Grid item xs={12} sm={8}>
-        {member.memberid.length > 0 && (<span className={`message ${isCheckId ? "success" : "error"}`}>
+          {member.memberid.length > 0 && (
+            <span className={`message ${isCheckId ? "success" : "error"}`}>
               {idMessage}
-            </span>)}
+            </span>
+          )}
           <input
             id="memberid"
             name="memberid"
@@ -341,13 +342,12 @@ function SignUpForm(props) {
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-
-              <ListItem sx={{ pl: 3 }}>
+                <ListItem sx={{ pl: 3 }}>
                   <Grid item xs={12} sm={3}>
                     <span className="addInfoSpan">가입유형</span>
                   </Grid>
                   <Grid item xs={12} sm={8}>
-                  <div className="select">
+                    <div className="select">
                       <input
                         type="radio"
                         id="selectUser"
@@ -375,7 +375,8 @@ function SignUpForm(props) {
                         onChange={handleSignup}
                       />
                       <label htmlFor="selectBANKER">은행원</label>
-                    </div></Grid>
+                    </div>
+                  </Grid>
                 </ListItem>
 
                 <ListItem sx={{ pl: 2, minHeight: 80 }}>
@@ -479,7 +480,7 @@ function SignUpForm(props) {
                     </div>
                   </Grid>
                 </ListItem>
-                
+
                 <ListItem sx={{ pl: 3 }}>
                   <Grid item xs={12} sm={3}>
                     <span className="addInfoSpan">자녀</span>
@@ -515,8 +516,7 @@ function SignUpForm(props) {
                       <label htmlFor="select7">2명이상</label>
                     </div>
                   </Grid>
-                  </ListItem>
-                  
+                </ListItem>
               </List>
             </Collapse>
           </List>
