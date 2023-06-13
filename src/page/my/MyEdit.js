@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../../css/my/MyEdit.css";
-import {
-  Collapse,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  radioClasses,
-} from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import { DateComponent } from "@fullcalendar/core/internal";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 //회원 정보 초기화
 function MyEdit(props) {
@@ -21,19 +16,27 @@ function MyEdit(props) {
 
   const bankChange = (event) => {
     setBank(event.target.value);
-    setUserInfo({ ...userInfo, accBank: bank });
-    console.log(userInfo.accBank);
+    setUserInfo({ ...userInfo, accBank: event.target.value });
   };
 
+  //token 가져오기
+  const cookies = new Cookies();
+  const token = cookies.get("jwtToken");
+
   //비밀번호 확인
-  const [passwordConfirmMessage, setPasswordConfirmMessage] =
-    useState(" ");
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState(".");
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+
+  //날짜 데이터 변환 테스트
+  // let date = new Date("2019-01-01");
+  // console.log(date.toISOString());
+  // date = date.toISOString();
+  // date = date.substring(0, 10);
+  // console.log(date);
 
   const inputChange = (e) => {
     if (e.target.name !== "pswdChk") {
       setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
-      console.log("user", userInfo);
     }
     if (e.target.name === "pswdChk") {
       if (userInfo.pswd === e.target.value) {
@@ -58,25 +61,17 @@ function MyEdit(props) {
   //저장된 회원정보 가져오기
   useEffect(() => {
     //const URL = "http://localhost:3000/data/myPage/members.json";
-    const cookies = new Cookies();
-    const token = cookies.get("jwtToken");
-    const memberid = cookies.get("memberid");
-    const URL = "/member/mypage/" + memberid;
+    const URL = "/member/mypage";
 
     axios
-      .get(URL, JSON.stringify(memberid), {
+      .get(URL, {
         headers: {
-          //token: token,
-          memberid: memberid,
+          token: token,
         },
       })
       .then((res) => {
-        console.dir(res);
-
         setUserInfo(res.data);
         setBank(res.data.accBank);
-
-        //document.getElementById("pswdChk").value = res.data.pswd;
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -84,57 +79,90 @@ function MyEdit(props) {
       .finally(() => {
         console.log("request end");
       });
-    console.log(userInfo);
+    //날짜 데이터 변환
+    let date = userInfo.bday.toISOString();
+    date = date.substring(0, 10);
+    setUserInfo({ ...userInfo, bday: date });
   }, []);
 
   //회원 탈퇴
-  function withdraw() {
-    //한번더 확인하는 팝업창 넣기
-
-    const cookies = new Cookies();
-    const jwtToken = cookies.get("jwtToken");
-    console.log(jwtToken);
-    const memberid = cookies.get("memberid");
-
-    const url = "/member/delete";
-    axios
-      .delete(url, {
-        heders: {
-          token: jwtToken,
+  function withdraw(token) {
+    //확인하는 팝업창 넣기
+    confirmAlert({
+      title: "탈퇴하시겠습니까?",
+      message:
+        "탈퇴하면 모든 개인 정보 및 사용 내역은 삭제됩니다. 대출 내역은 은행에서 확인 가능합니다.",
+      buttons: [
+        {
+          label: "탈퇴",
+          style: { backgroundColor: "#518e65" },
+          onClick: () => {
+            const url = "/member/delete";
+            axios
+              .delete(url, {
+                headers: {
+                  token: token,
+                },
+              })
+              .then((res) => {
+                if (res.data === "success") {
+                  console.log("delete success");
+                  confirmAlert({
+                    title: "탈퇴 완료",
+                    message: "",
+                    buttons: [
+                      {
+                        label: "확인",
+                        onClick: () => {
+                          window.location.href = "/hows";
+                        },
+                      },
+                    ],
+                  });
+                } else {
+                  console.log("delete fail");
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+              .finally(() => {
+                console.log("request end");
+              });
+          },
         },
-      })
-      .then((res) => {
-        if (res.data === "success") {
-          console.log("delete success");
-        } else {
-          console.log("delete fail");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
-      });
+        {
+          label: "취소",
+          style: { backgroundColor: "#518e65" },
+          onClick: () => {},
+        },
+      ],
+    });
   }
 
   //회원 정보 수정
   function editInfo(token) {
-    const cookies = new Cookies();
-    //const token = cookies.get("jwtToken");
-    const memberid = cookies.get("memberid");
-
     const url = "/member/update";
     axios
       .put(url, JSON.stringify(userInfo), {
         headers: {
           "Content-Type": `application/json`,
-          memberid: memberid,
+          token: token,
         },
       })
       .then((res) => {
         if (res.data === "success") {
           console.log("update success");
+          confirmAlert({
+            title: "수정완료",
+            buttons: [
+              {
+                label: "확인",
+                style: { backgroundColor: "#518e65" },
+                onClick: () => {},
+              },
+            ],
+          });
         } else {
           console.log("update fail");
         }
@@ -145,14 +173,13 @@ function MyEdit(props) {
       .finally(() => {
         console.log("request end");
       });
-    console.log("us", userInfo);
   }
 
   return (
     <div className="myEditBody">
       <div className="myEditForm">
         <div className="editContainer1">
-        <div className="nameLabel">
+          <div className="nameLabel">
             <span>이름</span>
           </div>
           <div className="editItem" id="editName">
@@ -287,20 +314,25 @@ function MyEdit(props) {
           </div>
 
           <div className="editItem" id="editJob">
-          <span style={{fontSize:"10px"}}>직장명</span>
-            <input
-              name="jobname"
-              placeholder="직장명"
-              value={userInfo.jobname === null ? "" : userInfo.jobname}
-              onChange={inputChange}
-            />
-            <input
-              id="hiredate"
-              name="hiredate"
-              placeholder="입사년도"
-              value={userInfo.hiredate === null ? "" : userInfo.hiredate}
-              onChange={inputChange}
-            />
+            <div className="job">
+              <span>직장명</span>
+              <input
+                name="jobname"
+                placeholder="직장명"
+                value={userInfo.jobname === null ? "" : userInfo.jobname}
+                onChange={inputChange}
+              />
+            </div>
+            <div className="job">
+              <span>입사년도</span>
+              <input
+                id="hiredate"
+                name="hiredate"
+                placeholder="입사년도"
+                value={userInfo.hiredate === null ? "" : userInfo.hiredate}
+                onChange={inputChange}
+              />
+            </div>
           </div>
           <div className="editItem" id="editMarry">
             <span>결혼</span>
@@ -368,14 +400,14 @@ function MyEdit(props) {
       <div className="deleteSave">
         <button
           id="deleteBtn"
-          onClick={() => withdraw()}
+          onClick={() => withdraw(token)}
           disabled={!isPasswordConfirm}
         >
           탈퇴
         </button>
         <button
           id="saveBtn"
-          onClick={() => editInfo("token")}
+          onClick={() => editInfo(token)}
           disabled={!isPasswordConfirm}
         >
           저장

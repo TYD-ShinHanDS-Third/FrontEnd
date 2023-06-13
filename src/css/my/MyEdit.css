@@ -185,12 +185,12 @@ input:focus {
 }
 
 .editItem span {
-  font-size: 12px;
+  font-size: 1em;
   margin-right: 5%;
 }
 
 .editContainer1 span {
-  font-size: 12px;
+  font-size: 1em;
   margin-right: 5%;
 }
 
@@ -215,7 +215,7 @@ input:focus {
   text-align: right;
 }
 
-.passChkLabel{
+.passChkLabel {
   grid-column: 1 / 2;
   grid-row: 4/5;
   width: 100%;
@@ -234,4 +234,10 @@ input:focus {
   grid-row: 6/7;
   width: 100%;
   text-align: right;
+}
+
+.job {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
