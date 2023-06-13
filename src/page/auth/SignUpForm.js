@@ -278,6 +278,7 @@ function SignUpForm(props) {
             id="pswdChk"
             name="pswdChk"
             placeholder="비밀번호 확인"
+            type="password"
             onChange={handleSignup}
           />
         </Grid>
