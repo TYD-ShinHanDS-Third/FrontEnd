@@ -7,6 +7,7 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 
 function Login(props) {
+  //유저정보
   const [user, setUser] = useState({
     memberid: "",
     pswd: "",
@@ -19,6 +20,7 @@ function Login(props) {
     });
   };
 
+  //로그인
   async function signIn() {
     const URL = "/member/login";
     axios
@@ -28,9 +30,7 @@ function Login(props) {
         },
       })
       .then((res) => {
-        console.log("res.data.accessToken : " + res.headers.authorization);
         document.getElementById("failLogin").style.display = "none";
-        console.log(res.data);
 
         //cookie로 저장
         const cookies = new Cookies();
@@ -40,15 +40,8 @@ function Login(props) {
       .catch((ex) => {
         console.log("login requset fail : " + ex);
         document.getElementById("failLogin").style.display = "block";
-      })
-      .finally(() => {
-        console.log("login request end");
       });
   }
-
-  const handleSignin = (e) => {
-    signIn();
-  };
 
   return (
     <div>
@@ -85,7 +78,7 @@ function Login(props) {
             <Grid item xs={12} sm={2}></Grid>
             <Grid item xs={12} sm={3}></Grid>
             <Grid item xs={12} sm={6}>
-              <button className="loginBtn" onClick={handleSignin}>
+              <button className="loginBtn" onClick={() => signIn()}>
                 로그인
               </button>
             </Grid>
