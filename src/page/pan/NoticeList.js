@@ -22,19 +22,46 @@ function NoticeList({
   filterNotice,
   getList,
 }) {
-  const [panlist, setPanlist] = useState([]);
-  const [fav, setFav] = useState(true);
-  const [favlist, setFavlist] = useState([]);
+  useEffect(() => {
+    initfav();
+  }, [panList]);
 
-  const like = (item) => {
-    if (item.favorite === true) {
-      item.favorite = false;
-      setFav(false);
-      favorite(item.panId, item.favorite);
+  const [fav, setFav] = useState([]);
+  var favlist = [];
+
+  async function initfav() {
+    // 좋아요를 초기화를 하는 함수
+    await panList.map((item) => {
+      var favo = {
+        id: item.panid,
+        like: item.like,
+      };
+      favlist.push(favo);
+    });
+    console.log("favlist");
+    console.log(favlist);
+    setFav(favlist);
+  }
+
+  const likebtn = (item, index) => {
+    if (fav[index].like === 1) {
+      item.like = 0;
+      let tmp = fav;
+      console.log(tmp);
+      if (tmp.at(index).like == 0) {
+        console.log("0임");
+      }
+      setFav(tmp);
+      favorite(item.panid, item.like);
     } else {
-      item.favorite = true;
-      setFav(true);
-      favorite(item.panId, item.favorite);
+      item.like = 1;
+      let tmp = fav;
+      if (tmp[index].like == 1) {
+        console.log("1임");
+      }
+      tmp[index].like = 1;
+      setFav(tmp);
+      favorite(item.panid, item.like);
     }
   };
 
@@ -109,7 +136,7 @@ function NoticeList({
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   {/* <TableCell name="panId" onClick={() => detail(item.panid)}> */}
-                  <TableCell name="panId">
+                  <TableCell name="panid">
                     <Link
                       to={"detail"}
                       state={{ panInfo: item }}
@@ -124,15 +151,18 @@ function NoticeList({
                   <TableCell name="panenddate">{item.panenddate}</TableCell>
                   <TableCell name="panstate">{item.panstate}</TableCell>
                   <TableCell name="favorite">
-                    {item.favorite === true ? (
-                      <button className="star" onClick={() => like(item)}>
+                    <button
+                      className="star"
+                      key={item.panname}
+                      onClick={() => likebtn(item, index)}
+                    >
+                      {(fav[index] === item.panid && fav[index] === 1) ||
+                      item.like === 1 ? (
                         <HomeIcon />
-                      </button>
-                    ) : (
-                      <button className="star">
-                        <HomeOutlinedIcon onClick={() => like(item)} />
-                      </button>
-                    )}
+                      ) : (
+                        <HomeOutlinedIcon />
+                      )}
+                    </button>
                   </TableCell>
                 </TableRow>
               );
