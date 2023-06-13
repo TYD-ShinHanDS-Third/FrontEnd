@@ -7,7 +7,6 @@ import { DateComponent } from "@fullcalendar/core/internal";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-//회원 정보 초기화
 function MyEdit(props) {
   const [userInfo, setUserInfo] = useState({});
 
@@ -26,13 +25,6 @@ function MyEdit(props) {
   //비밀번호 확인
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState(".");
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-
-  //날짜 데이터 변환 테스트
-  // let date = new Date("2019-01-01");
-  // console.log(date.toISOString());
-  // date = date.toISOString();
-  // date = date.substring(0, 10);
-  // console.log(date);
 
   const inputChange = (e) => {
     if (e.target.name !== "pswdChk") {
@@ -60,7 +52,6 @@ function MyEdit(props) {
 
   //저장된 회원정보 가져오기
   useEffect(() => {
-    //const URL = "http://localhost:3000/data/myPage/members.json";
     const URL = "/member/mypage";
 
     axios
@@ -72,6 +63,10 @@ function MyEdit(props) {
       .then((res) => {
         setUserInfo(res.data);
         setBank(res.data.accBank);
+        //날짜 데이터 변환
+        console.log(res.data.bday);
+        let birth = res.data.bday.substring(0, 10);
+        setUserInfo({ ...userInfo, bday: birth });
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -79,10 +74,6 @@ function MyEdit(props) {
       .finally(() => {
         console.log("request end");
       });
-    //날짜 데이터 변환
-    let date = userInfo.bday.toISOString();
-    date = date.substring(0, 10);
-    setUserInfo({ ...userInfo, bday: date });
   }, []);
 
   //회원 탈퇴
