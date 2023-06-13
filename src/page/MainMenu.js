@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 function MainMenu(props) {
+  const [token, setToken] = useState(undefined);
+
+  const signout = (e) => {
+    const cookies = new Cookies();
+    cookies.remove("jwtToken");
+    setToken(undefined);
+    window.location.href = "/hows";
+  };
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    setToken(cookies.get("jwtToken"));
+    console.log(token);
+  }, []);
+
   return (
     <div className="menubar">
       <Link
@@ -18,19 +34,35 @@ function MainMenu(props) {
       </Link>
       <Link
         to="/hows/my/mypage"
-        style={{ textDecoration: "none", color: "black" }}
+        style={{
+          textDecoration: "none",
+          color: "black",
+          display: token === undefined ? "none" : "block",
+        }}
       >
         <h3 className="menu">마이페이지</h3>
       </Link>
       <Link
         to="/hows/auth/login"
-        style={{ textDecoration: "none", color: "black" }}
+        style={{
+          textDecoration: "none",
+          color: "black",
+          display: token === undefined ? "block" : "none",
+        }}
       >
         <button className="menu">로그인</button>
       </Link>
-      <Link to="/hows/auth/signup">
+      <Link
+        to="/hows/auth/signup"
+        style={{ display: token === undefined ? "block" : "none" }}
+      >
         <button className="menu">회원가입</button>
       </Link>
+      <div style={{ display: token === undefined ? "none" : "block" }}>
+        <button className="menu" onClick={signout}>
+          로그아웃
+        </button>
+      </div>
     </div>
   );
 }
