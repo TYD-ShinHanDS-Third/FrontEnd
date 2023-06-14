@@ -18,12 +18,40 @@ import { useEffect } from "react";
 import Cookies from "universal-cookie";
 
 export default function MyPage(props) {
+  //내 대출 정보
   const [myPanList, setMyPanList] = useState([]);
   const [myLoanList, setMyLoanList] = useState([]);
 
   //즐겨찾기 불러오기
   let favoriteList = [];
 
+  //채팅
+  const [myChat, setMyChat] = useState([]);
+
+  //내 채팅 목록 불러오기
+  async function getChatList(token) {
+    const url = "http://localhost:3000/data/myPage/mycht.json";
+
+    await axios
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(function (response) {
+        console.dir(response.data);
+        console.log("loan", response.data);
+        setMyChat(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+  }
+
+  //즐겨찾기 불러오기
   async function getFavorites(token) {
     //const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
     const url = "mypage/pan";
@@ -101,6 +129,7 @@ export default function MyPage(props) {
     const jwtToken = cookies.get("jwtToken");
     getFavorites(jwtToken);
     getLoanList(jwtToken);
+    getChatList(jwtToken);
 
     console.log("mouted");
   }, []);
@@ -128,7 +157,7 @@ export default function MyPage(props) {
                 <TableRow>
                   <TableCell>대출 상품</TableCell>
                   <TableCell>진행 상태</TableCell>
-                  <TableCell>신청 url</TableCell>
+                  <TableCell>신청 링크</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -148,14 +177,35 @@ export default function MyPage(props) {
             </Table>
           </TableContainer>
         </div>
-        <div className="myReturn">
-          <h3>대출 정보</h3>
-          <div className="returnPrice">
-            <p>총 대출 금액</p>
-            <h4>10,000,000</h4>
-            <p>대출 잔액</p>
-            <h1>578,180</h1>
-          </div>
+        <div className="myChat">
+          <h3>상담 내역</h3>
+          <TableContainer className="myLoanTable">
+            <Table
+              sx={{ minWidth: 100 }}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableBody>
+                {myChat.map((room, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell>{room.loanname}</TableCell>
+                    <TableCell>
+                      <button
+                        onClick={() => {
+                          console.log(room.url);
+                        }}
+                      >
+                        상담하기
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
         <div className="myEdit">
           <Link to="/hows/my/myedit" className="editLink">
