@@ -1,5 +1,5 @@
 body {
-  background-color: #518e65;
+  background-color: #eeeeee;
 }
 
 .link {
@@ -8,41 +8,89 @@ body {
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  grid-template-areas: "logo menubar";
   width: 90%;
   max-width: 1800px;
-  height: 110px;
+  height: 90px;
   margin: 0 auto;
 }
 
 .logo {
+  grid-area: "logo";
   width: 110px;
   height: 110px;
   margin-left: 20px;
 }
 .menubar {
-  display: flex;
+  grid-area: menubar;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-template-areas: "menutab  menubtn";
   align-items: center;
   margin-right: 30px;
 }
+
+.menutab {
+  grid-area: menutab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  width: 100%;
+}
+.menubtn {
+  display: flex;
+  grid-area: menubtn;
+}
 .menu {
-  margin: 10px 10px;
+  margin: 15px 20px;
 }
 
 button {
-  background-color: #fffedd;
+  background-color: #2c7929;
   border: none;
-  padding: 10px 10px;
   border-radius: 5px;
+  font-family: "LINESeedKR-Bd";
 }
+
+input {
+  font-family: "LINESeedKR-Bd";
+}
+
+button.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 10px 10px;
+  width: 100px;
+  height: 55%;
+  border-radius: 25px;
+  font-size: 14.5px;
+}
+
+.common {
+  display: flex;
+  justify-content: center;
+}
+.submenubar {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
 .content {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 90%;
   max-width: 1800px;
-  height: 800px;
+  height: 970px;
   margin: 0 auto;
   border-radius: 38px;
   background-color: #f5f5f5;
@@ -53,6 +101,6 @@ button {
   width: 95%;
   max-width: 1600px;
   height: 90%;
-  border: solid 3px #518e65;
+  /* border: solid 3px #518e65; */
   border-radius: 10px;
 }
