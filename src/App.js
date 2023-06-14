@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import SignUp from "./page/auth/SignUp";
 import Login from "./page/auth/Login";
 import LoanSuccess from "./page/loan/LoanSuccess";
+import Chat from "./page/chat";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           path="/hows/loan/detail/consult/success"
           element={<LoanSuccess />}
         />
+        <Route path="/hows/chat" element={<Chat />} />
       </Routes>
     </div>
   );
