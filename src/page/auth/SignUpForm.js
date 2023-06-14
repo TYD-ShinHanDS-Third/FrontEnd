@@ -389,9 +389,9 @@ function SignUpForm(props) {
                       <Select
                         labelId="demo-simple-select-standard-label"
                         id="demo-simple-select-standard"
+                        name="accBank"
                         onChange={bankChange}
                         label="은행명"
-                        name="accBank"
                         value={bank}
                       >
                         <MenuItem value={"신한"}>신한</MenuItem>

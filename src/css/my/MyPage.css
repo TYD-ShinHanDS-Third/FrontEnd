@@ -56,7 +56,7 @@
   background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
 }
 
-.myReturn {
+.myChat {
   grid-column: 4 / 6;
   grid-row: 3 / 5;
   width: 90%;
@@ -67,6 +67,22 @@
   background-color: white;
   border-radius: 5%;
   box-shadow: 1px 1px 10px 0px gray;
+  overflow: auto;
+}
+
+.myChat::-webkit-scrollbar {
+  width: 7px; /* 스크롤바의 너비 */
+}
+
+.myChat::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #609966; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.myChat::-webkit-scrollbar-track {
+  background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
 }
 
 .returnPrice p {

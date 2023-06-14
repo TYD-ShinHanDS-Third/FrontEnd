@@ -11,28 +11,129 @@ import {
   TableRow,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
-const sample = [
-  {
-    loanName: "[신한] 버팀목 전세자금 대출",
-    loanState: "준비중",
-    applyUrl: "https://bank.shinhan.com/index.jsp#020305010000",
-  },
-  {
-    loanName: "[국민] KB전세금안심대출",
-    loanState: "거절",
-    applyUrl:
-      "https://obank.kbstar.com/quics?page=C103507&cc=b104363:b104516&isNew=N&prcode=LN20000064&QSL=F",
-  },
-  {
-    loanName: "[우리] 우리WON전세대출(주택보증)",
-    loanState: "거절",
-    applyUrl:
-      "https://spot.wooribank.com/pot/Dream?withyou=POLON0055&cc=c010528:c010531;c012425:c012399&PLM_PDCD=P020006141&PRD_CD=P020006141&HOST_PRD_CD=2031161000000",
-  },
-];
+import { useState } from "react";
+import axios from "axios";
+import { object } from "prop-types";
+import { useEffect } from "react";
+import Cookies from "universal-cookie";
 
 export default function MyPage(props) {
+  //내 대출 정보
+  const [myPanList, setMyPanList] = useState([]);
+  const [myLoanList, setMyLoanList] = useState([]);
+
+  //즐겨찾기 불러오기
+  let favoriteList = [];
+
+  //채팅
+  const [myChat, setMyChat] = useState([]);
+
+  //내 채팅 목록 불러오기
+  async function getChatList(token) {
+    const url = "http://localhost:3000/data/myPage/mycht.json";
+
+    await axios
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(function (response) {
+        console.dir(response.data);
+        console.log("loan", response.data);
+        setMyChat(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+  }
+
+  //즐겨찾기 불러오기
+  async function getFavorites(token) {
+    //const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
+    const url = "mypage/pan";
+    await axios
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(function (response) {
+        console.dir(response.data);
+        //setMyPanList(response.data);
+        for (const [index, element] of response.data.entries()) {
+          let endDate = new Date(element.end);
+          console.log(element.end);
+          console.log(endDate);
+          endDate.setDate(endDate.getDate() + 1);
+          console.log(endDate);
+          const favorite = {
+            title: element.title,
+            start: element.start,
+            end: endDate,
+            backgroundColor:
+              index % 3 === 0
+                ? "#031389"
+                : index % 3 === 1
+                ? "#FFFEDD"
+                : "#609966",
+            borderColor:
+              index % 3 === 0
+                ? "#031389"
+                : index % 3 === 1
+                ? "#FFFEDD"
+                : "#609966",
+            textColor:
+              index % 3 === 0 ? "white" : index % 3 === 1 ? "black" : "white",
+          };
+          favoriteList.push(favorite);
+        }
+        setMyPanList(favoriteList);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+  }
+
+  //내 대출 목록 불러오기
+  async function getLoanList(token) {
+    const url = "mypage/loan";
+
+    await axios
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(function (response) {
+        console.dir(response.data);
+        console.log("loan", response.data);
+        setMyLoanList(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(() => {
+        console.log("request end");
+      });
+  }
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    const jwtToken = cookies.get("jwtToken");
+    getFavorites(jwtToken);
+    getLoanList(jwtToken);
+    getChatList(jwtToken);
+
+    console.log("mouted");
+  }, []);
+
   return (
     <div className="myPage">
       <div className="myContainer">
@@ -41,33 +142,7 @@ export default function MyPage(props) {
             defaultView="dayGridMonth"
             plugins={[dayGridPlugin]}
             height={"auto"}
-            events={[
-              {
-                title:
-                  "화성남양뉴타운 B9 · B10블록 행복주택 입주자격완화 추가모집 공고(소득, 자산 배제)",
-                start: "2023-06-13",
-                end: "2023-06-16",
-                backgroundColor: "#031389",
-                borderColor: "#031389",
-                textColor: "white",
-              },
-              {
-                title: "천안부성A-1BL 행복주택 입주자 추가 모집",
-                start: "2023-06-22",
-                end: "2023-06-24",
-                backgroundColor: "#FFFEDD",
-                borderColor: "#FFFEDD",
-                textColor: "black",
-              },
-              {
-                title: "[경기북부]기존주택 등 매입임대주택 예비입주자 모집",
-                start: "2023-06-26",
-                end: "2023-06-28",
-                backgroundColor: "#609966",
-                borderColor: "#609966",
-                textColor: "white",
-              },
-            ]}
+            events={myPanList}
           />
         </div>
         <div className="myLoan">
@@ -82,18 +157,19 @@ export default function MyPage(props) {
                 <TableRow>
                   <TableCell>대출 상품</TableCell>
                   <TableCell>진행 상태</TableCell>
-                  <TableCell>신청 url</TableCell>
+                  <TableCell>신청 링크</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sample.map((loan, index) => (
+                {myLoanList.map((loan, index) => (
                   <TableRow
+                    key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{loan.loanName}</TableCell>
-                    <TableCell>{loan.loanState}</TableCell>
+                    <TableCell>{loan.loanname}</TableCell>
+                    <TableCell>{loan.loanstate}</TableCell>
                     <TableCell>
-                      <a href={loan.applyUrl}>링크</a>
+                      <a href={loan.applyurl}>링크</a>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -101,14 +177,35 @@ export default function MyPage(props) {
             </Table>
           </TableContainer>
         </div>
-        <div className="myReturn">
-          <h3>대출 정보</h3>
-          <div className="returnPrice">
-            <p>총 대출 금액</p>
-            <h4>10,000,000</h4>
-            <p>대출 잔액</p>
-            <h1>578,180</h1>
-          </div>
+        <div className="myChat">
+          <h3>상담 내역</h3>
+          <TableContainer className="myLoanTable">
+            <Table
+              sx={{ minWidth: 100 }}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableBody>
+                {myChat.map((room, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell>{room.loanname}</TableCell>
+                    <TableCell>
+                      <button
+                        onClick={() => {
+                          console.log(room.url);
+                        }}
+                      >
+                        상담하기
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
         <div className="myEdit">
           <Link to="/hows/my/myedit" className="editLink">

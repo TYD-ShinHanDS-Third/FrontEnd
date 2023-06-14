@@ -1,4 +1,11 @@
 .myEditBody {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.myEditForm {
   display: grid;
   width: 100%;
   height: 100%;
@@ -14,8 +21,8 @@
   width: 90%;
   height: 90%;
   align-items: center;
-  justify-items: center;
-  grid-template-columns: repeat(6, 1fr);
+  justify-items: end;
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(6, 1fr);
 }
 
@@ -44,6 +51,10 @@
 }
 
 #editPwChk {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   grid-column: 2 / 6;
   grid-row: 4 / 5;
 }
@@ -68,14 +79,8 @@ input {
 
 .myEditBtn {
   grid-column: 6 / 7;
-  grid-row: 3/4;
+  grid-row: 4/5;
 }
-
-.deleteBtn {
-  grid-column: 1 / 2;
-  grid-row: 6/7;
-}
-
 .editContainer2 {
   grid-column: 2 / 3;
   display: grid;
@@ -90,18 +95,6 @@ input {
 #addInfo {
   grid-column: 1 / 6;
   grid-row: 1/2;
-  font-size: 150%;
-  font-weight: 1000;
-}
-
-.saveBtn {
-  grid-column: 6 / 7;
-  grid-row: 1/2;
-}
-
-.saveBtn button {
-  width: max-content;
-  height: max-content;
 }
 
 #editBank {
@@ -168,7 +161,83 @@ input:focus {
   outline: 1px solid #518e65;
 }
 
-span {
-  font-size: 15px;
+.deleteSave {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3%;
+}
+
+#deleteBtn {
+  margin-right: 3%;
+}
+
+#passMsg {
+  font-size: 10px;
+}
+
+.success {
+  color: #3f497f;
+}
+
+.error {
+  color: #f7c04a;
+}
+
+.editItem span {
+  font-size: 1em;
   margin-right: 5%;
+}
+
+.editContainer1 span {
+  font-size: 1em;
+  margin-right: 5%;
+}
+
+.nameLabel {
+  grid-column: 1 / 2;
+  grid-row: 1/2;
+  width: 100%;
+  text-align: right;
+}
+
+.idLabel {
+  grid-column: 1 / 2;
+  grid-row: 2/3;
+  width: 100%;
+  text-align: right;
+}
+
+.passLabel {
+  grid-column: 1 / 2;
+  grid-row: 3/4;
+  width: 100%;
+  text-align: right;
+}
+
+.passChkLabel {
+  grid-column: 1 / 2;
+  grid-row: 4/5;
+  width: 100%;
+  text-align: right;
+}
+
+.birthLabel {
+  grid-column: 1 / 2;
+  grid-row: 5/6;
+  width: 100%;
+  text-align: right;
+}
+
+.phoneLabel {
+  grid-column: 1 / 2;
+  grid-row: 6/7;
+  width: 100%;
+  text-align: right;
+}
+
+.job {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
