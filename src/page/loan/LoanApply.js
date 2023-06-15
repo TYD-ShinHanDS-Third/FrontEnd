@@ -1,6 +1,6 @@
 import React from "react";
 import "../../css/loan/LoanApply.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -8,47 +8,123 @@ import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import { useCallback } from "react";
 import { Cookies } from "react-cookie";
+import axios from "axios";
 
 function LoanApply(props) {
   const [msg, setMsg] = useState("");
-  const [token, setToken] = useState("");
+  const [myname, setMyname] = useState("");
   const [room, setRoom] = useState("");
   const [chatt, setChatt] = useState([]);
-  const [chkLog, setChkLog] = useState(false);
   const [socketData, setSocketData] = useState();
-
+  const [bankname, setBankname] = useState("");
+  const [loanname, setLoanname] = useState("");
   const ws = useRef(null); //webSocket을 담는 변수,
   //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
 
+  //스크롤
+  //const scrollRef = useRef();
+
   const msgBox = chatt.map((item, idx) => (
-    <div key={idx} className={item.token === token ? "me" : "you"}>
+    <div key={idx} className={item.myname === myname ? "me" : "you"}>
       <h3>{item.msg}</h3>
       <span>[ {item.date} ]</span>
     </div>
   ));
 
-  useEffect(() => {
-    const cookies = new Cookies();
-    setToken(cookies.get("jwtToken"));
-    setRoom(100);
+  //상품 설명 불러오기
+  // function getDetail(loan) {
+  //   const url = "/hows/loan/detail";
+  //   axios
+  //     .get(url, {
+  //       headers: {
+  //         "Content-Type": `application/json`,
+  //       },
+  //       params: loan,
+  //     })
+  //     .then((res) => {
+  //       console.dir(res);
+  //       document.getElementById("loanapply_detail").innerHTML +=
+  //         res.data.caution;
+  //       document.getElementById("loanapply_detail").innerHTML +=
+  //         res.data.interestrate;
+  //     })
+  //     .catch((ex) => {
+  //       console.log("requset fail : " + ex);
+  //     });
+  // }
 
+  async function makeRoom(t, b, l) {
+    const url = "/hows/loan/detail/consult";
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": `application/json`,
+          token: t,
+        },
+        params: {
+          bankname: b,
+          loanname: l,
+        },
+      })
+      .then((res) => {
+        console.dir(res);
+        if (
+          res.data.message ===
+          "상담 신청 내역이 있습니다, 이전 채팅방에 입장합니다."
+        ) {
+          let historylist = [];
+          res.data.chathistory.map((history) => {
+            const hName = history.myname;
+            const hMsg = history.msg;
+            const hRoom = history.chatroom.roomId;
+            let hDate = history.time;
+            hDate = new Date(hDate).toLocaleDateString();
+            const historyChat = {
+              myname: hName,
+              msg: hMsg,
+              room: hRoom,
+              date: hDate,
+            };
+            historylist.push(historyChat);
+          });
+          setChatt(historylist);
+        }
+        setRoom(res.data.room);
+      })
+      .catch((ex) => {
+        console.log("requset fail : " + ex);
+      });
+  }
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setBankname(location.state.bankname);
+    setLoanname(location.state.loanname);
+    setRoom(location.state.room === undefined ? "" : location.state.room);
+    const cookies = new Cookies();
+    setMyname(cookies.get("myname"));
+    makeRoom(
+      cookies.get("jwtToken"),
+      location.state.bankname,
+      location.state.loanname
+    );
+    //scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     if (socketData !== undefined) {
       const tempData = chatt.concat(socketData);
-      console.log(tempData);
       setChatt(tempData);
     }
+    //scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    //scrollRef.current.scrollIntoView({ behavior: "smooth" });
   }, [socketData]);
 
   const GlobalStyle = createGlobalStyle`  //css 초기화가 된 component
         ${reset}
     `;
 
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
-  //webSocket
   const onText = (event) => {
     console.log(event.target.value);
     setMsg(event.target.value);
@@ -59,25 +135,27 @@ function LoanApply(props) {
 
     ws.current.onmessage = (message) => {
       const dataSet = JSON.parse(message.data);
-      console.log(message);
       setSocketData(dataSet);
     };
   });
 
+  // const send = useCallback(() => {
+  //   if (!chkLog) {sendsetChkLog
+  //     if (myname === "") {
+  //       alert("이름을 입력하세요.");
+  //       document.getElementById("myname").focus();
+  //       return;
+  //     }
+  //     webSocketLogin();
+  //     setChkLog(true);
+  //   }
+
   const send = useCallback(() => {
-    if (!chkLog) {
-      if (token === "") {
-        alert("이름을 입력하세요.");
-        document.getElementById("token").focus();
-        return;
-      }
-      webSocketLogin();
-      setChkLog(true);
-    }
+    webSocketLogin();
 
     if (msg !== "") {
       const data = {
-        token,
+        myname,
         msg,
         room,
         date: new Date().toLocaleString(),
@@ -100,26 +178,24 @@ function LoanApply(props) {
       document.getElementById("msg").focus();
       return;
     }
+
     setMsg("");
   });
-  //webSocket
-  //webSocket
 
   return (
     <div className="loanapply">
-      <div className="loanapply_detail">
+      <div className="loanapply_detail" id="loanapply_detail">
         <h1>여기 상품 설명</h1>
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />
         <div id="chat_context">
           <div id="chatt">
-            <h3 id="title">[신한] 버팀목 전세자금 대출</h3>
+            <h3 id="title">
+              [{bankname}] {loanname}
+            </h3>
             <br />
-            <div id="talk">
-              <div className="talk-shadow"></div>
-              {msgBox}
-            </div>
+            <div id="talk">{msgBox}</div>
             <div id="sendZone">
               <textarea
                 id="msg"
@@ -135,27 +211,6 @@ function LoanApply(props) {
             </div>
           </div>
         </div>
-
-        {/* <hr style={{ marginBottom: "0" }} />
-        <div className="chat_input">
-          <textarea
-            className="input_context"
-            style={{
-              width: "100%",
-              height: "90%",
-              textAlign: "left",
-            }}
-            id="msg"
-            value={msg}
-            onChange={onText}
-            onKeyDown={(ev) => {
-              if (ev.keyCode === 13) {
-                send();
-              }
-            }}
-          />
-          <button className="send">전송</button>
-        </div> */}
       </div>
 
       <Link to="/hows/loan/detail/limit/uploaddocs">

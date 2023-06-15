@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../css/loan/LoanDetail.css";
 import { Link, Route, Routes } from "react-router-dom";
 import LoanDescription from "./LoanDescription";
+import axios from "axios";
 
 function LoanDetail(props) {
   return (
@@ -12,7 +13,7 @@ function LoanDetail(props) {
         </div>
 
         <div className="loandetail_btn">
-          <div className="detail_apply">
+          <div className="detail_apply" id="detail_apply">
             {/* <Link to="/hows/loan/detail/limit/consult" style={{}}>
               <button className="detail_applybtn">신청하기</button>
             </Link> */}
