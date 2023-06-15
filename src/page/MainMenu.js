@@ -15,7 +15,6 @@ function MainMenu(props) {
   useEffect(() => {
     const cookies = new Cookies();
     setToken(cookies.get("jwtToken"));
-    console.log(token);
   }, []);
 
   return (

@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 function SignUpForm(props) {
   //은행명
@@ -79,7 +81,8 @@ function SignUpForm(props) {
   //전화번호 인증 여부 확인
   const [authAns, setAuthAns] = useState(""); //인증번호
   const [authInput, setAuthInput] = useState(""); //사용자가 입력한 인증번호
-  const [isCheckPhone, setIsCheckPhone] = useState(false);
+  const [isCheckPhone, setIsCheckPhone] = useState(0); //0: 인증 진행중, 1: 인증 실패, 2: 인증 성공
+  const [authMessage, setAuthMessage] = useState("인증번호 발송 완료");
   const handleAuth = (e) => {
     setAuthInput(e.target.value);
   };
@@ -88,30 +91,47 @@ function SignUpForm(props) {
   const handleSignup = (e) => {
     if (e.target.name !== "pswdChk") {
       setMember({ ...member, [e.target.name]: e.target.value });
-      console.log(member);
     }
 
     if (e.target.name === "memberid") {
       setIsCheckId(false);
     } else if (e.target.name === "phone") {
+      //자동 하이픈 추가
+      let phoneAuto = e.target.value
+        .replace(/[^0-9]/g, "")
+        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+        .replace(/(\-{1,2})$/g, "");
+
+      //정규식 판단
       const phoneRegex = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
-      if (!phoneRegex.test(e.target.value)) {
+      if (!phoneRegex.test(phoneAuto)) {
         setPhoneMessage("전화번호 형식이 틀렸어요 010-0000-0000");
         setIsPhone(false);
       } else {
         setPhoneMessage("올바른 전화번호 형식이에요 : )");
         setIsPhone(true);
       }
+      document.getElementById("phone").value = phoneAuto;
+      setMember({ ...member, [e.target.name]: phoneAuto });
     } else if (e.target.name === "bday") {
+      //자동 하이픈 추가
+      let birthAuto = e.target.value
+        .replace(/[^0-9]/g, "")
+        .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3")
+        .replace(/(\-{1,2})$/g, "");
+
+      //정규식 판단
       const birthRegex =
         /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
-      if (!birthRegex.test(e.target.value)) {
+      if (!birthRegex.test(birthAuto)) {
         setBirthMessage("생년월일 형식이 틀렸어요 1900-01-01");
         setIsBirth(false);
       } else {
         setBirthMessage("올바른 생년월일 형식이에요 : )");
         setIsBirth(true);
       }
+      document.getElementById("bday").value = birthAuto;
+      setMember({ ...member, [e.target.name]: birthAuto });
     } else if (e.target.name === "pswdChk") {
       if (member.pswd === e.target.value) {
         setPasswordConfirmMessage("비밀번호가 일치해요 : )");
@@ -133,7 +153,7 @@ function SignUpForm(props) {
   };
 
   //아이디 중복 체크
-  const checkId = (event) => {
+  const checkId = () => {
     const url = "/member/checkDuplicateId";
     axios
       .get(url, {
@@ -142,22 +162,16 @@ function SignUpForm(props) {
         },
       })
       .then((res) => {
-        console.dir(res.data);
         if (res.data === "사용가능한아이디입니다.") {
-          console.log("아이디 사용 가능");
           setIsCheckId(true);
-          setIdMessage("사용 가능한 아이디)");
+          setIdMessage("사용 가능한 아이디");
         } else {
-          console.log("아이디 사용 불가");
           setIsCheckId(false);
-          setIdMessage("사용 불가한 아이디)");
+          setIdMessage("사용 불가한 아이디");
         }
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
       });
   };
 
@@ -165,45 +179,50 @@ function SignUpForm(props) {
   const checkPhone = (event) => {
     //난수 받아와서 사용자 입력과 같은지 비교
     if (!isPhone) {
-      alert("전화번호를 입력해주세요");
+      confirmAlert({
+        title: "전화번호를 입력해주세요",
+        message: "",
+        buttons: [
+          {
+            label: "확인",
+            onClick: () => {},
+          },
+        ],
+      });
     } else {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
-      const url = "/member/authPhone";
-      setAuthAns("1234");
-      // axios
-      //   .post(url, JSON.stringify(member.phone), {
-      //     headers: {
-      //       "Content-Type": `application/json`,
-      //     },
-      //   })
-      //   .then((res) => {
-      //     setAuthAns("res.data.authNum");
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   })
-      //   .finally(() => {
-      //     console.log("request end");
-      //   });
+      const url = "/member/send";
+      const number = member.phone.replaceAll("-", "");
+      axios
+        .post(url, null, {
+          params: {
+            tel: number,
+          },
+        })
+        .then((res) => {
+          setAuthAns(res.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   };
 
   //전화번호 인증번호 확인
-  const clickAuth = (e) => {
-    if (authInput === authAns) {
-      setIsCheckPhone(true);
+  const clickAuth = () => {
+    if (authInput == authAns) {
+      setIsCheckPhone(2);
+      setAuthMessage("전화번호 인증 성공");
     } else {
-      console.log("num" + authInput);
-      console.log("auth" + authAns);
-      alert("인증번호가 틀렸습니다.");
+      setIsCheckPhone(1);
+      setAuthMessage("전화번호 인증 실패");
     }
   };
 
   //회원가입
   function signup() {
     const url = "/member/signup";
-    console.log(member);
 
     axios
       .post(url, JSON.stringify(member), {
@@ -213,16 +232,33 @@ function SignUpForm(props) {
       })
       .then((res) => {
         if (res.data === "success.") {
-          console.log("signup success");
+          confirmAlert({
+            title: "회원가입 성공",
+            message: "로그인해주세요",
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                  window.location.href = "/hows/auth/login";
+                },
+              },
+            ],
+          });
         } else {
-          console.log("signup fail");
+          confirmAlert({
+            title: "회원가입 실패",
+            message: "다시 시도해주세요",
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {},
+              },
+            ],
+          });
         }
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
       });
   }
 
@@ -262,6 +298,7 @@ function SignUpForm(props) {
           <input
             id="pswd"
             name="pswd"
+            type="password"
             placeholder="비밀번호"
             onChange={handleSignup}
           />
@@ -310,13 +347,24 @@ function SignUpForm(props) {
             onChange={handleSignup}
           />
           <div id="authBox">
+            {member.phone.length > 0 && (
+              <span
+                className={`message ${isCheckPhone >= 2 ? "success" : "error"}`}
+              >
+                {authMessage}
+              </span>
+            )}
             <input
               id="phoneAuth"
               name="phoneAuth"
               placeholder="인증번호"
               onChange={handleAuth}
             />
-            <button id="authBtn" onClick={clickAuth} disabled={isCheckPhone}>
+            <button
+              id="authBtn"
+              onClick={clickAuth}
+              disabled={isCheckPhone >= 2 ? true : false}
+            >
               인증
             </button>
           </div>
