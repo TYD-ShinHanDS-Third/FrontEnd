@@ -10,7 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { object } from "prop-types";
@@ -27,6 +27,12 @@ export default function MyPage(props) {
 
   //채팅
   const [myChat, setMyChat] = useState([]);
+
+  //채팅방 이동
+  const navigate = useNavigate();
+  async function moveChatRoom(chatroom) {
+    navigate("/loan/detail/consult", { state: chatroom });
+  }
 
   //내 채팅 목록 불러오기
   async function getChatList(token) {
@@ -104,7 +110,6 @@ export default function MyPage(props) {
   //내 대출 목록 불러오기
   async function getLoanList(token) {
     const url = "mypage/loan";
-
     await axios
       .get(url, {
         headers: {
@@ -186,16 +191,16 @@ export default function MyPage(props) {
               aria-label="a dense table"
             >
               <TableBody>
-                {myChat.map((room, index) => (
+                {myChat.map((chatroom, index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{room.loanname}</TableCell>
+                    <TableCell>{chatroom.loanname}</TableCell>
                     <TableCell>
                       <button
                         onClick={() => {
-                          console.log(room.url);
+                          moveChatRoom(chatroom);
                         }}
                       >
                         상담하기
