@@ -5,6 +5,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PhotoCameraFrontOutlinedIcon from "@mui/icons-material/PhotoCameraFrontOutlined";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import { Password } from "@mui/icons-material";
 
 function Login(props) {
   //유저정보
@@ -18,6 +19,7 @@ function Login(props) {
       ...user,
       [e.target.name]: e.target.value,
     });
+    console.log(user);
   };
 
   //로그인
@@ -40,6 +42,10 @@ function Login(props) {
       .catch((ex) => {
         console.log("login requset fail : " + ex);
         document.getElementById("failLogin").style.display = "block";
+        document.getElementById("memberid").value="";
+        document.getElementById("pswd").value="";
+        setUser({memberid: "",
+        pswd: ""});
       });
   }
 
@@ -78,7 +84,10 @@ function Login(props) {
             <Grid item xs={12} sm={2}></Grid>
             <Grid item xs={12} sm={3}></Grid>
             <Grid item xs={12} sm={6}>
-              <button className="loginBtn" onClick={() => signIn()}>
+              <button className="loginBtn" onClick={() => signIn()}  disabled={
+              (
+                user.memberid=== "" &&
+                user.pswd=== "")}>
                 로그인
               </button>
             </Grid>
