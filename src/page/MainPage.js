@@ -83,7 +83,6 @@ function MainPage(props) {
             <Route path="loan/detail" element={<LoanDetail />}></Route>
             <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
-            <Route path="mypage" element={<MyPage />}></Route>
             <Route path="admin/*" element={<ManPage />}></Route>
             <Route path="my/mypage" element={<MyPage />}></Route>
             <Route path="my/myedit" element={<MyEdit />}></Route>
