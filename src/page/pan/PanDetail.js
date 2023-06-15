@@ -8,109 +8,129 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import StarIcon from "@mui/icons-material/Star";
+import HomeIcon from "@mui/icons-material/Home";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Kakao from "./Kakao";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
-function PanDetail(props) {
+function PanDetail({ favorite }) {
+  const location = useLocation();
+  const panInfo = location.state.panInfo;
+  const [fav, setFav] = useState(panInfo.favorite);
+  const [panDetail, setPandetail] = useState([]);
+
+  const his = useNavigate();
+  const goList = () => {
+    his("/hows/notice");
+  };
+
+  useEffect(() => {
+    getDetailList(panInfo.panid);
+  }, []);
+
+  async function getDetailList(panId) {
+    const listurl = "/hows/notice/detail";
+    await axios
+      .get(listurl, {
+        params: {
+          panid: panId,
+        },
+      })
+      .then(function (response) {
+        setPandetail(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  //좋아요 기능 하기
+  const like = (item) => {
+    if (item.favorite === true) {
+      item.favorite = false;
+      setFav(false);
+      favorite(item.panId, item.favorite);
+    } else {
+      item.favorite = true;
+      setFav(true);
+      favorite(item.panId, item.favorite);
+    }
+  };
+
   return (
     <div className="notice">
       <div className="noticeDetail">
         <div className="noticeHeader">
-          <h1 className="noticeTitle">남양주시 행복주택 예비 입주자 모집</h1>
-          <StarIcon className="noticeFav" />
-          <h3 className="noticeDate">2023-05-08 ~ 2023-05-25</h3>
+          <button className="goList" onClick={() => goList()}>
+            목록으로 돌아가기
+          </button>
+          <h2 className="noticeTitle">{panInfo.panname}</h2>
+          <div className="noticeFav">
+            {panInfo.favorite === true ? (
+              <button className="tag" onClick={() => like(panInfo)}>
+                <HomeIcon />
+              </button>
+            ) : (
+              <button className="tag">
+                <HomeOutlinedIcon onClick={() => like(panInfo)} />
+              </button>
+            )}
+          </div>
+          <h3 className="noticeDate">
+            {panInfo.panstartdate} ~ {panInfo.panenddate}
+          </h3>
         </div>
 
         <div className="noticeBody">
-          <Kakao />
+          <Kakao
+            address={panDetail.address}
+            addressName={panDetail.addressname}
+          />
         </div>
 
         <div className="noticeFooter">
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 500 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>공고 번호</TableCell>
-                  <TableCell>공고 이름</TableCell>
-                  <TableCell>지역</TableCell>
-                  <TableCell>공고 게시일</TableCell>
-                  <TableCell>공고 마감일</TableCell>
-                  <TableCell>접수기간 종료일</TableCell>
-                  <TableCell>서류 제출 대상자 발표일</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>공고 번호</TableCell>
-                  <TableCell>공고 이름</TableCell>
-                  <TableCell>지역</TableCell>
-                  <TableCell>공고 게시일</TableCell>
-                  <TableCell>공고 마감일</TableCell>
-                  <TableCell>접수기간 종료일</TableCell>
-                  <TableCell>서류 제출 대상자 발표일</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <div className="panDetailTable">
+            <tr className="tablebox">
+              <th className="panid">번호</th>
+              <th className="panname">이름</th>
+              <th className="location">지역</th>
+              <th className="docstartdate">서류접수 시작</th>
+              <th className="docenddate">서류접수 종료</th>
+              <th className="winnersannouncement">당첨자 발표일</th>
+            </tr>
+            <tr className="tablebox">
+              <td className="panid">{panInfo.panid}</td>
+              <td className="panname">{panInfo.panname}</td>
+              <td className="location">{panInfo.location}</td>
+              <td className="docstartdate">{panDetail.docsstartdate}</td>
+              <td className="docenddate">{panDetail.docsenddate}</td>
+              <td className="winnersannouncement">
+                {panDetail.winnersannouncement}
+              </td>
+            </tr>
+          </div>
 
-            <Table
-              sx={{ minWidth: 500 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>서류 접수기간 시작일</TableCell>
-                  <TableCell>서류 접수기간 종료일</TableCell>
-                  <TableCell>당첨자 발표일</TableCell>
-                  <TableCell>계약기간 종료일</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>서류 접수기간 시작일</TableCell>
-                  <TableCell>서류 접수기간 종료일</TableCell>
-                  <TableCell>당첨자 발표일</TableCell>
-                  <TableCell>계약기간 종료일</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-
-            <Table
-              sx={{ minWidth: 500 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>전용면적</TableCell>
-                  <TableCell>단지주소</TableCell>
-                  <TableCell>단지 상세주소</TableCell>
-                  <TableCell>단지명</TableCell>
-                  <TableCell>입주 예정월</TableCell>
-                  <TableCell>총 세대수</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>전용면적</TableCell>
-                  <TableCell>단지주소</TableCell>
-                  <TableCell>단지 상세주소</TableCell>
-                  <TableCell>단지명</TableCell>
-                  <TableCell>입주 예정월</TableCell>
-                  <TableCell>총 세대수</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <div className="panDetailTable">
+            <tr className="tablebox">
+              <th className="area">전용면적</th>
+              <th className="address">단지주소</th>
+              <th className="detailaddress">상세주소</th>
+              <th className="addressname">단지명</th>
+              <th className="moveindate">입주 예정월</th>
+              <th className="totalcount">총 세대수</th>
+            </tr>
+            <tr className="tablebox">
+              <td className="area">{panDetail.area}</td>
+              <td className="address">{panDetail.address}</td>
+              <td className="detailaddress">{panDetail.detailaddress}</td>
+              <td className="addressname">{panDetail.addressname}</td>
+              <td className="moveindate">{panDetail.moveindate}</td>
+              <td className="totalcount">{panDetail.totalcount}</td>
+            </tr>
+          </div>
         </div>
       </div>
     </div>
