@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/MainPage.css";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 
@@ -15,6 +15,7 @@ import AdminMenu from "./admin/AdminMenu";
 import MyEdit from "./my/MyEdit";
 import BankMenu from "./bank/BankMenu";
 import BankMainPage from "./bank/BankMainPage";
+import PanSubMenu from "./pan/PanSubMenu";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
@@ -52,16 +53,31 @@ function logo(location) {
 function MainPage(props) {
   const location = useLocation();
 
+  const [loc, setLocation] = useState("전체");
+
+  function findLocation(new_location) {
+    setLocation(new_location);
+  }
+
+  function submenu(location) {
+    if (location.pathname.includes("/hows/notice")) {
+      return <PanSubMenu findLocation={findLocation} />;
+    }
+  }
+
   return (
     <div className="mainpage">
       <div className="header">
         <div>{logo(location)}</div>
         {menu(location)}
       </div>
+      <div className="common">
+        <div className="submenubar">{submenu(location)}</div>
+      </div>
       <div className="content">
         <div className="img_con" id="img_con">
           <Routes>
-            <Route path="notice/*" element={<PanList />}></Route>
+            <Route path="notice/*" element={<PanList loc={loc} />}></Route>
             <Route path="find" element={<HouseMap />}></Route>
             <Route path="loan" element={<LoanList />}></Route>
             <Route path="loan/detail" element={<LoanDetail />}></Route>
