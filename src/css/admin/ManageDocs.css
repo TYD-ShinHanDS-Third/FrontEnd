@@ -1,89 +1,88 @@
-.managedocs{
-    display: grid;
-    grid-template-rows: 0.5fr 3fr;
-    grid-template-columns: 0.3fr 5fr 0.3fr;
-    grid-template-areas: 
-    ". managedocs_header ." 
+.managedocs {
+  display: grid;
+  grid-template-rows: 0.5fr 3fr;
+  grid-template-columns: 0.3fr 5fr 0.3fr;
+  grid-template-areas:
+    ". managedocs_header ."
     ". managedocs_body .";
-    margin-top: 2%;
-    overflow-y: auto;
+  margin-top: 2%;
+  overflow-y: auto;
 }
-.managedocs_header{
-    grid-area: managedocs_header;
-    margin-left: 10px; 
-}
-
-
-.managedocs_body{
-    grid-area: managedocs_body;
-}
-.managedocs_uplods{
-    display: grid;
-    width: 90%;
-    height: 550px;
-    margin-left: 5%;
-    grid-area: uplods;
-    grid-template-columns: 3fr 1fr;
-    grid-template-areas: "files loanapplybtn";
-    justify-items: stretch;
-}
-.files{
-    grid-area: files;
+.managedocs_header {
+  grid-area: managedocs_header;
+  margin-left: 10px;
 }
 
-.loanapplybtn{
-    display: grid;
-    grid-area: loanapplybtn;
-    margin-right: 10%;
-    align-items: end;
-    justify-items: end;
-}
-.file{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-areas: "h2 button";
-    align-items: center;
-}
-.upload_btn{
-    grid-area: button;
-    margin-left: 10%;
-    height: 40%;
-    width: 50%;
-    margin: 0 auto;
-    border-radius: 15px;
-    background-color: #C1D0B5;
-}
-.file > h2{
-    grid-area: h2;
-}
-.file > h2{
-    background-color: #99A98F;
-    padding: 13px;
-    padding-right: 20px;
-    width: 100%;
-    border-radius: 15px;
+.managedocs_body {
+  grid-area: managedocs_body;
+  display: flex;
+  align-items: flex-start;
+  height: 700px;
 }
 
-.file2 > h2{
-    background-color: #F5F0BB;
-    padding: 13px;
-    width: 100%;
-    border-radius: 15px;
+.managedocs_uplods {
+  display: grid;
+  width: 90%;
+  height: 700px;
+  margin-left: 5%;
+  grid-area: uplods;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas: "files loanapplybtn";
+  justify-items: stretch;
 }
-.file_desc{
-    background-color: #F5F0BB ;
-    opacity: 80%;
-    padding: 10%;
-    border-radius: 15px;
+.files {
+  grid-area: files;
 }
 
-.finalapply_btn{
-    width: 100%;
-    height: 15%;
-    background-color: #518E65 ;
-    color: white;
-    border-radius: 10px;
-    margin-bottom: 8%;
-    font-size: large;
-    font-weight: bold;
+.loanapplybtn {
+  display: grid;
+  grid-area: loanapplybtn;
+  margin-right: 10%;
+  align-items: end;
+  justify-items: end;
+}
+.file {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas: "h2 button";
+  align-items: center;
+  margin: 15px 5px;
+}
+.upload_btn {
+  grid-area: button;
+  margin-left: 10%;
+  height: 40%;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: #526d82;
+  color: white;
+}
+.file > h2 {
+  grid-area: h2;
+}
+.file > h2 {
+  background-color: #9db2bf;
+  padding: 13px;
+  padding-right: 20px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.file_desc {
+  background-color: #f5f0bb;
+  opacity: 80%;
+  padding: 10%;
+  border-radius: 15px;
+}
+
+.finalapply_btn {
+  width: 100%;
+  height: 15%;
+  background-color: #dde6ed;
+  color: black;
+  border-radius: 10px;
+  margin-bottom: 8%;
+  font-size: large;
+  font-weight: bold;
 }
