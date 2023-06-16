@@ -1,18 +1,24 @@
 import React from "react";
 import "../../css/admin/ManageDocs.css";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import LoanDescription from "../loan/LoanDescription";
 
 function ManageDocs(props) {
+  const location = useLocation();
+  console.log(location.state);
+  const membername = location.state.membername;
+  const loanname = location.state.loanname;
   return (
     <div className="managedocs">
       <div className="managedocs_header">
         <div className="managedocs_title">
-          <h2>버팀목 전세자금 대출 - 회원 이름</h2>
+          <h2>
+            {loanname} - {membername}
+          </h2>
         </div>
+        <hr className="loanhr" />
       </div>
       <div className="managedocs_body">
-        <hr className="loanhr" />
         <div className="managedocs_uplods">
           <div className="files">
             <div className="file1 file">
