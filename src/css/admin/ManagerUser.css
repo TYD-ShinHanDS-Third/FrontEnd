@@ -1,23 +1,72 @@
-.manageuser{
-    display: flex;
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 3%;
-    justify-content: center;
-    overflow-y: auto;
+.usertopbar {
+  width: 90%;
 }
-.userlist_header{
-    padding-top: 15px;
-    font-size: medium;
-    font-weight: bold;
-    text-align: center;  
-}
-.man_userlist{
-    width: 100%;
-    background-color: #E8E7E7;
-    border-radius: 10px;
+.manageuser {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 3%;
+  justify-content: center;
+  overflow-y: auto;
 }
 
-.MuiTableCell-root{
-    text-align: center;  
+.userdetailtable {
+  width: 100%;
+  background-color: #ebf2f7;
+  border-radius: 15px;
+}
+.usertablebox {
+  height: 60px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: "userid username useremail userbd userrole userwork useredit";
+  background-color: #ebf2f7;
+  border-radius: 15px;
+  align-items: center;
+  justify-items: center;
+}
+.usereditbtn {
+}
+.userworkbtn {
+  background-color: #9db2bf;
+}
+.userconsultbox {
+  height: 60px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: "userid username userloan userloanstate enterroom";
+  background-color: #ebf2f7;
+  border-radius: 15px;
+  align-items: center;
+  justify-items: center;
+}
+.usertopbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userpagebtn {
+  background-color: #9db2bf;
+  margin-right: 1%;
+  width: 30px;
+  height: 25px;
+  color: white;
+}
+.usereditbtn {
+  background-color: #9db2bf;
+}
+
+.userloanbox {
+  height: 60px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: "userid username userloan userstate userdocs";
+  background-color: #ebf2f7;
+  border-radius: 15px;
+  align-items: center;
+  justify-items: center;
 }

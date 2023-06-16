@@ -19,9 +19,9 @@ body {
 
 .logo {
   grid-area: "logo";
-  width: 110px;
-  height: 110px;
-  margin-left: 20px;
+  width: 150px;
+  height: 150px;
+  margin-left: 10px;
 }
 .menubar {
   grid-area: menubar;
@@ -74,6 +74,7 @@ button.menu {
 .common {
   display: flex;
   justify-content: center;
+  margin-top: 15px;
 }
 .submenubar {
   display: flex;

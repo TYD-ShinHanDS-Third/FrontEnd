@@ -4,11 +4,7 @@ import BankManageDocs from "./BankManageDocs";
 import BankManageApplyLoan from "./BankManageApplyLoan";
 
 function BankMainPage(props) {
-  document.body.style.backgroundColor = "#477CAD";
-  useEffect(() => {
-    const tile = document.getElementById("img_con");
-    tile.style.border = "solid 3px #477CAD";
-  }, []);
+  document.body.style.backgroundColor = "#eef1e6";
 
   return (
     <div>

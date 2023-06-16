@@ -16,6 +16,7 @@ import MyEdit from "./my/MyEdit";
 import BankMenu from "./bank/BankMenu";
 import BankMainPage from "./bank/BankMainPage";
 import PanSubMenu from "./pan/PanSubMenu";
+import AdminUserPage from "./admin/AdminUserPage";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
@@ -32,19 +33,19 @@ function logo(location) {
   if (location.pathname.includes("/hows/admin")) {
     return (
       <Link to="/hows/admin">
-        <img className="logo" src="/image/Round_logo.svg" alt="logo"></img>
+        <img className="logo" src="/image/LogoName.svg" alt="logo"></img>
       </Link>
     );
   } else if (location.pathname.includes("/hows/bank")) {
     return (
       <Link to="/hows/bank">
-        <img className="logo" src="/image/Round_logo.svg" alt="logo"></img>
+        <img className="logo" src="/image/LogoName.svg" alt="logo"></img>
       </Link>
     );
   } else if (location.pathname.includes("/hows")) {
     return (
       <Link to="/hows">
-        <img className="logo" src="/image/Round_logo.svg" alt="logo"></img>
+        <img className="logo" src="/image/LogoName.svg" alt="logo"></img>
       </Link>
     );
   }
@@ -54,6 +55,9 @@ function MainPage(props) {
   const location = useLocation();
 
   const [loc, setLocation] = useState("전체");
+
+  const [userPageNum, setUserPageNum] = useState("0");
+  const [userPageTotal, setUserListTotal] = useState("0");
 
   function findLocation(new_location) {
     setLocation(new_location);
@@ -83,7 +87,6 @@ function MainPage(props) {
             <Route path="loan/detail" element={<LoanDetail />}></Route>
             <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
-            <Route path="mypage" element={<MyPage />}></Route>
             <Route path="admin/*" element={<ManPage />}></Route>
             <Route path="my/mypage" element={<MyPage />}></Route>
             <Route path="my/myedit" element={<MyEdit />}></Route>
