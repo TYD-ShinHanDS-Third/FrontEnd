@@ -17,6 +17,7 @@ import BankMenu from "./bank/BankMenu";
 import BankMainPage from "./bank/BankMainPage";
 import PanSubMenu from "./pan/PanSubMenu";
 import AdminUserPage from "./admin/AdminUserPage";
+import LoanSubMenu from "./loan/LoanSubMenu";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
@@ -55,6 +56,7 @@ function MainPage(props) {
   const location = useLocation();
 
   const [loc, setLocation] = useState("전체");
+  const [bank, setBank] = useState("전체");
 
   const [userPageNum, setUserPageNum] = useState("0");
   const [userPageTotal, setUserListTotal] = useState("0");
@@ -63,9 +65,15 @@ function MainPage(props) {
     setLocation(new_location);
   }
 
+  function findBank(new_location) {
+    setBank(new_location);
+  }
+
   function submenu(location) {
     if (location.pathname.includes("/hows/notice")) {
       return <PanSubMenu findLocation={findLocation} />;
+    } else if (location.pathname.includes("/hows/loan")) {
+      return <LoanSubMenu findBank={findBank} />;
     }
   }
 
@@ -83,7 +91,7 @@ function MainPage(props) {
           <Routes>
             <Route path="notice/*" element={<PanList loc={loc} />}></Route>
             <Route path="find" element={<HouseMap />}></Route>
-            <Route path="loan" element={<LoanList />}></Route>
+            <Route path="loan" element={<LoanList bank={bank} />}></Route>
             <Route path="loan/detail" element={<LoanDetail />}></Route>
             <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
