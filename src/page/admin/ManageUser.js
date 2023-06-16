@@ -13,21 +13,27 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Cookies } from "react-cookie";
 import axios from "axios";
+import CheckUserWork from "./CheckUserWork";
 
 function ManageUser(props) {
   const [userList, setUserList] = useState([]);
   const [userPageNum, setUserPageNum] = useState("0");
   const [userPageTotal, setUserListTotal] = useState("0");
+  const [role, setRole] = useState("");
   const [roleInfo, setRoleInfo] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    getUserList();
+  }, []);
 
   useEffect(() => {
     getUserList();
   }, [userPageNum]);
 
-  const callback = useEffect(() => {
+  useEffect(() => {
     var roleList = [];
     userList.map((item, index) => {
-      console.log(item);
       var myrole = {
         id: item.memberid,
         role: item.roles,
@@ -35,7 +41,7 @@ function ManageUser(props) {
       roleList.push(myrole);
     });
     setRoleInfo(roleList);
-  }, [userPageNum]);
+  }, [userList]);
 
   async function getUserList() {
     const cookies = new Cookies();
@@ -63,21 +69,27 @@ function ManageUser(props) {
   }
 
   async function editUserInfo(userid, userrole) {
+    console.log(userrole);
+    console.log(userid);
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
     const listurl = "/hows/admin/user";
 
     await axios
-      .put(listurl, {
-        params: {
-          userid: userid,
-          userrole: userrole,
-        },
-        headers: {
-          "Content-type": "application/json",
-          token: token,
-        },
-      })
+      .put(
+        listurl,
+        { memberid: userid },
+        {
+          params: {
+            memberid: userid,
+            roles: userrole,
+          },
+          headers: {
+            "Content-type": "application/json",
+            token: token,
+          },
+        }
+      )
       .then(function (response) {
         console.log(response);
       })
@@ -85,7 +97,35 @@ function ManageUser(props) {
         console.log(error);
       });
   }
-  const handleChange = (event) => {};
+
+  const printRole = (item, index) => {
+    return (
+      <Select
+        labelId="demo-simple-select-filled-label"
+        id="demo-simple-select-filled"
+        value={roleInfo[index].role}
+        name={item.memberid}
+        onChange={handleChange}
+      >
+        <MenuItem value={"USER"}>USER</MenuItem>
+        <MenuItem value={"ADMIN"}>ADMIN</MenuItem>
+        <MenuItem value={"TELLER"}>TELLER</MenuItem>
+      </Select>
+    );
+  };
+  const handleChange = (event) => {
+    const inputRole = event.target.value;
+    const inputId = event.target.name;
+
+    let tmp = [...roleInfo];
+
+    tmp.map((item, index) => {
+      if (tmp[index].id === inputId) {
+        tmp[index].role = inputRole;
+        setRole(tmp);
+      }
+    });
+  };
 
   const bdaystr = (bday) => {
     let birth = bday.substring(0, 10);
@@ -113,6 +153,9 @@ function ManageUser(props) {
   const changePage = (p) => {
     setUserPageNum(p);
   };
+  const openModal = () => {
+    setModalOpen(true);
+  };
 
   return (
     <div>
@@ -121,10 +164,11 @@ function ManageUser(props) {
         <div className="userdetailtable">
           <table className="userdetailtable">
             <thead>
-              <tr className="usertablebox">
+              <tr className="usertablebox" key={0}>
                 <th className="userid">아이디</th>
                 <th className="username">이름</th>
                 <th className="useremail">e-mail</th>
+                <th className="userwork">재직증명서</th>
                 <th className="userbd">생년월일</th>
                 <th className="userrole">역할</th>
                 <th className="useredit"></th>
@@ -132,33 +176,30 @@ function ManageUser(props) {
             </thead>
             <tbody>
               {userList.map((item, index) => {
-                console.log(roleInfo[index].role);
                 return (
-                  <tr className="usertablebox">
-                    <td className="userid" key={item.memberid}>
-                      {item.memberid}
-                    </td>
+                  <tr className="usertablebox" key={item.memberid}>
+                    <td className="userid">{item.memberid}</td>
                     <td className="username">{item.membername}</td>
                     <td className="useremail">번호</td>
-                    <td className="userbd">{bdaystr(item.bday)} </td>
-
-                    <td className="userrole">
-                      <Select
-                        labelId="demo-simple-select-filled-label"
-                        id="demo-simple-select-filled"
-                        value={roleInfo[index]}
-                        onChange={handleChange}
+                    <td className="userwork">
+                      <button
+                        className="userworkbtn"
+                        onClick={() => openModal()}
                       >
-                        <MenuItem value={"USER"}>USER</MenuItem>
-                        <MenuItem value={"ADMIN"}>ADMIN</MenuItem>
-                        <MenuItem value={"BANK"}>BANK</MenuItem>
-                      </Select>
+                        재직증명서 확인
+                      </button>
                     </td>
+                    <td className="userbd">{bdaystr(item.bday)} </td>
+                    {roleInfo[index] && (
+                      <td className="userrole">{printRole(item, index)}</td>
+                    )}
                     <td className="useredit">
                       <button
                         className="usereditbtn"
                         style={{ color: "black" }}
-                        onClick={() => editUserInfo(item.memberid)}
+                        onClick={() =>
+                          editUserInfo(item.memberid, roleInfo[index].role)
+                        }
                       >
                         역할 수정하기
                       </button>
@@ -168,6 +209,7 @@ function ManageUser(props) {
               })}
             </tbody>
           </table>
+          {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
         </div>
       </div>
     </div>
