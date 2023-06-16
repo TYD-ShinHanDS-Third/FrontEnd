@@ -31,28 +31,6 @@ function LoanApply(props) {
     </div>
   ));
 
-  //상품 설명 불러오기
-  // function getDetail(loan) {
-  //   const url = "/hows/loan/detail";
-  //   axios
-  //     .get(url, {
-  //       headers: {
-  //         "Content-Type": `application/json`,
-  //       },
-  //       params: loan,
-  //     })
-  //     .then((res) => {
-  //       console.dir(res);
-  //       document.getElementById("loanapply_detail").innerHTML +=
-  //         res.data.caution;
-  //       document.getElementById("loanapply_detail").innerHTML +=
-  //         res.data.interestrate;
-  //     })
-  //     .catch((ex) => {
-  //       console.log("requset fail : " + ex);
-  //     });
-  // }
-
   async function makeRoom(t, b, l) {
     const url = "/hows/loan/detail/consult";
     axios
@@ -138,17 +116,6 @@ function LoanApply(props) {
       setSocketData(dataSet);
     };
   });
-
-  // const send = useCallback(() => {
-  //   if (!chkLog) {sendsetChkLog
-  //     if (myname === "") {
-  //       alert("이름을 입력하세요.");
-  //       document.getElementById("myname").focus();
-  //       return;
-  //     }
-  //     webSocketLogin();
-  //     setChkLog(true);
-  //   }
 
   const send = useCallback(() => {
     webSocketLogin();

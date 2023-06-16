@@ -31,14 +31,13 @@ export default function MyPage(props) {
   //채팅방 이동
   const navigate = useNavigate();
   async function moveChatRoom(chatroom) {
-    navigate("/loan/detail/consult", { state: chatroom });
+    navigate("/hows/loan/detail/consult", { state: chatroom });
   }
 
-  //내 채팅 목록 불러오기
+  //내 대출/채팅 목록 불러오기
   async function getChatList(token) {
-    const url = "http://localhost:3000/data/myPage/mycht.json";
-
-    await axios
+    const url = "/hows/my/mypage/loan";
+    axios
       .get(url, {
         headers: {
           token: token,
@@ -47,7 +46,8 @@ export default function MyPage(props) {
       .then(function (response) {
         console.dir(response.data);
         console.log("loan", response.data);
-        setMyChat(response.data);
+        setMyLoanList(response.data[0]);
+        setMyChat(response.data[1]);
       })
       .catch(function (error) {
         console.log(error);
@@ -59,7 +59,6 @@ export default function MyPage(props) {
 
   //즐겨찾기 불러오기
   async function getFavorites(token) {
-    //const url = "http://localhost:3000/data/myPage/panFavorites_fake.json";
     const url = "mypage/pan";
     await axios
       .get(url, {
@@ -107,33 +106,11 @@ export default function MyPage(props) {
       });
   }
 
-  //내 대출 목록 불러오기
-  async function getLoanList(token) {
-    const url = "mypage/loan";
-    await axios
-      .get(url, {
-        headers: {
-          token: token,
-        },
-      })
-      .then(function (response) {
-        console.dir(response.data);
-        console.log("loan", response.data);
-        setMyLoanList(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
-      });
-  }
-
   useEffect(() => {
     const cookies = new Cookies();
     const jwtToken = cookies.get("jwtToken");
     getFavorites(jwtToken);
-    getLoanList(jwtToken);
+    //getLoanList(jwtToken);
     getChatList(jwtToken);
 
     console.log("mouted");
@@ -173,7 +150,7 @@ export default function MyPage(props) {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>
-                      [{loan.loanname.bankname}]{loan.loanname.loanname}
+                      [{loan.bankname}]{loan.loanname}
                     </TableCell>
                     <TableCell>{loan.loanstate}</TableCell>
                     <TableCell>
@@ -205,7 +182,9 @@ export default function MyPage(props) {
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{chatroom.loanname}</TableCell>
+                    <TableCell>
+                      [{chatroom.bankname}]{chatroom.loanname}
+                    </TableCell>
                     <TableCell>
                       <button
                         onClick={() => {
