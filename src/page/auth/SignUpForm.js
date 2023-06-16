@@ -95,14 +95,13 @@ function SignUpForm(props) {
   const [emailMessage, setEmailMessage] =
     useState("회사 이메일을 인증해주세요");
   const handleEmail = (e) => {
-    setAuthInput(e.target.value);
+    setEmailInput(e.target.value);
   };
 
   //input창에 입력 시 처리(+유효성 검사)
   const handleSignup = (e) => {
     if (e.target.name !== "pswdChk") {
       setMember({ ...member, [e.target.name]: e.target.value });
-      console.log(member);
     }
 
     if (e.target.name === "memberid") {
@@ -166,7 +165,7 @@ function SignUpForm(props) {
 
   //아이디 중복 체크
   const checkId = () => {
-    const url = "/member/checkDuplicateId";
+    const url = "/hows/auth/checkduplicateId";
     axios
       .get(url, {
         params: {
@@ -205,7 +204,7 @@ function SignUpForm(props) {
     } else {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
-      const url = "/member/send";
+      const url = "/hows/phone";
       const number = member.phone.replaceAll("-", "");
       axios
         .post(url, null, {
@@ -236,36 +235,35 @@ function SignUpForm(props) {
   //이메일 인증
   const checkEmail = (event) => {
     //난수 받아와서 사용자 입력과 같은지 비교
-    if (!isCheckEmail) {
-      confirmAlert({
-        title: "이메일을 입력해주세요",
-        message: "",
-        buttons: [
-          {
-            label: "확인",
-            onClick: () => {},
-            style: { backgroundColor: "#518e65" },
-          },
-        ],
+    // if (!isCheckEmail) {
+    //   confirmAlert({
+    //     title: "이메일을 입력해주세요",
+    //     message: "",
+    //     buttons: [
+    //       {
+    //         label: "확인",
+    //         onClick: () => {},
+    //         style: { backgroundColor: "#518e65" },
+    //       },
+    //     ],
+    //   });
+    // } else {
+    var authbox = document.getElementById("authBox");
+    authbox.style.display = "block";
+    const url = "/hows/email";
+    axios
+      .post(url, null, {
+        params: {
+          email: member.email,
+        },
+      })
+      .then((res) => {
+        setEmailAns(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    } else {
-      var authbox = document.getElementById("authBox");
-      authbox.style.display = "block";
-      const url = "/member/send";
-      const email = member.email.replaceAll("-", "");
-      axios
-        .post(url, null, {
-          params: {
-            tel: email,
-          },
-        })
-        .then((res) => {
-          setEmailAns(res.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+    // }
   };
 
   //이메일 인증번호 확인
@@ -281,7 +279,7 @@ function SignUpForm(props) {
 
   //회원가입
   function signup() {
-    const url = "/member/signup";
+    const url = "/hows/auth/signup";
 
     axios
       .post(url, JSON.stringify(member), {
@@ -441,12 +439,6 @@ function SignUpForm(props) {
           </button>
         </Grid>
         <Grid item xs={12} sm={2}></Grid>
-
-        {/* <Grid item xs={12} sm={2}>
-          <span className="addInfoInput" id="roletype">
-            가입유형
-          </span>
-        </Grid> */}
         <Grid item xs={12} sm={8}>
           <div className="select">
             <span>가입유형</span>
@@ -518,7 +510,7 @@ function SignUpForm(props) {
               onChange={handleEmail}
             />
             <button
-              id="authBtn"
+              id="emailBtn"
               className="signupBtn"
               onClick={clickEmail}
               disabled={isCheckEmail >= 2 ? true : false}
