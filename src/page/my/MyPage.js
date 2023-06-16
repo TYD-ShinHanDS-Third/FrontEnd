@@ -148,6 +148,7 @@ export default function MyPage(props) {
             plugins={[dayGridPlugin]}
             height={"auto"}
             events={myPanList}
+            displayEventTime={false}
           />
         </div>
         <div className="myLoan">
@@ -171,10 +172,18 @@ export default function MyPage(props) {
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{loan.loanname}</TableCell>
+                    <TableCell>
+                      [{loan.loanname.bankname}]{loan.loanname.loanname}
+                    </TableCell>
                     <TableCell>{loan.loanstate}</TableCell>
                     <TableCell>
-                      <a href={loan.applyurl}>링크</a>
+                      <button
+                        onClick={() => {
+                          navigate(loan.applyurl, { state: loan.memloanid });
+                        }}
+                      >
+                        링크
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))}
