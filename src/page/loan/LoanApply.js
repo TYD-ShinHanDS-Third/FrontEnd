@@ -68,6 +68,7 @@ function LoanApply(props) {
           setChatt(historylist);
         }
         setRoom(res.data.room);
+        setMyname(res.data.myname);
       })
       .catch((ex) => {
         console.log("requset fail : " + ex);
@@ -81,7 +82,6 @@ function LoanApply(props) {
     setLoanname(location.state.loanname);
     setRoom(location.state.room === undefined ? "" : location.state.room);
     const cookies = new Cookies();
-    setMyname(cookies.get("myname"));
     makeRoom(
       cookies.get("jwtToken"),
       location.state.bankname,
