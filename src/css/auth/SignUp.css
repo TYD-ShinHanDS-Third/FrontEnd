@@ -45,20 +45,30 @@ input {
   border-radius: 5px;
 }
 
-#phoneAuth,
-#emailAuth {
-  width: 80%;
+#phoneAuth {
+  width: 85%;
   margin-right: 5%;
 }
 
 #email {
-  width: 70%;
-  margin-right: 5%;
+  width: 80%;
+  margin-right: 3%;
+}
+
+#emailAuth {
+  width: 90%;
+}
+
+#authBtn {
+  width: 10%;
 }
 
 #authBox {
+  width: 95%;
   display: none;
   margin-bottom: 3%;
+  justify-content: space-between;
+  align-items: flex-end
 }
 
 .act {
@@ -128,7 +138,7 @@ input::placeholder {
 }
 
 span {
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .addInfoSpan {
@@ -140,5 +150,5 @@ span {
 }
 
 .error {
-  color: #f7c04a;
+  color: #F97B22;
 }

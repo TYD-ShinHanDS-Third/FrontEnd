@@ -108,6 +108,8 @@ function SignUpForm(props) {
     if (e.target.name === "memberid") {
       setIsCheckId(false);
     } else if (e.target.name === "phone") {
+      var btn = document.getElementById("authPhoneBtn");
+      btn.style.marginTop = "20px";
       //자동 하이픈 추가
       let phoneAuto = e.target.value
         .replace(/[^0-9]/g, "")
@@ -250,7 +252,7 @@ function SignUpForm(props) {
       });
     } else {
       var authbox = document.getElementById("authBox");
-      authbox.style.display = "block";
+      authbox.style.display = "flex";
       const url = "/member/send";
       const email = member.email.replaceAll("-", "");
       axios
@@ -395,7 +397,7 @@ function SignUpForm(props) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={8} className="">
           {member.phone.length > 0 && (
             <span className={`message ${isPhone ? "success" : "error"}`}>
               {phoneMessage}
@@ -415,24 +417,28 @@ function SignUpForm(props) {
                 {authMessage}
               </span>
             )}
-            <input
-              id="phoneAuth"
-              name="phoneAuth"
-              placeholder="인증번호"
-              onChange={handleAuth}
-            />
-            <button
-              id="authBtn"
-              className="signupBtn"
-              onClick={clickAuth}
-              disabled={isCheckPhone >= 2 ? true : false}
-            >
-              인증
-            </button>
+            <div style={{ display: "flex" }}>
+              <input
+                id="phoneAuth"
+                name="phoneAuth"
+                placeholder="인증번호"
+                onChange={handleAuth}
+              />
+
+              <button
+                id="authBtn"
+                className="signupBtn"
+                onClick={clickAuth}
+                disabled={isCheckPhone >= 2 ? true : false}
+              >
+                인증
+              </button>
+            </div>
           </div>
         </Grid>
         <Grid item xs={12} sm={2}>
           <button
+            id="authPhoneBtn"
             className="signupBtn"
             onClick={checkPhone}
             disabled={isCheckPhone}
@@ -441,12 +447,6 @@ function SignUpForm(props) {
           </button>
         </Grid>
         <Grid item xs={12} sm={2}></Grid>
-
-        {/* <Grid item xs={12} sm={2}>
-          <span className="addInfoInput" id="roletype">
-            가입유형
-          </span>
-        </Grid> */}
         <Grid item xs={12} sm={8}>
           <div className="select">
             <span>가입유형</span>
@@ -479,16 +479,14 @@ function SignUpForm(props) {
             <label htmlFor="selectBanker">은행원</label>
           </div>
         </Grid>
-
-        <div
-          id="authBox"
-          style={{
-            width: "100%",
-            display: member.roles === "USER" ? "none" : "block",
-            marginLeft: "1%",
-          }}
-        >
-          <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={8}>
+          <div
+            id="authBox"
+            style={{
+              width: "95%",
+              display: member.roles === "USER" ? "none" : "flex",
+            }}
+          >
             <input
               id="email"
               name="email"
@@ -502,21 +500,33 @@ function SignUpForm(props) {
             >
               인증메일 발송
             </button>
-          </Grid>
-          <Grid item xs={12} sm={8}>
-            {member.roles !== "USER" > 0 && (
-              <span
-                className={`message ${isCheckEmail >= 2 ? "success" : "error"}`}
-              >
-                {emailMessage}
-              </span>
-            )}
-            <input
-              id="emailAuth"
-              name="emailAuth"
-              placeholder="인증번호"
-              onChange={handleEmail}
-            />
+          </div>
+          <div
+            id="authBox"
+            style={{
+              width: "95%",
+              display: member.roles === "USER" ? "none" : "flex",
+            }}
+          >
+            <div
+              style={{ width: "90%", display: "flex", flexDirection: "column" }}
+            >
+              {member.roles !== "USER" > 0 && (
+                <span
+                  className={`message ${
+                    isCheckEmail >= 2 ? "success" : "error"
+                  }`}
+                >
+                  {emailMessage}
+                </span>
+              )}
+              <input
+                id="emailAuth"
+                name="emailAuth"
+                placeholder="인증번호"
+                onChange={handleEmail}
+              />
+            </div>
             <button
               id="authBtn"
               className="signupBtn"
@@ -525,8 +535,18 @@ function SignUpForm(props) {
             >
               인증
             </button>
-          </Grid>
-        </div>
+          </div>
+          <div
+            id="authBox"
+            style={{
+              width: "95%",
+              display: member.roles === "USER" ? "none" : "flex",
+            }}
+          >
+            <span>재직 증명서 제출</span>
+            <input type="file" id="fileUpload" />
+          </div>
+        </Grid>
         <Grid item xs={12} sm={8}>
           <List
             sx={{
