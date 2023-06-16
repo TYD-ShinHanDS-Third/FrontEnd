@@ -108,7 +108,11 @@ function SignUpForm(props) {
       setIsCheckId(false);
     } else if (e.target.name === "phone") {
       var btn = document.getElementById("authPhoneBtn");
-      btn.style.marginTop = "20px";
+      if (e.target.value.length > 0) {
+        btn.style.marginTop = "20px";
+      } else {
+        btn.style.marginTop = "0px";
+      }
       //자동 하이픈 추가
       let phoneAuto = e.target.value
         .replace(/[^0-9]/g, "")
