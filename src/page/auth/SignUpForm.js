@@ -95,14 +95,13 @@ function SignUpForm(props) {
   const [emailMessage, setEmailMessage] =
     useState("회사 이메일을 인증해주세요");
   const handleEmail = (e) => {
-    setAuthInput(e.target.value);
+    setEmailInput(e.target.value);
   };
 
   //input창에 입력 시 처리(+유효성 검사)
   const handleSignup = (e) => {
     if (e.target.name !== "pswdChk") {
       setMember({ ...member, [e.target.name]: e.target.value });
-      console.log(member);
     }
 
     if (e.target.name === "memberid") {
@@ -168,7 +167,7 @@ function SignUpForm(props) {
 
   //아이디 중복 체크
   const checkId = () => {
-    const url = "/member/checkDuplicateId";
+    const url = "/hows/auth/checkDuplicateId";
     axios
       .get(url, {
         params: {
@@ -207,7 +206,7 @@ function SignUpForm(props) {
     } else {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
-      const url = "/member/send";
+      const url = "/hows/send";
       const number = member.phone.replaceAll("-", "");
       axios
         .post(url, null, {
@@ -252,7 +251,7 @@ function SignUpForm(props) {
       });
     } else {
       var authbox = document.getElementById("authBox");
-      authbox.style.display = "flex";
+      authbox.style.display = "block";
       const url = "/member/send";
       const email = member.email.replaceAll("-", "");
       axios
@@ -283,7 +282,7 @@ function SignUpForm(props) {
 
   //회원가입
   function signup() {
-    const url = "/member/signup";
+    const url = "/hows/auth/signup";
 
     axios
       .post(url, JSON.stringify(member), {
@@ -528,7 +527,7 @@ function SignUpForm(props) {
               />
             </div>
             <button
-              id="authBtn"
+              id="emailBtn"
               className="signupBtn"
               onClick={clickEmail}
               disabled={isCheckEmail >= 2 ? true : false}

@@ -63,6 +63,11 @@ input {
   width: 10%;
 }
 
+#emailAuth {
+  width: 70%;
+  margin-right: 5%;
+}
+
 #authBox {
   width: 95%;
   display: none;
@@ -99,7 +104,7 @@ input {
   display: none;
 }
 
-.select input[type="radio"]+label {
+.select input[type="radio"] + label {
   display: inline-block;
   height: 22px;
   width: 100px;
@@ -111,12 +116,12 @@ input {
   font-size: 15px;
 }
 
-.select input[type="radio"]+label {
+.select input[type="radio"] + label {
   background-color: #fff;
   color: #518e65;
 }
 
-.select input[type="radio"]:checked+label {
+.select input[type="radio"]:checked + label {
   background-color: #518e65;
   color: #fff;
 }
