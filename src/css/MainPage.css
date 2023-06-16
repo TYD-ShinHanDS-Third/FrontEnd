@@ -1,5 +1,9 @@
 body {
   background-color: #eeeeee;
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .link {
