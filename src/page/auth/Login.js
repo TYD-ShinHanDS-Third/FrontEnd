@@ -22,7 +22,7 @@ function Login(props) {
 
   //로그인
   async function signIn() {
-    const URL = "/member/login";
+    const URL = "/hows/auth/login";
     axios
       .post(URL, JSON.stringify(user), {
         headers: {
