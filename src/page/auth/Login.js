@@ -24,7 +24,7 @@ function Login(props) {
 
   //로그인
   async function signIn() {
-    const URL = "/member/login";
+    const URL = "/hows/auth/login";
     axios
       .post(URL, JSON.stringify(user), {
         headers: {
@@ -42,10 +42,9 @@ function Login(props) {
       .catch((ex) => {
         console.log("login requset fail : " + ex);
         document.getElementById("failLogin").style.display = "block";
-        document.getElementById("memberid").value="";
-        document.getElementById("pswd").value="";
-        setUser({memberid: "",
-        pswd: ""});
+        document.getElementById("memberid").value = "";
+        document.getElementById("pswd").value = "";
+        setUser({ memberid: "", pswd: "" });
       });
   }
 
@@ -84,10 +83,11 @@ function Login(props) {
             <Grid item xs={12} sm={2}></Grid>
             <Grid item xs={12} sm={3}></Grid>
             <Grid item xs={12} sm={6}>
-              <button className="loginBtn" onClick={() => signIn()}  disabled={
-              (
-                user.memberid=== "" &&
-                user.pswd=== "")}>
+              <button
+                className="loginBtn"
+                onClick={() => signIn()}
+                disabled={user.memberid === "" && user.pswd === ""}
+              >
                 로그인
               </button>
             </Grid>

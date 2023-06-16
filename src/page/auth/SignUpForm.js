@@ -165,7 +165,7 @@ function SignUpForm(props) {
 
   //아이디 중복 체크
   const checkId = () => {
-    const url = "/hows/auth/checkduplicateId";
+    const url = "/hows/auth/checkDuplicateId";
     axios
       .get(url, {
         params: {
@@ -204,7 +204,7 @@ function SignUpForm(props) {
     } else {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
-      const url = "/hows/phone";
+      const url = "/hows/send";
       const number = member.phone.replaceAll("-", "");
       axios
         .post(url, null, {
