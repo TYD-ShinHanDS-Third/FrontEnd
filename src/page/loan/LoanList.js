@@ -82,6 +82,10 @@ function LoanList({ bank }) {
               <Link
                 to="/hows/loan/detail"
                 style={{ textDecoration: "none", color: "black" }}
+                state={{
+                  bankname: bank,
+                  loanname: pro.loanname,
+                }}
               >
                 <div className="loantitle">
                   <h2>{pro.loanname}</h2>
