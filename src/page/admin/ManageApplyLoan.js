@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,75 +7,120 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { Cookies } from "react-cookie";
 
 function ManageApplyLoan(props) {
-  return (
-    <div className="manageuser">
-      <TableContainer className="man_userlist">
-        <Table
-          sx={{ minWidth: 500 }}
-          size="small"
-          aria-label="a dense table"
-          style={{ textAlign: "center" }}
+  const [userList, setUserList] = useState([]);
+  const [userPageNum, setUserPageNum] = useState("0");
+  const [userPageTotal, setUserListTotal] = useState("0");
+
+  useEffect(() => {
+    getUserList();
+  }, [userPageNum]);
+
+  async function getUserList() {
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+    const listurl = "/hows/admin/form";
+    await axios
+      .get(listurl, {
+        params: {
+          page: userPageNum,
+          size: "10",
+        },
+        headers: {
+          "Content-type": "application/json",
+          token: token,
+        },
+      })
+      .then(function (response) {
+        setUserList(response.data);
+        console.log(response.data);
+        setUserListTotal(response.data[0].total);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const createBtn = (userPageTotal) => {
+    let paging = userPageTotal / 10;
+    let btns = [];
+    for (let i = 0; i < paging; i++) {
+      let btn_name = "btn_" + i;
+      btns.push(
+        <button
+          className="userpagebtn"
+          id={btn_name}
+          onClick={() => changePage(i)}
         >
-          <TableHead>
-            <TableRow>
-              <TableCell className="userlist_header">회원 아이디</TableCell>
-              <TableCell className="userlist_header">회원 이름</TableCell>
-              <TableCell className="userlist_header">대출 신청 상품</TableCell>
-              <TableCell className="userlist_header">서류 제출여부</TableCell>
-              <TableCell className="userlist_header">대출 신청 상태</TableCell>
-            </TableRow>
-          </TableHead>
+          {i + 1}
+        </button>
+      );
+    }
+    if (userPageTotal) return btns;
+  };
 
-          <TableBody>
-            <TableRow
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell>회원 아이디123</TableCell>
-              <TableCell>회원 이름123</TableCell>
-              <TableCell>대출 신청 상품123</TableCell>
-              <TableCell>
-                <Link
-                  to="/hows/admin/form/checklist"
-                  style={{
-                    textDecoration: "none",
-                    width: "100%",
-                    color: "green"
-                  }}
-                >
-                  서류 제출여부123
-                </Link>
-              </TableCell>
-              <TableCell>대출 신청 상태123</TableCell>
-            </TableRow>
+  const changePage = (p) => {
+    setUserPageNum(p);
+  };
+  return (
+    <div>
+      <div className="usertopbar">{createBtn(userPageTotal)}</div>
+      <div className="manageuser">
+        <div className="userdetailtable">
+          <table className="userdetailtable">
+            <thead>
+              <tr className="userloanbox">
+                <th className="userid">아이디</th>
+                <th className="username">이름</th>
+                <th className="userloan">신청상품</th>
+                <th className="userstate">대출신청상태</th>
+                <th className="userdocs">서류제출확인</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userList.map((item, index) => {
+                console.log(item);
+                return (
+                  <tr className="userloanbox">
+                    <td className="userid" key={item.memberid.memberid}>
+                      {item.memberid.memberid}
+                    </td>
+                    <td className="username">{item.memberid.membername}</td>
 
-            <TableRow
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell>회원 아이디123</TableCell>
-              <TableCell>회원 이름123</TableCell>
-              <TableCell>대출 신청 상품123</TableCell>
+                    <td className="userloan">{item.loanname.loanname} </td>
 
-              <TableCell>
-                {" "}
-                <Link
-                  to="/hows/admin/form/checklist"
-                  style={{
-                    textDecoration: "none",
-                    width: "100%",
-                    color: "green"
-                  }}
-                >
-                  서류 제출여부123
-                </Link>
-              </TableCell>
-
-              <TableCell>대출 신청 상태123</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    <td className="userstate">{item.loanstate}</td>
+                    <td className="userdocs">
+                      <Link
+                        to="/hows/admin/form/checklist"
+                        state={{
+                          membername: userList[index].memberid.membername,
+                          loanname: userList[index].loanname.loanname,
+                        }}
+                        style={{
+                          textDecoration: "none",
+                          width: "100%",
+                          color: "green",
+                        }}
+                      >
+                        <button
+                          className="usereditbtn"
+                          style={{ color: "black" }}
+                        >
+                          서류확인
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -8,15 +8,17 @@ import ManageApplyLoan from "./ManageApplyLoan";
 import Consulting from "./Consulting";
 
 function ManPage(props) {
-  document.body.style.backgroundColor = "#9DC08B";
+  document.body.style.backgroundColor = "#DDE6ED";
   return (
-    <Routes>
-      <Route path="user" element={<ManageUser />}></Route>
-      <Route path="consult" element={<ConsultingList />}></Route>
-      <Route path="form" element={<ManageApplyLoan />}></Route>
-      <Route path="form/checklist" element={<ManageDocs />}></Route>
-      <Route path="consult/chatroom" element={<Consulting />}></Route>
-    </Routes>
+    <div>
+      <Routes>
+        <Route path="user" element={<ManageUser />}></Route>
+        <Route path="consult" element={<ConsultingList />}></Route>
+        <Route path="form" element={<ManageApplyLoan />}></Route>
+        <Route path="form/checklist" element={<ManageDocs />}></Route>
+        <Route path="consult/chatroom" element={<Consulting />}></Route>
+      </Routes>
+    </div>
   );
 }
 
