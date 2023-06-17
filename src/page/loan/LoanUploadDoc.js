@@ -8,22 +8,43 @@ function LoanUploadDoc(props) {
     file2: "",
     file3: "",
     file4: "",
-    file5: "",
+    file5: ""
   });
+
+  const [imageFile, setImageFile] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
 
   const printFileName = (e) => {
     console.log(e);
-    var filename = e.target.value;
-    var fileindex = e.target.name;
+    var filename = e.target.value; // 파일 주소
+    var fileindex = e.target.name; // 파일 인덱스
 
+    //파일 확장자 관리
+    const fileType = e.target.value.split(".").pop();
+    if (!["jpeg", "png", "jpg", "JPG", "PNG", "JPEG"].includes(fileType)) {
+      alert("jpg, png, jpg 파일만 업로드가 가능합니다.");
+      return;
+    }
+    // 파일 이름만 분리 출력
     var filename_list = filename.split("\\");
     filename = filename_list.slice(-1);
-
     var tmplist = { ...filelist };
     tmplist[fileindex] = filename;
-
     setFilelist(tmplist);
-    console.log(filelist.file1);
+
+    //파일리더
+    const reader = new FileReader();
+    reader.readAsDataURL(filename);
+
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        // 이미지 경로 선언
+        setImageSrc(reader.result || null);
+        // 이미지 파일 선언
+        setImageFile(filename);
+        resolve();
+      };
+    });
   };
   return (
     <div className="uplods">

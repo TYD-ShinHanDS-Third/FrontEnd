@@ -1,36 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Kakao from "./Kakao";
 import "../../css/pan/HouseMap.css";
 
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import HouseIcon from "@mui/icons-material/House";
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { Cookies } from "react-cookie";
+import axios from "axios";
+import HouseMapKakao from "./HouseMapKakao";
 
 function HouseMap(props) {
   const [houseaddress, setHouseaddress] = useState("");
+  const [addressName, setAdressName] = useState("");
   const [searchtoggle, setSearchtoggle] = useState(false);
+  const [houselist, setHouseList] = useState([]);
+
+  useEffect(() => {}, [houseaddress, addressName]);
 
   const handleSearchToggle = (e) => {
-    setSearchtoggle(true);
-
-    console.log(searchtoggle + "눙일");
+    setSearchtoggle(!searchtoggle);
   };
 
   const selectAddress = (data) => {
-    console.log(`
-                주소: ${data.address},
-                우편번호: ${data.zonecode}
-            `);
-    setHouseaddress(false);
+    setHouseaddress(data.address);
+    setAdressName(data.roadAddress);
   };
 
-  const searchLocation = () => {};
+  async function showNearHouse(houseaddress) {
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+
+    const listurl = "/hows/find";
+    await axios
+      .get(listurl, {
+        params: {
+          houseaddress: houseaddress
+        },
+        headers: {
+          "Content-type": "application/json",
+          token: token
+        }
+      })
+      .then(function (response) {
+        setHouseList(response.data.obj);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   return (
     <div className="houseMap">
       <div className="mapContainer">
@@ -39,9 +55,7 @@ function HouseMap(props) {
             <div className="searchHeader">
               <div className="searchTitle">
                 <h3>행복주택 검색하기</h3>
-              </div>
-              <div className="searchInput">
-                <input type="text" className="search" />
+
                 <button
                   className="searchLocationbtn"
                   onClick={() => handleSearchToggle()}
@@ -49,19 +63,21 @@ function HouseMap(props) {
                   주소검색
                 </button>
               </div>
+            </div>
+            <div className="daumpost">
               {searchtoggle && (
                 <DaumPostcodeEmbed
                   onComplete={selectAddress} // 값을 선택할 경우 실행되는 이벤트
                   autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-                  defaultQuery="" // 팝업을 열때 기본적으로 입력되는 검색어
+                  defaultQuery="서울특별시"
+                  style={{ height: "100%" }}
                 />
               )}
             </div>
-            <div className="searchList"></div>
           </div>
         </div>
         <div className="kakaomap" id="kakaomap">
-          <Kakao address={houseaddress} />
+          <HouseMapKakao address={houseaddress} addressName={addressName} />
         </div>
       </div>
     </div>
