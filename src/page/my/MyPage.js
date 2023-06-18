@@ -118,7 +118,100 @@ export default function MyPage(props) {
 
   return (
     <div className="myPage">
-      <div className="myContainer">
+      <div className="myContainer1">
+        <div className="myInfo">
+          <div className="memberTitle">
+            <h2>회원정보</h2>
+            <Link to="/hows/my/myedit" className="editLink">
+              <p>회원정보 수정</p>
+            </Link>
+          </div>
+          <div className="leftBox">
+            <p>이름</p>
+            <p>아이디</p>
+            <p>비밀번호</p>
+            <p>생년월일</p>
+            <p>전화번호</p>
+          </div>
+        </div>
+        <div className="myLoan">
+          <h2>내 대출</h2>
+          <div className="leftBox">
+            <TableContainer className="myLoanTable">
+              <Table
+                sx={{ minWidth: 100 }}
+                size="small"
+                aria-label="a dense table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>대출 상품</TableCell>
+                    <TableCell>진행 상태</TableCell>
+                    <TableCell>신청 링크</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {myLoanList.map((loan, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>
+                        [{loan.bankname}]{loan.loanname}
+                      </TableCell>
+                      <TableCell>{loan.loanstate}</TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() => {
+                            navigate(loan.applyurl, { state: loan.memloanid });
+                          }}
+                        >
+                          링크
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+        <div className="myChat">
+          <h2>상담 내역</h2>
+          <div className="leftBox">
+            <TableContainer className="myLoanTable">
+              <Table
+                sx={{ minWidth: 50 }}
+                size="small"
+                aria-label="a dense table"
+              >
+                <TableBody>
+                  {myChat.map((chatroom, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>
+                        [{chatroom.bankname}]{chatroom.loanname}
+                      </TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() => {
+                            moveChatRoom(chatroom);
+                          }}
+                        >
+                          상담하기
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+      </div>
+      <div className="myContainer2">
         <div className="calendar">
           <FullCalendar
             defaultView="dayGridMonth"
@@ -128,82 +221,8 @@ export default function MyPage(props) {
             displayEventTime={false}
           />
         </div>
-        <div className="myLoan">
-          <h2>내 대출</h2>
-          <TableContainer className="myLoanTable">
-            <Table
-              sx={{ minWidth: 100 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>대출 상품</TableCell>
-                  <TableCell>진행 상태</TableCell>
-                  <TableCell>신청 링크</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {myLoanList.map((loan, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>
-                      [{loan.bankname}]{loan.loanname}
-                    </TableCell>
-                    <TableCell>{loan.loanstate}</TableCell>
-                    <TableCell>
-                      <button
-                        onClick={() => {
-                          navigate(loan.applyurl, { state: loan.memloanid });
-                        }}
-                      >
-                        링크
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-        <div className="myChat">
-          <h2>상담 내역</h2>
-          <TableContainer className="myLoanTable">
-            <Table
-              sx={{ minWidth: 100 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableBody>
-                {myChat.map((chatroom, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>
-                      [{chatroom.bankname}]{chatroom.loanname}
-                    </TableCell>
-                    <TableCell>
-                      <button
-                        onClick={() => {
-                          moveChatRoom(chatroom);
-                        }}
-                      >
-                        상담하기
-                      </button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-        <div className="myEdit">
-          <Link to="/hows/my/myedit" className="editLink">
-            <button className="editBtn"><h2>회원정보 수정</h2></button>
-          </Link>
+        <div className="myImg">
+          <img src="/image/mypage6.svg" width={"130%"} />
         </div>
       </div>
     </div>

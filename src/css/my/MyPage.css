@@ -1,117 +1,110 @@
 .myPage {
   display: grid;
-  height: 100%;
+  width: 100%;
+  height: 1000px;
   align-items: center;
   justify-items: center;
+  grid-template-columns: repeat(3, 1fr);
 }
 
-.myContainer {
+.myContainer1 {
+  grid-column: 1/3;
   display: grid;
   width: 100%;
   height: 100%;
   align-items: center;
   justify-items: center;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  gap: 5% 2%;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2% 2%;
+}
+
+.memberTitle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.memberTitle h2 {
+  grid-column: 1/2;
+}
+
+.memberTitle p {
+  grid-column: 2/3;
+  text-align: right;
+  margin-right: 10%;
+}
+
+
+.myContainer2 {
+  grid-column: 3 / 4;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2% 2%;
 }
 
 .calendar {
-  grid-column: 1 / 4;
-  grid-row: 1 / 8;
+  grid-row: 1 / 4;
   width: 90%;
   height: 90%;
   padding: 5%;
-  background-color: white;
+  background-color: #eeeeee;
   border-radius: 5%;
+  /* box-shadow: 1px 1px 10px 0px gray; */
+}
+
+.myImg {
+  grid-row: 4 / 6;
+}
+
+.leftBox {
+  width: 90%;
+  height: 80%;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
+  background-color: white;
+  border-radius: 50px;
+  overflow: auto;
+}
+
+.myInfo {
+  grid-row: 1 / 2;
+  width: 90%;
   /* box-shadow: 1px 1px 10px 0px gray; */
 }
 
 .myLoan {
-  grid-column: 4 / 6;
-  grid-row: 1 / 4;
+  grid-row: 2 / 3;
   width: 90%;
   height: 90%;
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-bottom: 5%;
-  background-color: white;
-  border-radius: 5%;
   /* box-shadow: 1px 1px 10px 0px gray; */
-  overflow: auto;
-}
 
-.myLoan::-webkit-scrollbar {
-  width: 7px; /* 스크롤바의 너비 */
-}
-
-.myLoan::-webkit-scrollbar-thumb {
-  height: 30%; /* 스크롤바의 길이 */
-  background: #609966; /* 스크롤바의 색상 */
-
-  border-radius: 10px;
-}
-
-.myLoan::-webkit-scrollbar-track {
-  background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
 }
 
 .myChat {
-  grid-column: 4 / 6;
-  grid-row: 4 / 7;
+  grid-row: 3/4;
   width: 90%;
   height: 80%;
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-bottom: 5%;
-  background-color: white;
-  border-radius: 5%;
   /* box-shadow: 1px 1px 10px 0px gray; */
-  overflow: auto;
 }
 
-.myChat::-webkit-scrollbar {
-  width: 7px; /* 스크롤바의 너비 */
+.leftBox::-webkit-scrollbar {
+  width: 7px;
+  /* 스크롤바의 너비 */
 }
 
-.myChat::-webkit-scrollbar-thumb {
-  height: 30%; /* 스크롤바의 길이 */
-  background: #609966; /* 스크롤바의 색상 */
-
+.leftBox::-webkit-scrollbar-thumb {
+  height: 30%;
+  /* 스크롤바의 길이 */
+  background: #609966;
+  /* 스크롤바의 색상 */
   border-radius: 10px;
 }
 
-.myChat::-webkit-scrollbar-track {
-  background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
-}
-
-.returnPrice p {
-  font-size: 10%;
-  margin-bottom: -5%;
-  color: #518e65;
-}
-
-.myEdit {
-  display: flex;
-  grid-column: 4 / 6;
-  grid-row: 7 / 8;
-  width: 100%;
-  height: 90%;
-  padding: 5%;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.editLink {
-  width: 100%;
-  height: 80%;
-}
-
-.editBtn {
-  width: 100%;
-  height: 100%;
-  color: black;
-  background-color: #edf1d6;
-  border-radius: 30px;
-  /* box-shadow: 1px 1px 10px 0px gray; */
+.leftBox::-webkit-scrollbar-track {
+  background: rgba(100, 100, 100, 0.1);
+  /*스크롤바 뒷 배경 색상*/
 }

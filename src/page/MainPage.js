@@ -75,10 +75,23 @@ function MainPage(props) {
         <div>{logo(location)}</div>
         {menu(location)}
       </div>
+
       <div className="common">
         <div className="submenubar">{submenu(location)}</div>
       </div>
-      <div className="content">
+      <Routes>
+        <Route path="my/mypage" element={<MyPage />}></Route>
+        <Route path="my/myedit" element={<MyEdit />}></Route>
+      </Routes>
+      <div
+        className="content"
+        style={{
+          display: location.pathname.includes("/hows/my") ? "none" : "block",
+          backgroundColor: location.pathname.includes("/hows/my")
+            ? "#eeeeee"
+            : "f5f5f5",
+        }}
+      >
         <div className="img_con" id="img_con">
           <Routes>
             <Route path="notice/*" element={<PanList loc={loc} />}></Route>
@@ -88,8 +101,8 @@ function MainPage(props) {
             <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
             <Route path="admin/*" element={<ManPage />}></Route>
-            <Route path="my/mypage" element={<MyPage />}></Route>
-            <Route path="my/myedit" element={<MyEdit />}></Route>
+            {/* <Route path="my/mypage" element={<MyPage />}></Route>
+            <Route path="my/myedit" element={<MyEdit />}></Route> */}
             <Route path="bank/*" element={<BankMainPage />}></Route>
           </Routes>
         </div>
