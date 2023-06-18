@@ -129,7 +129,7 @@ export default function MyPage(props) {
           />
         </div>
         <div className="myLoan">
-          <h3>내 대출</h3>
+          <h2>내 대출</h2>
           <TableContainer className="myLoanTable">
             <Table
               sx={{ minWidth: 100 }}
@@ -169,7 +169,7 @@ export default function MyPage(props) {
           </TableContainer>
         </div>
         <div className="myChat">
-          <h3>상담 내역</h3>
+          <h2>상담 내역</h2>
           <TableContainer className="myLoanTable">
             <Table
               sx={{ minWidth: 100 }}
@@ -202,7 +202,7 @@ export default function MyPage(props) {
         </div>
         <div className="myEdit">
           <Link to="/hows/my/myedit" className="editLink">
-            <button className="editBtn">회원정보 수정</button>
+            <button className="editBtn"><h2>회원정보 수정</h2></button>
           </Link>
         </div>
       </div>

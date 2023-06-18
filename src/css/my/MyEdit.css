@@ -170,10 +170,15 @@ input:focus {
 
 #deleteBtn {
   margin-right: 3%;
+  background-color: #edf1d6;
+}
+
+#saveBtn{
+  background-color: #edf1d6;
 }
 
 #passMsg {
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .success {
@@ -181,7 +186,7 @@ input:focus {
 }
 
 .error {
-  color: #f7c04a;
+  color: #F97B22;
 }
 
 .editItem span {
