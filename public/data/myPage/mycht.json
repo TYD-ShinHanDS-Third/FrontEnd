@@ -1,0 +1,14 @@
+[
+  {
+    "loanname": "[신한] 버팀목 전세자금 대출",
+    "url": "https://bank.shinhan.com/index.jsp#020305010000"
+  },
+  {
+    "loanname": "[국민] KB전세금안심대출",
+    "url": "https://obank.kbstar.com/quics?page=C103507&cc=b104363:b104516&isNew=N&prcode=LN20000064&QSL=F"
+  },
+  {
+    "loanname": "[우리] 우리WON전세대출(주택보증)",
+    "url": "https://spot.wooribank.com/pot/Dream?withyou=POLON0055&cc=c010528:c010531;c012425:c012399&PLM_PDCD=P020006141&PRD_CD=P020006141&HOST_PRD_CD=2031161000000"
+  }
+]

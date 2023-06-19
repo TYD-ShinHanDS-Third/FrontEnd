@@ -37,6 +37,7 @@ function Login(props) {
         //cookie로 저장
         const cookies = new Cookies();
         cookies.set("jwtToken", res.headers.authorization);
+        cookies.set("myname", res.headers.myname);
         window.location.href = "/hows";
       })
       .catch((ex) => {

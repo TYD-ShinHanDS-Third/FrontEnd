@@ -4,11 +4,14 @@ import Cookies from "universal-cookie";
 
 function MainMenu(props) {
   const [token, setToken] = useState(undefined);
+  const [myname, setMyname] = useState(undefined);
 
   const signout = (e) => {
     const cookies = new Cookies();
     cookies.remove("jwtToken");
     setToken(undefined);
+    cookies.remove("myname");
+    setMyname(undefined);
     window.location.href = "/hows";
   };
 
