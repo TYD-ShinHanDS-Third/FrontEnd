@@ -5,6 +5,7 @@ import "../../css/pan/NoticeList.css";
 import HomeIcon from "@mui/icons-material/Home";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Checkbox from "@mui/material/Checkbox";
+import e from "cors";
 
 function NoticeList({
   panList,
@@ -15,47 +16,35 @@ function NoticeList({
   filterNotice,
   getList,
 }) {
+  const [favlist, setFavlist] = useState([]);
+
   useEffect(() => {
-    initfav();
-  }, [panList]);
-
-  const [fav, setFav] = useState([]);
-  var favlist = [];
-
-  async function initfav() {
-    // 좋아요를 초기화를 하는 함수
-    await panList.map((item) => {
+    var tmpfavlist = [];
+    panList.map((item) => {
       var favo = {
         id: item.panid,
         like: item.like,
       };
-      favlist.push(favo);
+      tmpfavlist.push(favo);
     });
-    console.log("favlist");
-    console.log(favlist);
-    setFav(favlist);
-  }
+    setFavlist(tmpfavlist);
+  }, [panList]);
 
-  const likebtn = (item, index) => {
-    if (fav[index].like === 1) {
-      item.like = 0;
-      let tmp = fav;
-      console.log(tmp);
-      if (tmp.at(index).like == 0) {
-        console.log("0임");
-      }
-      setFav(tmp);
-      favorite(item.panid, item.like);
+  const clicklikebtn = (panid, index) => {
+    var id = panid;
+    var tmp = [...favlist];
+    var b_like = tmp[index].like;
+    if (b_like) {
+      tmp[index].like = 0;
+      b_like = 0;
     } else {
-      item.like = 1;
-      let tmp = fav;
-      if (tmp[index].like == 1) {
-        console.log("1임");
-      }
       tmp[index].like = 1;
-      setFav(tmp);
-      favorite(item.panid, item.like);
+      b_like = 1;
     }
+    setFavlist(tmp);
+    console.log(favlist);
+
+    favorite(id, b_like);
   };
 
   function favNotice(e) {
@@ -65,9 +54,11 @@ function NoticeList({
       } else {
         filterFavorite(e);
       }
-    } else if (e.target.checked === false) {
-      getList();
     }
+
+    // else if (e.target.checked === false) {
+    //   getList();
+    // }
   }
 
   function onNotice(e) {
@@ -146,18 +137,19 @@ function NoticeList({
                 {item.panstate}
               </td>
               <td name="favorite" className="favorite">
-                <button
-                  className="favbtn"
-                  key={item.panname}
-                  onClick={() => likebtn(item, index)}
-                >
-                  {(fav[index] === item.panid && fav[index] === 1) ||
-                  item.like === 1 ? (
-                    <HomeIcon />
-                  ) : (
-                    <HomeOutlinedIcon />
-                  )}
-                </button>
+                {favlist[index] && (
+                  <button
+                    className="favbtn"
+                    name={item.panid}
+                    onClick={() => clicklikebtn(item.panid, index)}
+                  >
+                    {favlist[index].like === 1 ? (
+                      <HomeIcon />
+                    ) : (
+                      <HomeOutlinedIcon />
+                    )}
+                  </button>
+                )}
               </td>
             </tr>
           );
