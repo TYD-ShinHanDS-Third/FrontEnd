@@ -62,7 +62,7 @@ function MainPage(props) {
   const [userPageTotal, setUserListTotal] = useState("0");
 
   function findLocation(new_location) {
-    setLocation(new_location);
+    setLocation(new_location.newloc);
   }
 
   function findBank(new_location) {

@@ -8,32 +8,34 @@ import { Cookies } from "react-cookie";
 
 function PanList({ loc }) {
   const [panlist, setPanlist] = useState([]);
-
-  const [pageNum, setPage] = useState("0");
+  const [pageNum, setPage] = useState("1");
   const [pageTotal, setPageTotal] = useState("0");
 
-  const [noticePageNum, setNoticePageNum] = useState("0");
-  const [noticePageTotal, setNoticePageTotal] = useState(0);
-
-  const [panDetail, setPandetail] = useState([]);
+  const [filterState, setFilterState] = useState("");
 
   useEffect(() => {
-    getList();
+    getList(pageNum);
   }, []);
 
   useEffect(() => {
-    getList();
+    if (filterState == "기본") {
+      getList(pageNum);
+    } else if (filterState == "주소") {
+      filterLocation(loc, pageNum);
+    } else if (filterState == "관심") {
+      filterFavorite(pageNum);
+    } else if (filterState == "모집") {
+      filterOnNotice(pageNum);
+    } else if (filterState == "관심+모집") {
+      filterNotice(pageNum);
+    }
   }, [pageNum]);
 
   useEffect(() => {
-    filterOnNotice();
-  }, [noticePageNum]);
-
-  useEffect(() => {
-    filterLocation(loc.item);
+    filterLocation(loc, "1");
   }, [loc]);
 
-  async function getList() {
+  async function getList(pageNum) {
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
@@ -41,7 +43,7 @@ function PanList({ loc }) {
     await axios
       .get(listurl, {
         params: {
-          page: pageNum,
+          page: pageNum - 1,
           size: "10",
         },
         headers: {
@@ -52,28 +54,32 @@ function PanList({ loc }) {
       .then(function (response) {
         setPanlist(response.data.obj);
         setPageTotal(response.data.total);
+        setFilterState("기본");
+        setBtnColor(pageNum);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  async function filterLocation(loc) {
+  async function filterLocation(loc, pageNum) {
+    console.log(loc);
     if (loc == "전체") {
-      getList();
+      getList("1");
     } else {
       const listurl = `/hows/notice/${loc}`;
       await axios
         .get(listurl, {
           params: {
-            page: pageNum,
+            page: pageNum - 1,
             size: "10",
           },
         })
         .then(function (response) {
           setPanlist(response.data.obj);
           setPageTotal(response.data.total);
-          console.log(response);
+          setBtnColor(pageNum);
+          setFilterState("주소");
         })
         .catch(function (error) {
           console.log(error);
@@ -81,7 +87,7 @@ function PanList({ loc }) {
     }
   }
 
-  const filterFavorite = (event) => {
+  async function filterFavorite(pageNum) {
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
@@ -92,47 +98,47 @@ function PanList({ loc }) {
           token: token,
         },
         params: {
-          page: pageNum,
+          page: pageNum - 1,
           size: "10",
         },
       })
       .then(function (response) {
         setPanlist(response.data.obj);
         setPageTotal(response.data.total);
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  async function filterOnNotice(event) {
-    const listurl = "/hows/notice/fav/2";
-    const cookies = new Cookies();
-    const token = cookies.get("jwtToken");
-
-    await axios
-      .get(listurl, {
-        headers: {
-          token: token,
-        },
-        params: {
-          page: noticePageNum,
-          size: "10",
-        },
-      })
-      .then(function (response) {
-        setPanlist(response.data.obj);
-        setNoticePageTotal(response.data.total);
-        setPageTotal(response.data.total);
-        console.log(response);
+        setBtnColor(pageNum);
+        setFilterState("관심");
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  const filterNotice = (event) => {
+  async function filterOnNotice(pageNum) {
+    const listurl = "/hows/notice/fav/2";
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+    await axios
+      .get(listurl, {
+        headers: {
+          token: token,
+        },
+        params: {
+          page: pageNum - 1,
+          size: "10",
+        },
+      })
+      .then(function (response) {
+        setPanlist(response.data.obj);
+        setPageTotal(response.data.total);
+        setBtnColor(pageNum);
+        setFilterState("모집");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  async function filterNotice(pageNum) {
     const listurl = "/hows/notice/fav/3";
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
@@ -142,19 +148,20 @@ function PanList({ loc }) {
           token: token,
         },
         params: {
-          page: pageNum,
+          page: pageNum - 1,
           size: "10",
         },
       })
       .then(function (response) {
         setPanlist(response.data.obj);
         setPageTotal(response.data.total);
-        console.log(response);
+        setBtnColor(pageNum);
+        setFilterState("관심+모집");
       })
       .catch(function (error) {
         console.log(error);
       });
-  };
+  }
 
   async function favorite(panid, favorite) {
     // console.log("좋아요 하기 + 좋아요 취소" + panid + " : " + favorite);
@@ -180,7 +187,7 @@ function PanList({ loc }) {
           console.log(response);
         })
         .catch(function (error) {
-          console.log("123" + error);
+          console.log(error);
         });
     } else {
       await axios
@@ -202,26 +209,41 @@ function PanList({ loc }) {
   }
 
   const changePage = (p) => {
-    if (noticePageTotal >= 1) {
-      setNoticePageNum(p);
-    } else {
-      setPage(p);
-    }
+    setPage(p);
+    setBtnColor(p);
   };
 
   const createBtn = (pageTotal) => {
     let paging = pageTotal / 10;
     let btns = [];
-    for (let i = 0; i < paging; i++) {
+    for (let i = 1; i < paging + 1; i++) {
       let btn_name = "btn_" + i;
       btns.push(
-        <button className="pagebtn" id={btn_name} onClick={() => changePage(i)}>
-          {i + 1}
+        <button
+          className="pagebtn"
+          id={btn_name}
+          style={{ backgroundColor: "#edf1d6", color: "gray" }}
+          onClick={() => changePage(i)}
+        >
+          {i}
         </button>
       );
     }
     if (pageNum) return btns;
   };
+
+  function setBtnColor(p) {
+    var paging = pageTotal / 10;
+    var btn_name;
+    for (let a = 1; a < paging + 1; a++) {
+      btn_name = "btn_" + a;
+      document.getElementById(btn_name).style.backgroundColor = "#edf1d6";
+      document.getElementById(btn_name).style.color = "gray";
+    }
+    let btn_check = "btn_" + p;
+    document.getElementById(btn_check).style.backgroundColor = "#2c7929";
+    document.getElementById(btn_check).style.color = "white";
+  }
 
   return (
     <div className="panlist">
