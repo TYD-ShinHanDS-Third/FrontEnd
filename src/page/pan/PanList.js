@@ -59,25 +59,26 @@ function PanList({ loc }) {
   }
 
   async function filterLocation(loc) {
-    if (loc === "전체") {
+    if (loc == "전체") {
       getList();
+    } else {
+      const listurl = `/hows/notice/${loc}`;
+      await axios
+        .get(listurl, {
+          params: {
+            page: pageNum,
+            size: "10",
+          },
+        })
+        .then(function (response) {
+          setPanlist(response.data.obj);
+          setPageTotal(response.data.total);
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
-    const listurl = `/hows/notice/${loc}`;
-    await axios
-      .get(listurl, {
-        params: {
-          page: pageNum,
-          size: "10",
-        },
-      })
-      .then(function (response) {
-        setPanlist(response.data.obj);
-        setPageTotal(response.data.total);
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }
 
   const filterFavorite = (event) => {
