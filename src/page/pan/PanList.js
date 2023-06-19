@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../css/pan/PanList.css";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import PanDetail from "./PanDetail";
 import NoticeList from "./NoticeList";
 import axios from "axios";
@@ -13,8 +13,10 @@ function PanList({ loc }) {
 
   const [filterState, setFilterState] = useState("");
 
+  const location = useLocation();
+
   useEffect(() => {
-    getList(pageNum);
+    getList("1");
   }, []);
 
   useEffect(() => {
@@ -251,7 +253,13 @@ function PanList({ loc }) {
         <Routes>
           <Route
             path="detail"
-            element={<PanDetail favorite={favorite} />}
+            element={
+              <PanDetail
+                favorite={favorite}
+                pageNum={pageNum}
+                getList={getList}
+              />
+            }
           ></Route>
           <Route
             path="/"
@@ -268,7 +276,11 @@ function PanList({ loc }) {
           ></Route>
         </Routes>
       </div>
-      <div className="paging">{createBtn(pageTotal)}</div>
+      {location.pathname == "/hows/notice" ? (
+        <div className="paging">{createBtn(pageTotal)}</div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
