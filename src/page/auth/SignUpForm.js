@@ -60,6 +60,7 @@ function SignUpForm(props) {
     marry: "",
     haschild: "",
     jobname: "",
+    email: "",
   };
 
   const [member, setMember] = useState(memberInit);
@@ -87,6 +88,16 @@ function SignUpForm(props) {
     setAuthInput(e.target.value);
   };
 
+  //이메일 인증 여부 확인
+  const [emailAns, setEmailAns] = useState(""); //인증번호
+  const [emailInput, setEmailInput] = useState(""); //사용자가 입력한 인증번호
+  const [isCheckEmail, setIsCheckEmail] = useState(0); //0: 인증 진행중, 1: 인증 실패, 2: 인증 성공
+  const [emailMessage, setEmailMessage] =
+    useState("회사 이메일을 인증해주세요");
+  const handleEmail = (e) => {
+    setEmailInput(e.target.value);
+  };
+
   //input창에 입력 시 처리(+유효성 검사)
   const handleSignup = (e) => {
     if (e.target.name !== "pswdChk") {
@@ -96,6 +107,12 @@ function SignUpForm(props) {
     if (e.target.name === "memberid") {
       setIsCheckId(false);
     } else if (e.target.name === "phone") {
+      var btn = document.getElementById("authPhoneBtn");
+      if (e.target.value.length > 0) {
+        btn.style.marginTop = "20px";
+      } else {
+        btn.style.marginTop = "0px";
+      }
       //자동 하이픈 추가
       let phoneAuto = e.target.value
         .replace(/[^0-9]/g, "")
@@ -154,7 +171,7 @@ function SignUpForm(props) {
 
   //아이디 중복 체크
   const checkId = () => {
-    const url = "/member/checkDuplicateId";
+    const url = "/hows/auth/checkDuplicateId";
     axios
       .get(url, {
         params: {
@@ -186,13 +203,14 @@ function SignUpForm(props) {
           {
             label: "확인",
             onClick: () => {},
+            style: { backgroundColor: "#518e65" },
           },
         ],
       });
     } else {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
-      const url = "/member/send";
+      const url = "/hows/send";
       const number = member.phone.replaceAll("-", "");
       axios
         .post(url, null, {
@@ -220,9 +238,55 @@ function SignUpForm(props) {
     }
   };
 
+  //이메일 인증
+  const checkEmail = (event) => {
+    //난수 받아와서 사용자 입력과 같은지 비교
+    if (!isCheckEmail) {
+      confirmAlert({
+        title: "이메일을 입력해주세요",
+        message: "",
+        buttons: [
+          {
+            label: "확인",
+            onClick: () => {},
+            style: { backgroundColor: "#518e65" },
+          },
+        ],
+      });
+    } else {
+      var authbox = document.getElementById("authBox");
+      authbox.style.display = "block";
+      const url = "/member/send";
+      const email = member.email.replaceAll("-", "");
+      axios
+        .post(url, null, {
+          params: {
+            tel: email,
+          },
+        })
+        .then((res) => {
+          setEmailAns(res.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
+
+  //이메일 인증번호 확인
+  const clickEmail = () => {
+    if (emailInput == emailAns) {
+      setIsCheckEmail(2);
+      setEmailMessage("이메일 인증 성공");
+    } else {
+      setIsCheckEmail(1);
+      setEmailMessage("이메일 인증 실패");
+    }
+  };
+
   //회원가입
   function signup() {
-    const url = "/member/signup";
+    const url = "/hows/auth/signup";
 
     axios
       .post(url, JSON.stringify(member), {
@@ -241,6 +305,7 @@ function SignUpForm(props) {
                 onClick: () => {
                   window.location.href = "/hows/auth/login";
                 },
+                style: { backgroundColor: "#518e65" },
               },
             ],
           });
@@ -252,6 +317,7 @@ function SignUpForm(props) {
               {
                 label: "확인",
                 onClick: () => {},
+                style: { backgroundColor: "#518e65" },
               },
             ],
           });
@@ -289,7 +355,7 @@ function SignUpForm(props) {
           />
         </Grid>
         <Grid item xs={12} sm={2}>
-          <button onClick={checkId} disabled={isCheckId}>
+          <button className="signupBtn" onClick={checkId} disabled={isCheckId}>
             중복체크
           </button>
         </Grid>
@@ -334,7 +400,7 @@ function SignUpForm(props) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={8} className="">
           {member.phone.length > 0 && (
             <span className={`message ${isPhone ? "success" : "error"}`}>
               {phoneMessage}
@@ -354,27 +420,136 @@ function SignUpForm(props) {
                 {authMessage}
               </span>
             )}
+            <div style={{ display: "flex" }}>
+              <input
+                id="phoneAuth"
+                name="phoneAuth"
+                placeholder="인증번호"
+                onChange={handleAuth}
+              />
+
+              <button
+                id="authBtn"
+                className="signupBtn"
+                onClick={clickAuth}
+                disabled={isCheckPhone >= 2 ? true : false}
+              >
+                인증
+              </button>
+            </div>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={2}>
+          <button
+            id="authPhoneBtn"
+            className="signupBtn"
+            onClick={checkPhone}
+            disabled={isCheckPhone}
+          >
+            전화번호 인증
+          </button>
+        </Grid>
+        <Grid item xs={12} sm={2}></Grid>
+        <Grid item xs={12} sm={8}>
+          <div className="select">
+            <span>가입유형</span>
             <input
-              id="phoneAuth"
-              name="phoneAuth"
-              placeholder="인증번호"
-              onChange={handleAuth}
+              type="radio"
+              id="selectUser"
+              name="roles"
+              value="USER"
+              label="roles"
+              onChange={handleSignup}
+            />
+            <label htmlFor="selectUser">일반사용자</label>
+            <input
+              type="radio"
+              id="selectAdmin"
+              name="roles"
+              value="ADMIN"
+              label="roles"
+              onChange={handleSignup}
+            />
+            <label htmlFor="selectAdmin">관리자</label>
+            <input
+              type="radio"
+              id="selectBanker"
+              name="roles"
+              value="BANKER"
+              label="roles"
+              onChange={handleSignup}
+            />
+            <label htmlFor="selectBanker">은행원</label>
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <div
+            id="authBox"
+            style={{
+              width: "95%",
+              display: member.roles === "USER" ? "none" : "flex",
+            }}
+          >
+            <input
+              id="email"
+              name="email"
+              placeholder="회사 이메일"
+              onChange={handleSignup}
             />
             <button
-              id="authBtn"
-              onClick={clickAuth}
-              disabled={isCheckPhone >= 2 ? true : false}
+              className="signupBtn"
+              onClick={checkEmail}
+              disabled={isCheckEmail}
+            >
+              인증메일 발송
+            </button>
+          </div>
+          <div
+            id="authBox"
+            style={{
+              width: "95%",
+              display: member.roles === "USER" ? "none" : "flex",
+            }}
+          >
+            <div
+              style={{ width: "90%", display: "flex", flexDirection: "column" }}
+            >
+              {member.roles !== "USER" > 0 && (
+                <span
+                  className={`message ${
+                    isCheckEmail >= 2 ? "success" : "error"
+                  }`}
+                >
+                  {emailMessage}
+                </span>
+              )}
+              <input
+                id="emailAuth"
+                name="emailAuth"
+                placeholder="인증번호"
+                onChange={handleEmail}
+              />
+            </div>
+            <button
+              id="emailBtn"
+              className="signupBtn"
+              onClick={clickEmail}
+              disabled={isCheckEmail >= 2 ? true : false}
             >
               인증
             </button>
           </div>
+          <div
+            id="authBox"
+            style={{
+              width: "95%",
+              display: member.roles === "USER" ? "none" : "flex",
+            }}
+          >
+            <span>재직 증명서 제출</span>
+            <input type="file" id="fileUpload" />
+          </div>
         </Grid>
-        <Grid item xs={12} sm={2}>
-          <button onClick={checkPhone} disabled={isCheckPhone}>
-            전화번호 인증
-          </button>
-        </Grid>
-
         <Grid item xs={12} sm={8}>
           <List
             sx={{
@@ -391,43 +566,6 @@ function SignUpForm(props) {
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem sx={{ pl: 3 }}>
-                  <Grid item xs={12} sm={3}>
-                    <span className="addInfoSpan">가입유형</span>
-                  </Grid>
-                  <Grid item xs={12} sm={8}>
-                    <div className="select">
-                      <input
-                        type="radio"
-                        id="selectUser"
-                        name="roles"
-                        value="USER"
-                        label="roles"
-                        onChange={handleSignup}
-                      />
-                      <label htmlFor="selectUser">일반사용자</label>
-                      <input
-                        type="radio"
-                        id="selectADMIN"
-                        name="roles"
-                        value="ADMIN"
-                        label="roles"
-                        onChange={handleSignup}
-                      />
-                      <label htmlFor="selectADMIN">관리자</label>
-                      <input
-                        type="radio"
-                        id="selectBANKER"
-                        name="roles"
-                        value="BANKER"
-                        label="roles"
-                        onChange={handleSignup}
-                      />
-                      <label htmlFor="selectBANKER">은행원</label>
-                    </div>
-                  </Grid>
-                </ListItem>
-
                 <ListItem sx={{ pl: 2, minHeight: 80 }}>
                   <Grid item xs={12} sm={3}>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 80 }}>
@@ -574,6 +712,7 @@ function SignUpForm(props) {
         <Grid item xs={12} sm={8}>
           <button
             id="signUpBtn"
+            className="signupBtn"
             onClick={() => signup()}
             disabled={
               !(
