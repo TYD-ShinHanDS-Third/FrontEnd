@@ -32,12 +32,21 @@ function Login(props) {
         },
       })
       .then((res) => {
-        document.getElementById("failLogin").style.display = "none";
+        console.dir("res", res);
 
-        //cookie로 저장
-        const cookies = new Cookies();
-        cookies.set("jwtToken", res.headers.authorization);
-        window.location.href = "/hows";
+        if (res.headers.authorization === undefined) {
+          document.getElementById("failLogin").style.display = "block";
+          document.getElementById("memberid").value = "";
+          document.getElementById("pswd").value = "";
+          setUser({ memberid: "", pswd: "" });
+        } else {
+          document.getElementById("failLogin").style.display = "none";
+
+          //cookie로 저장
+          const cookies = new Cookies();
+          cookies.set("jwtToken", res.headers.authorization);
+          window.location.href = "/hows";
+        }
       })
       .catch((ex) => {
         console.log("login requset fail : " + ex);
