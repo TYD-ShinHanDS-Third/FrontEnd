@@ -210,7 +210,7 @@ function SignUpForm(props) {
     } else {
       var authbox = document.getElementById("authBox");
       authbox.style.display = "block";
-      const url = "/hows/send";
+      const url = "/hows/auth/send";
       const number = member.phone.replaceAll("-", "");
       axios
         .post(url, null, {
