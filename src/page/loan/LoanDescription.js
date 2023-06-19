@@ -36,7 +36,7 @@ function LoanDescription(props) {
 
   useEffect(() => {
     const loanname = location.state.loanname;
-    const bankname = location.state.bankname.item;
+    const bankname = location.state.bankname;
     console.log(location.state.bankname);
     getDetail(loanname, bankname);
   }, []);

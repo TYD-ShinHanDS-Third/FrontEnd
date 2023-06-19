@@ -23,7 +23,7 @@ function LoanApply(props) {
   //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
 
   //스크롤
-  //const scrollRef = useRef();
+  const scrollRef = useRef();
 
   const msgBox = chatt.map((item, idx) => (
     <div key={idx} className={item.myname === myname ? "me" : "you"}>
@@ -69,6 +69,7 @@ function LoanApply(props) {
           setChatt(historylist);
         }
         setRoom(res.data.room);
+        setMyname(res.data.myname);
       })
       .catch((ex) => {
         console.log("requset fail : " + ex);
@@ -82,13 +83,11 @@ function LoanApply(props) {
     setLoanname(location.state.loanname);
     setRoom(location.state.room === undefined ? "" : location.state.room);
     const cookies = new Cookies();
-    setMyname(cookies.get("myname"));
     makeRoom(
       cookies.get("jwtToken"),
       location.state.bankname,
       location.state.loanname
     );
-    //scrollRef.current.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   useEffect(() => {
@@ -96,9 +95,11 @@ function LoanApply(props) {
       const tempData = chatt.concat(socketData);
       setChatt(tempData);
     }
-    //scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    //scrollRef.current.scrollIntoView({ behavior: "smooth" });
   }, [socketData]);
+
+  useEffect(() => {
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [msgBox]);
 
   const GlobalStyle = createGlobalStyle`  //css 초기화가 된 component
         ${reset}
@@ -164,7 +165,10 @@ function LoanApply(props) {
               [{bankname}] {loanname}
             </h3>
             <br />
-            <div id="talk">{msgBox}</div>
+            <div id="talk">
+              {msgBox}
+              <div ref={scrollRef}></div>
+            </div>
             <div id="sendZone">
               <textarea
                 id="msg"
