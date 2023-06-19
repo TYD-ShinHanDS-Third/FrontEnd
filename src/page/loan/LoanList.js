@@ -33,24 +33,6 @@ function LoanList({ bank }) {
       .then(function (response) {
         console.dir("list", response.data);
         setLoanList(response.data.obj);
-        // response.obj.map((loan) => {
-        //   if (bank === "신한" || bank === "국민") {
-        //     setLoanList([
-        //       ...loan,
-        //       { loanname: loan.loanname, summary: loan.type },
-        //     ]);
-        //   } else if (bank === "우리") {
-        //     setLoanList([
-        //       ...loan,
-        //       { loanname: loan.loanname, summary: loan.type },
-        //     ]);
-        //   } else if (bank === "하나") {
-        //     setLoanList([
-        //       ...loan,
-        //       { loanname: loan.loanname, summary: loan.type },
-        //     ]);
-        //   }
-        // });
       })
       .catch(function (error) {
         console.log(error);
@@ -83,7 +65,7 @@ function LoanList({ bank }) {
                 to="/hows/loan/detail"
                 style={{ textDecoration: "none", color: "black" }}
                 state={{
-                  bankname: bank,
+                  bankname: pro.bankname,
                   loanname: pro.loanname,
                 }}
               >
@@ -99,7 +81,7 @@ function LoanList({ bank }) {
                   to="/hows/loan/detail/limit"
                   style={{ marginRight: "3%", width: "12%" }}
                   state={{
-                    bankname: bank,
+                    bankname: pro.bankname,
                     loanname: pro.loanname,
                   }}
                 >
@@ -109,7 +91,7 @@ function LoanList({ bank }) {
                   to="/hows/loan/detail/consult"
                   style={{ width: "12%" }}
                   state={{
-                    bankname: bank,
+                    bankname: pro.bankname,
                     loanname: pro.loanname,
                     token: token,
                   }}
