@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 
@@ -13,6 +13,13 @@ function ConsultingList(props) {
   const [userConList, setUserConsultList] = useState([]);
   const [userPageNum, setUserPageNum] = useState("0");
   const [userPageTotal, setUserListTotal] = useState("0");
+
+  //채팅방 이동
+  const navigate = useNavigate();
+
+  async function moveChatRoom(chatroom) {
+    navigate("/hows/loan/detail/consult", { state: chatroom });
+  }
 
   useEffect(() => {
     userCList();
@@ -91,12 +98,18 @@ function ConsultingList(props) {
                     <td className="userloan">{item.loanname.loanname}</td>
                     <td className="userloanstate">{item.loanstate}</td>
                     <td className="enterroom">
-                      <Link
-                        to="/hows/admin/consult/chatroom"
-                        style={{ textDecoration: "none", color: "blue" }}
+                      <buttn
+                        onClick={() => {
+                          moveChatRoom({
+                            loanname: item.loanname.loanname,
+                            bankname: item.bankname,
+                            room: item.roomnumber,
+                          });
+                        }}
                       >
+                        {" "}
                         상담방 입장
-                      </Link>
+                      </buttn>
                     </td>
                   </tr>
                 );
