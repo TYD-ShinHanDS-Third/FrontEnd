@@ -6,7 +6,8 @@ import { useLocation } from "react-router-dom";
 const { kakao } = window;
 
 function HouseMapKakao(props) {
-  const mImage = "https://ifh.cc/g/2T9Ptw.png";
+  const mImage =
+    "https://lh3.google.com/u/0/d/1ul5QjkpVaJkOiJuIHc8Ha7Z_qIsT4gVH=w2560-h1374-iv1";
   useEffect(
     function view() {
       let container = document.getElementById("map");
