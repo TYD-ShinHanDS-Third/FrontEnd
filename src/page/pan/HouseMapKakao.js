@@ -1,10 +1,12 @@
 import { display, height } from "@mui/system";
+import { on } from "events";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 const { kakao } = window;
 
 function HouseMapKakao(props) {
+  const mImage = "https://ifh.cc/g/2T9Ptw.png";
   useEffect(
     function view() {
       let container = document.getElementById("map");
@@ -13,40 +15,67 @@ function HouseMapKakao(props) {
 
       var options = {
         center: mapCenter,
-        level: 4
+        level: 4,
       };
 
       let map = new window.kakao.maps.Map(container, options);
 
-      var positions = [
-        {
-          content: "<div>카카오</div>",
-          latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-        },
-        {
-          content: "<div>생태연못</div>",
-          latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-        },
-        {
-          content: "<div>텃밭</div>",
-          latlng: new kakao.maps.LatLng(33.450879, 126.56994)
-        },
-        {
-          content: "<div>근린공원</div>",
-          latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-        }
-      ];
+      var imageSrc = mImage, // 마커이미지의 주소입니다
+        imageSize = new kakao.maps.Size(45, 50), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        ),
+        markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+
+      var pos = [];
+
+      for (let house in props.houselist) {
+        var oneHouse = { housename: "", latlng: { La: "", Ma: "" } };
+        let x = props.houselist[house].x;
+        let y = props.houselist[house].y;
+
+        oneHouse.housename = house;
+        oneHouse.latlng.La = y;
+        oneHouse.latlng.Ma = x;
+        pos.push(oneHouse);
+      }
+
+      var positions = [];
+
+      positions.push(
+        pos.map((item, index) => {
+          return {
+            content:
+              '<div class="customoverlay" style="width:200px;padding:5px;display:flex;align-items:center;justify-content:center;">' +
+              "    <span>" +
+              item.housename +
+              "</span>" +
+              "</div>",
+            latlng: new kakao.maps.LatLng(item.latlng.La, item.latlng.Ma),
+          };
+        })
+      );
+
+      console.log(positions);
+      positions = positions[0];
+      console.log(positions);
 
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
           map: map, // 마커를 표시할 지도
-          position: positions[i].latlng // 마커의 위치
+          position: positions[i].latlng, // 마커의 위치
+          image: markerImage, // 마커이미지 설정
         });
 
         // 마커에 표시할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({
-          content: positions[i].content // 인포윈도우에 표시할 내용
+          content: positions[i].content, // 인포윈도우에 표시할 내용
         });
 
         // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
@@ -86,15 +115,14 @@ function HouseMapKakao(props) {
           const mapCenter = coords;
           var marker = new kakao.maps.Marker({
             map: map,
-            position: coords
+            position: coords,
           });
 
           var infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="width:150px;text-align:center;padding:6px 0;">${props.addressName}</div>`
+            content: `<div style="width:150px;text-align:center;padding:10px;display:flex;align-items:center;justify-content:center;">${props.addressName}</div>`,
           });
 
           infowindow.open(map, marker);
-          console.log(coords);
           map.setCenter(coords);
         }
       });
@@ -110,7 +138,7 @@ function HouseMapKakao(props) {
           width: "100%",
           height: "100%",
           borderTopRightRadius: "10px",
-          borderBottomLeftRadius: "10px"
+          borderBottomLeftRadius: "10px",
         }}
       ></div>
     </div>

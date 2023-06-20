@@ -7,6 +7,8 @@ import { Cookies } from "react-cookie";
 import axios from "axios";
 import HouseMapKakao from "./HouseMapKakao";
 
+const { kakao } = window;
+
 function HouseMap(props) {
   const [houseaddress, setHouseaddress] = useState("");
   const [addressName, setAdressName] = useState("");
@@ -22,9 +24,19 @@ function HouseMap(props) {
   const selectAddress = (data) => {
     setHouseaddress(data.address);
     setAdressName(data.roadAddress);
+    setHouseaddress(data.address);
+    getGeco(data.address);
   };
 
-  async function showNearHouse(houseaddress) {
+  const getGeco = (address) => {
+    var geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(address, async function (result, status) {
+      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+      showNearHouse(coords);
+    });
+  };
+
+  async function showNearHouse(address) {
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
@@ -32,15 +44,16 @@ function HouseMap(props) {
     await axios
       .get(listurl, {
         params: {
-          houseaddress: houseaddress
+          x: address.La,
+          y: address.Ma,
         },
         headers: {
           "Content-type": "application/json",
-          token: token
-        }
+          token: token,
+        },
       })
       .then(function (response) {
-        setHouseList(response.data.obj);
+        setHouseList(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -77,7 +90,11 @@ function HouseMap(props) {
           </div>
         </div>
         <div className="kakaomap" id="kakaomap">
-          <HouseMapKakao address={houseaddress} addressName={addressName} />
+          <HouseMapKakao
+            address={houseaddress}
+            addressName={addressName}
+            houselist={houselist}
+          />
         </div>
       </div>
     </div>
