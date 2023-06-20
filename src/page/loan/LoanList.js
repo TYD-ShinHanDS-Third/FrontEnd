@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../../css/loan/LoanList.css";
-
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import Modal from "./Modal";
 
 function LoanList({ bank }) {
   const [loanlist, setLoanList] = useState([]);
-  //신한, 국민: summary 우리: html1
 
   const cookies = new Cookies();
   const token = cookies.get("jwtToken");
@@ -77,16 +72,13 @@ function LoanList({ bank }) {
                 </div>
               </Link>
               <div className="loanbtn">
-                <Link
-                  to="/hows/loan/detail/limit"
-                  style={{ marginRight: "3%", width: "12%" }}
-                  state={{
+                <Modal
+                  props={{
                     bankname: pro.bankname,
                     loanname: pro.loanname,
                   }}
-                >
-                  <button className="limitbtn">한도조회</button>
-                </Link>
+                />
+                {/* </Link> */}
                 <Link
                   to="/hows/loan/detail/consult"
                   style={{ width: "12%" }}
