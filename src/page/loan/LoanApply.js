@@ -186,7 +186,10 @@ function LoanApply(props) {
         </div>
       </div>
 
-      <Link to="/hows/loan/detail/limit/uploaddocs">
+      <Link
+        to="/hows/loan/detail/limit/uploaddocs"
+        state={{ bankname: bankname, loanname: loanname }}
+      >
         <button className="consultbtn">대출 자료 제출</button>
       </Link>
     </div>
