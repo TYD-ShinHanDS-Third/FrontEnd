@@ -80,8 +80,8 @@ function HouseMap(props) {
             <div className="daumpost">
               {searchtoggle && (
                 <DaumPostcodeEmbed
-                  onComplete={selectAddress} // 값을 선택할 경우 실행되는 이벤트
-                  autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                  onComplete={selectAddress}
+                  autoClose={false}
                   defaultQuery="서울특별시"
                   style={{ height: "100%" }}
                 />
