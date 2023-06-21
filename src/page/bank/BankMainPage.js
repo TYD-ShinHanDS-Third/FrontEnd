@@ -2,9 +2,37 @@ import React, { useEffect, useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import BankManageDocs from "./BankManageDocs";
 import BankManageApplyLoan from "./BankManageApplyLoan";
+import axios from "axios";
+import { Cookies } from "react-cookie";
 
 function BankMainPage(props) {
   document.body.style.backgroundColor = "#eef1e6";
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+    const url = "/hows/bank/check";
+    const requestUrl = "/hows/bank";
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": `application/json`,
+          token: token,
+        },
+        params: {
+          url: requestUrl,
+        },
+      })
+      .then((res) => {
+        console.dir(res);
+      })
+      .catch((ex) => {
+        console.log("requset fail : " + ex);
+        if (ex.response.status === 403) {
+          window.location.href = "/hows/noauth";
+        }
+      });
+  }, []);
 
   return (
     <div>
