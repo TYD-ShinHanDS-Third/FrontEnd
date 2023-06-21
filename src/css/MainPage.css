@@ -105,3 +105,18 @@ button.menu {
   /* border: solid 3px #518e65; */
   border-radius: 10px;
 }
+/* 스크롤 삭제  */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* 권한 없음 페이지 */
+.noauth {
+  display: grid;
+  justify-content: center;
+}
+.noauthImg {
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+}

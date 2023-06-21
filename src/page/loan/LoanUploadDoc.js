@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "../../css/loan/LoanUploadDoc.css";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
+import axios from "axios";
 
 function LoanUploadDoc(props) {
   const [filelist, setFilelist] = useState({
@@ -8,43 +10,63 @@ function LoanUploadDoc(props) {
     file2: "",
     file3: "",
     file4: "",
-    file5: ""
+    file5: "",
   });
-
-  const [imageFile, setImageFile] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
+  const [files, setFiles] = useState([]);
 
   const printFileName = (e) => {
-    console.log(e);
+    setFiles((files) => [...files, e.target.files[0]]);
+
     var filename = e.target.value; // 파일 주소
     var fileindex = e.target.name; // 파일 인덱스
 
     //파일 확장자 관리
     const fileType = e.target.value.split(".").pop();
-    if (!["jpeg", "png", "jpg", "JPG", "PNG", "JPEG"].includes(fileType)) {
-      alert("jpg, png, jpg 파일만 업로드가 가능합니다.");
+    if (
+      !["jpeg", "png", "jpg", "JPG", "PNG", "JPEG", "pdf", "PDF"].includes(
+        fileType
+      )
+    ) {
+      alert("jpg, png, jpg, pdf 파일만 업로드가 가능합니다.");
       return;
     }
+
     // 파일 이름만 분리 출력
     var filename_list = filename.split("\\");
     filename = filename_list.slice(-1);
     var tmplist = { ...filelist };
     tmplist[fileindex] = filename;
     setFilelist(tmplist);
+  };
 
-    //파일리더
-    const reader = new FileReader();
-    reader.readAsDataURL(filename);
+  const submitFile = (e) => {
+    const formData = new FormData();
+    for (let a in files) {
+      formData.append("file", files[a]);
+    }
+    console.log(formData.getAll("file"));
 
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        // 이미지 경로 선언
-        setImageSrc(reader.result || null);
-        // 이미지 파일 선언
-        setImageFile(filename);
-        resolve();
-      };
-    });
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+
+    const listurl = "/hows/loan/detail/limit/uploaddocs";
+    axios
+      .post(
+        listurl,
+        { files: formData },
+        {
+          headers: {
+            token: token,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <div className="uplods">
@@ -134,7 +156,9 @@ function LoanUploadDoc(props) {
           </p>
         </div>
         <Link to="/hows/loan/detail/consult/success">
-          <button className="finalapply_btn">신청하기</button>
+          <button className="finalapply_btn" onClick={() => submitFile()}>
+            신청하기
+          </button>
         </Link>
       </div>
     </div>

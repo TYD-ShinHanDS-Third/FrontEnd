@@ -50,26 +50,32 @@ function NoticeList({
   function favNotice(e) {
     if (e.target.checked === true) {
       if (document.getElementById("onNotice").checked === true) {
-        filterNotice(e);
+        filterNotice("1");
       } else {
-        filterFavorite(e);
+        filterFavorite("1");
+      }
+    } else if (e.target.checked === false) {
+      if (document.getElementById("onNotice").checked === true) {
+        filterOnNotice("1");
+      } else {
+        getList("1");
       }
     }
-
-    // else if (e.target.checked === false) {
-    //   getList();
-    // }
   }
 
   function onNotice(e) {
     if (e.target.checked === true) {
       if (document.getElementById("fav").checked === true) {
-        filterNotice(e);
+        filterNotice("1");
       } else {
-        filterOnNotice(e);
+        filterOnNotice("1");
       }
     } else if (e.target.checked === false) {
-      getList();
+      if (document.getElementById("fav").checked === true) {
+        filterFavorite("1");
+      } else {
+        getList("1"); // 전체 해제
+      }
     }
   }
 

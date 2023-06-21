@@ -15,7 +15,7 @@ function Kakao(props) {
 
       var options = {
         center: mapCenter,
-        level: 3
+        level: 3,
       };
 
       let map = new window.kakao.maps.Map(container, options);
@@ -28,11 +28,11 @@ function Kakao(props) {
           const mapCenter = coords;
           var marker = new kakao.maps.Marker({
             map: map,
-            position: coords
+            position: coords,
           });
 
           var infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="width:150px;text-align:center;padding:6px 0;">${props.addressName}</div>`
+            content: `<div style="width:150px;text-align:center;padding:6px 0;">${props.addressName}</div>`,
           });
 
           infowindow.open(map, marker);
@@ -55,12 +55,12 @@ function Kakao(props) {
           kakao.maps.event.addListener(rv, "init", function () {
             var rMarker = new kakao.maps.Marker({
               position: mapCenter,
-              map: rv
+              map: rv,
             });
 
             var rLabel = new kakao.maps.InfoWindow({
               position: mapCenter,
-              content: props.addressName
+              content: props.addressName,
             });
             rLabel.open(rv, rMarker);
 
@@ -116,7 +116,7 @@ function Kakao(props) {
             rv.setViewpoint({
               pan: rvResetValue.pan,
               tilt: rvResetValue.tilt,
-              zoom: rvResetValue.zoom
+              zoom: rvResetValue.zoom,
             });
             rv.setPanoId(rvResetValue.panoId);
           }
@@ -143,16 +143,16 @@ function Kakao(props) {
 
   return (
     <div style={{ display: "flex", height: "100%", alignItems: "flex-end" }}>
-      {toggle === true ? (
+      {/* {toggle === true ? (
         <div id="map" style={{ width: "95%", height: "100%" }}></div>
       ) : (
         <div id="roadview" style={{ width: "95%", height: "100%" }}></div>
-      )}
-      {/* <div id="map" style={{ width: "95%", height: "100%" }}></div>
+      )} */}
+      <div id="map" style={{ width: "95%", height: "100%" }}></div>
       <div
         id="roadview"
         style={{ width: "95%", height: "100%", display: "none" }}
-      ></div> */}
+      ></div>
       {location.pathname.includes("/hows/notice/detail") ? (
         <button
           onClick={() => setRoad()}
@@ -160,7 +160,7 @@ function Kakao(props) {
             height: "10%",
             width: "13%",
             marginLeft: "3%",
-            color: "white"
+            color: "white",
           }}
         >
           {toggle ? "로드뷰 보기" : "지도로 보기"}

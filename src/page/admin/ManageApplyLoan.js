@@ -66,7 +66,7 @@ function ManageApplyLoan(props) {
     setUserPageNum(p);
   };
   return (
-    <div>
+    <div className="manageruser">
       <div className="usertopbar">{createBtn(userPageTotal)}</div>
       <div className="manageuser">
         <div className="userdetailtable">

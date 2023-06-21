@@ -2,15 +2,25 @@
   /* 모달창 크기 */
   width: 500px;
   height: 400px;
-  z-index: 999;
+  z-index: 9999;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
   /* 모달창 디자인 */
-  background-color: lightgray;
+  background-color: rgb(245, 245, 245);
   border-radius: 8px;
+}
+
+.modalback {
+  width: 1450px;
+  height: 880px;
+  background-color: #526d82;
+  border-radius: 15px;
+  opacity: 0.5;
+  z-index: 50;
+  margin-bottom: 100px;
 }
 
 /* 모달창 내부 X버튼 */
@@ -24,4 +34,8 @@
   padding: 5px 10px;
   color: white;
   background-color: #526d82;
+}
+.manageruser {
+  height: 950px;
+  overflow: hidden;
 }
