@@ -11,6 +11,7 @@ import { Cookies } from "react-cookie";
 
 function ManPage(props) {
   document.body.style.backgroundColor = "#DDE6ED";
+
   useEffect(() => {
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");

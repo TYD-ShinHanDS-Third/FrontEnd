@@ -25,30 +25,7 @@ function ManageUser(props) {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    const cookies = new Cookies();
-    const token = cookies.get("jwtToken");
-    const url = "/hows/admin/check";
-    const requestUrl = "/hows/admin";
-    axios
-      .get(url, {
-        headers: {
-          "Content-Type": `application/json`,
-          token: token,
-        },
-        params: {
-          url: requestUrl,
-        },
-      })
-      .then((res) => {
-        console.dir(res);
-        getUserList();
-      })
-      .catch((ex) => {
-        console.log("requset fail : " + ex);
-        if (ex.response.status === 403) {
-          window.location.href = "/hows/noauth";
-        }
-      });
+    getUserList();
   }, []);
 
   useEffect(() => {
