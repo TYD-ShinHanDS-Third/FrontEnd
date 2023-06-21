@@ -3,15 +3,59 @@ import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { Cookies } from "react-cookie";
 
-function Modal(props) {
-  const location = useLocation();
+function Modal({ loanname, bankname, consult }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [identify, setIdentify] = useState({ name: "", jumin: "" });
+  const [isCheckIdf, setIsCheckIdf] = useState(false);
+
+  const [idfMessage, setIdfMessage] = useState("본인 인증을 진행해주세요.");
+
+  const handleModal = (e) => {
+    setIdentify({ ...identify, [e.target.name]: e.target.value });
+    console.log(identify);
+  };
 
   const openModalHandler = () => {
     // isOpen의 상태를 변경하는 메소드를 구현
     // !false -> !true -> !false
     setIsOpen(!isOpen);
+    setIdentify({ name: "", jumin: "" });
+  };
+
+  //본인인증
+  const identifyVer = () => {
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+    const url = "/hows/loan/verification";
+
+    console.log(identify.name);
+    axios
+      .get(url, {
+        headers: {
+          "Content-type": "application/json",
+          token: token,
+        },
+        params: {
+          name: identify.name,
+          jumin: identify.jumin,
+        },
+      })
+      .then(function (response) {
+        console.dir("res", response);
+        if (response.data == "1") {
+          setIsCheckIdf(true);
+          setIdfMessage("본인 인증 완료");
+        } else {
+          setIdfMessage("본인 인증 실패. 다시 시도해주세요.");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -30,23 +74,38 @@ function Modal(props) {
             {/* event 버블링을 막는 메소드 */}
             <ModalView onClick={(e) => e.stopPropagation()}>
               <ExitBtn onClick={openModalHandler}>x</ExitBtn>
+              <h3>
+                [{bankname}] {loanname}
+              </h3>
               <h3>본인인증 이후 한도조회가 가능합니다 : ) </h3>
               <div className="desc">
                 이름
-                <input type="text" />
+                <input type="text" name="name" onChange={handleModal} />
                 주민번호
-                <input type="text" />
+                <input type="text" name="jumin" onChange={handleModal} />
+                <br />
+                {identify.jumin !== null && (
+                  <span
+                    className={`message ${isCheckIdf ? "success" : "error"}`}
+                  >
+                    {idfMessage}
+                  </span>
+                )}
               </div>
               <div style={{ display: "flex" }}>
-                <OKBtn>본인 인증</OKBtn>
+                <OKBtn onClick={identifyVer} disabled={isCheckIdf}>
+                  본인 인증
+                </OKBtn>
                 <Link
-                  to="/hows/loan/loading"
+                  to="/hows/loan/detail/limit/loading"
                   state={{
-                    bankname: props.bankname,
-                    loanname: props.loanname,
+                    loanname: loanname,
+                    bankname: bankname,
+                    jumin: identify.jumin,
+                    consult: consult,
                   }}
                 >
-                  <OKBtn>확인</OKBtn>
+                  <OKBtn disabled={!isCheckIdf}>확인</OKBtn>
                 </Link>
               </div>
             </ModalView>
@@ -116,7 +175,7 @@ export const OKBtn = styled(ModalBtn)`
   align-items: center;
 `;
 
-export const ModalView = styled.div.attrs((props) => ({
+export const ModalView = styled.div.attrs(() => ({
   // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있다.
   role: "dialog",
 }))`

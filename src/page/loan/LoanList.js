@@ -36,11 +36,8 @@ function LoanList({ bank }) {
   }
 
   useEffect(() => {
-    getList("전체");
-  }, []);
-
-  useEffect(() => {
-    getList(bank.item);
+    console.log(bank);
+    getList(bank.item == null ? "전체" : bank.item);
   }, [bank]);
 
   return (
@@ -73,12 +70,10 @@ function LoanList({ bank }) {
               </Link>
               <div className="loanbtn">
                 <Modal
-                  props={{
-                    bankname: pro.bankname,
-                    loanname: pro.loanname,
-                  }}
+                  loanname={pro.loanname}
+                  bankname={pro.bankname}
+                  consult="0"
                 />
-                {/* </Link> */}
                 <Link
                   to="/hows/loan/detail/consult"
                   style={{ width: "12%" }}
