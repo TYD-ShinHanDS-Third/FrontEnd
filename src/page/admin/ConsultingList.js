@@ -68,7 +68,7 @@ function ConsultingList(props) {
   };
 
   return (
-    <div>
+    <div className="manageruser">
       <div className="usertopbar">{createBtn(userPageTotal)}</div>
       <div className="manageuser">
         <div className="userdetailtable">

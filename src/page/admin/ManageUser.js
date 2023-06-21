@@ -14,6 +14,7 @@ import Select from "@mui/material/Select";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 import CheckUserWork from "./CheckUserWork";
+import ModalBack from "./ModalBack";
 
 function ManageUser(props) {
   const [userList, setUserList] = useState([]);
@@ -164,7 +165,8 @@ function ManageUser(props) {
   };
 
   return (
-    <div>
+    <div className="manageruser">
+      {modalOpen && <ModalBack setModalOpen={setModalOpen} />}
       <div className="usertopbar">{createBtn(userPageTotal)}</div>
       <div className="manageuser">
         <div className="userdetailtable">
@@ -219,9 +221,9 @@ function ManageUser(props) {
               })}
             </tbody>
           </table>
-          {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
         </div>
       </div>
+      {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
     </div>
   );
 }

@@ -109,3 +109,14 @@ button.menu {
 body::-webkit-scrollbar {
   display: none;
 }
+
+/* 권한 없음 페이지 */
+.noauth {
+  display: grid;
+  justify-content: center;
+}
+.noauthImg {
+  width: 500px;
+  height: 500px;
+  overflow: hidden;
+}

@@ -271,6 +271,7 @@ function PanList({ loc }) {
                 filterNotice={filterNotice}
                 getList={getList}
                 favorite={favorite}
+                loc={loc}
               />
             }
           ></Route>
