@@ -16,7 +16,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
-function PanDetail({ favorite, pageNum, getList }) {
+function PanDetail({ favorite, pageNum, getList, loc }) {
+  console.log(loc);
   const location = useLocation();
   const panInfo = location.state.panInfo;
   const [fav, setFav] = useState(panInfo.favorite);
