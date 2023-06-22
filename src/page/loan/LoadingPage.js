@@ -19,6 +19,7 @@ function LoadingPage(props) {
         },
         params: {
           jumin: location.state.jumin,
+          price: location.state.price,
         },
       })
       .then(function (response) {

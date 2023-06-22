@@ -9,7 +9,7 @@ import { Cookies } from "react-cookie";
 function Modal({ loanname, bankname, consult }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [identify, setIdentify] = useState({ name: "", jumin: "" });
+  const [identify, setIdentify] = useState({ name: "", jumin: "", money: 0 });
   const [isCheckIdf, setIsCheckIdf] = useState(false);
 
   const [idfMessage, setIdfMessage] = useState("본인 인증을 진행해주세요.");
@@ -23,7 +23,7 @@ function Modal({ loanname, bankname, consult }) {
     // isOpen의 상태를 변경하는 메소드를 구현
     // !false -> !true -> !false
     setIsOpen(!isOpen);
-    setIdentify({ name: "", jumin: "" });
+    setIdentify({ name: "", jumin: "", money: 0 });
   };
 
   //본인인증
@@ -32,7 +32,7 @@ function Modal({ loanname, bankname, consult }) {
     const token = cookies.get("jwtToken");
     const url = "/hows/loan/verification";
 
-    console.log(identify.name);
+    console.log("identify", identify);
     axios
       .get(url, {
         headers: {
@@ -42,6 +42,7 @@ function Modal({ loanname, bankname, consult }) {
         params: {
           name: identify.name,
           jumin: identify.jumin,
+          price: identify.money,
         },
       })
       .then(function (response) {
@@ -80,7 +81,7 @@ function Modal({ loanname, bankname, consult }) {
               <div className="desc">
                 이름
                 <input type="text" name="name" onChange={handleModal} />
-                주민번호
+                주민등록번호
                 <input type="text" name="jumin" onChange={handleModal} />
                 <br />
                 {identify.jumin !== null && (
@@ -90,6 +91,9 @@ function Modal({ loanname, bankname, consult }) {
                     {idfMessage}
                   </span>
                 )}
+                <br />
+                대출 금액
+                <input type="number" name="money" onChange={handleModal} />
               </div>
               <div style={{ display: "flex" }}>
                 <OKBtn onClick={identifyVer} disabled={isCheckIdf}>
@@ -102,6 +106,7 @@ function Modal({ loanname, bankname, consult }) {
                     bankname: bankname,
                     jumin: identify.jumin,
                     consult: consult,
+                    price: identify.money,
                   }}
                 >
                   <OKBtn disabled={!isCheckIdf}>확인</OKBtn>
@@ -174,16 +179,10 @@ export const OKBtn = styled(ModalBtn)`
   align-items: center;
 `;
 
-export const LimitButton = styled(ModalBtn)`
+export const LimitButton = styled.button`
   background-color: #fffedd;
-  color: black;
-  border-radius: 50px;
-  text-decoration: none;
-  margin: 10px;
-  padding: 5px 10px;
-  width: 10px;
-  height: 40px;
-  align-items: center;
+  width: 100px;
+  border-radius: 10px;
 `;
 
 export const ModalView = styled.div.attrs(() => ({
