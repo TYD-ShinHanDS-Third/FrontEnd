@@ -1,6 +1,6 @@
 .loandetail {
   display: grid;
-  grid-template-rows: 0.5fr 3fr;
+  grid-template-rows: 0.3fr 3fr;
   grid-template-columns: 0.3fr 5fr 0.3fr;
   grid-template-areas:
     ". loandetail_header ."
@@ -11,8 +11,8 @@
 .loandetail_header {
   grid-area: loandetail_header;
   display: grid;
-  grid-template-columns: 3fr 2fr 4fr;
-  grid-template-areas: "loandetail_title . loandetail_btn";
+  grid-template-columns: 5fr 4fr;
+  grid-template-areas: "loandetail_title loandetail_btn";
 }
 .loandetail_body {
   grid-area: loandetail_body;
@@ -30,12 +30,6 @@
 .detail_apply {
   grid-area: detail_apply;
 }
-/* .detail_applybtn{
-    background-color: #031389;
-    color: #FFFFFF;
-    width: 150%;
-    border-radius: 10px;
-} */
 
 .detail_limitbtn {
   background-color: #fffedd;
@@ -51,6 +45,20 @@
 
 #detail {
   width: 100%;
-  height: 600px;
+  height: 700px;
   overflow-y: auto;
+}
+
+#detail::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+#detail::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #609966; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+
+#detail::-webkit-scrollbar-track {
+  background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
 }
