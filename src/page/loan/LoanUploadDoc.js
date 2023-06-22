@@ -42,25 +42,20 @@ function LoanUploadDoc(props) {
   const submitFile = (e) => {
     const formData = new FormData();
     for (let a in files) {
-      formData.append("file", files[a]);
+      formData.append("files", files[a]);
     }
-    console.log(formData.getAll("file"));
 
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
-    const listurl = "/hows/loan/detail/limit/uploaddocs";
+    const listurl = "/hows/loan/detail/uploaddocs";
     axios
-      .post(
-        listurl,
-        { files: formData },
-        {
-          headers: {
-            token: token,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .post(listurl, formData, {
+        headers: {
+          token: token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(function (response) {
         console.log(response);
       })
@@ -150,13 +145,26 @@ function LoanUploadDoc(props) {
       <div className="loanapplybtn">
         <div className="file_desc">
           <p>
+            모든 서류를 제출해야만 신청이 완료됩니다. <br />
             지정된 서류가 맞는지 다시 확인 부탁드립니다. <br />
             서류 확인 후 심사까지는 최소 3~4일까지 소요됩니다. <br />
             심사 후 결과는 핸드폰 번호로 안내될 예정입니다.
           </p>
         </div>
         <Link to="/hows/loan/detail/consult/success">
-          <button className="finalapply_btn" onClick={() => submitFile()}>
+          <button
+            className="finalapply_btn"
+            onClick={() => submitFile()}
+            disabled={
+              filelist.file1 === "" ||
+              filelist.file2 === "" ||
+              filelist.file3 === "" ||
+              filelist.file4 === "" ||
+              filelist.file5 === ""
+                ? true
+                : false
+            }
+          >
             신청하기
           </button>
         </Link>
