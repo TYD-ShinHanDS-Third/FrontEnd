@@ -14,15 +14,15 @@ function ConsultingList(props) {
   const [userPageNum, setUserPageNum] = useState("0");
   const [userPageTotal, setUserListTotal] = useState("0");
 
+  const cookies = new Cookies();
+  const token = cookies.get("jwtToken");
+
   useEffect(() => {
     userCList();
   }, [userPageNum]);
 
   //회원 상담  - 조회
   async function userCList() {
-    const cookies = new Cookies();
-    const token = cookies.get("jwtToken");
-
     const listurl = "/hows/admin/consult";
 
     await axios
@@ -88,12 +88,20 @@ function ConsultingList(props) {
                   <tr className="userconsultbox" key={item.memberid.memberid}>
                     <td className="userid">{item.memberid.memberid}</td>
                     <td className="username">{item.membername}</td>
-                    <td className="userloan">{item.loanname.loanname}</td>
+                    <td className="userloan">
+                      [{item.bankname}] {item.loanname.loanname}
+                    </td>
                     <td className="userloanstate">{item.loanstate}</td>
                     <td className="enterroom">
                       <Link
                         to="/hows/admin/consult/chatroom"
                         style={{ textDecoration: "none", color: "blue" }}
+                        state={{
+                          bankname: item.bankname,
+                          loanname: item.loanname.loanname,
+                          room: item.roomnumber,
+                          token: token,
+                        }}
                       >
                         상담방 입장
                       </Link>
