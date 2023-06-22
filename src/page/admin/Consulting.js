@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "../../css/admin/Consulting.css";
-import Maincam from "../loan/Maincam";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { Cookies } from "react-cookie";
@@ -29,7 +28,7 @@ function Consulting(props) {
     </div>
   ));
 
-  async function makeRoom(t, b, l) {
+  async function makeRoom(t, b, l, id) {
     const url = "/hows/loan/detail/consult";
     axios
       .get(url, {
@@ -40,14 +39,12 @@ function Consulting(props) {
         params: {
           bankname: b,
           loanname: l,
+          loanid: id,
         },
       })
       .then((res) => {
         console.dir(res);
-        if (
-          res.data.message ===
-          "상담 신청 내역이 있습니다, 이전 채팅방에 입장합니다."
-        ) {
+        if (res.data.message === "관리자입니다, 이전 채팅방에 입장합니다.") {
           let historylist = [];
           res.data.chathistory.map((history) => {
             const hName = history.myname;
@@ -78,12 +75,13 @@ function Consulting(props) {
   useEffect(() => {
     setBankname(location.state.bankname);
     setLoanname(location.state.loanname);
-    setRoom(location.state.room === undefined ? "" : location.state.room);
+    setRoom(location.state.room);
     const cookies = new Cookies();
     makeRoom(
       cookies.get("jwtToken"),
       location.state.bankname,
-      location.state.loanname
+      location.state.loanname,
+      location.state.loanid
     );
   }, []);
 
@@ -152,7 +150,6 @@ function Consulting(props) {
     <div className="loanapply">
       <div className="loanapply_detail" id="loanapply_detail">
         <h1>여기 상품 설명</h1>
-        {/* <Maincam /> */}
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />

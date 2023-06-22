@@ -99,6 +99,7 @@ function ConsultingList(props) {
                         state={{
                           bankname: item.bankname,
                           loanname: item.loanname.loanname,
+                          loanid: item.loanid,
                           room: item.roomnumber,
                           token: token,
                         }}
