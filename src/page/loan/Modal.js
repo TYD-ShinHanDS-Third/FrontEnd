@@ -61,13 +61,12 @@ function Modal({ loanname, bankname, consult }) {
   return (
     <>
       <ModalContainer>
-        <button
-          className="limitbtn"
+        <LimitButton
           onClick={openModalHandler}
-          style={{ marginRight: "3%", width: "100%" }}
+          style={{ marginRight: "3%", width: "max-content" }}
         >
           한도조회
-        </button>
+        </LimitButton>
         {/* 조건부 렌더링을 활용해서 Modal이 열린 상태(isOpen이 true인 상태)일 때만 모달창과 배경이 뜰 수 있게 구현 */}
         {isOpen ? (
           <ModalBackdrop onClick={openModalHandler}>
@@ -171,6 +170,18 @@ export const OKBtn = styled(ModalBtn)`
   margin: 10px;
   padding: 5px 10px;
   width: 80px;
+  height: 40px;
+  align-items: center;
+`;
+
+export const LimitButton = styled(ModalBtn)`
+  background-color: #fffedd;
+  color: black;
+  border-radius: 50px;
+  text-decoration: none;
+  margin: 10px;
+  padding: 5px 10px;
+  width: 10px;
   height: 40px;
   align-items: center;
 `;
