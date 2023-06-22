@@ -14,6 +14,7 @@ import Select from "@mui/material/Select";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 import CheckUserWork from "./CheckUserWork";
+import ModalBack from "./ModalBack";
 
 function ManageUser(props) {
   const [userList, setUserList] = useState([]);
@@ -68,7 +69,7 @@ function ManageUser(props) {
       });
   }
 
-  async function editUserInfo(userid, userrole) {
+  async function editUserInfo(userid, userrole, useremail) {
     console.log(userrole);
     console.log(userid);
     const cookies = new Cookies();
@@ -83,6 +84,7 @@ function ManageUser(props) {
           params: {
             memberid: userid,
             roles: userrole,
+            email: useremail,
           },
           headers: {
             "Content-type": "application/json",
@@ -92,6 +94,11 @@ function ManageUser(props) {
       )
       .then(function (response) {
         console.log(response);
+        if (response.data === "발송성공") {
+          alert("회원에게 메일 전송이 완료 되었습니다.");
+        } else {
+          alert("회원에게 메일 전송이 되지 않았습니다.");
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -158,7 +165,8 @@ function ManageUser(props) {
   };
 
   return (
-    <div>
+    <div className="manageruser">
+      {modalOpen && <ModalBack setModalOpen={setModalOpen} />}
       <div className="usertopbar">{createBtn(userPageTotal)}</div>
       <div className="manageuser">
         <div className="userdetailtable">
@@ -180,7 +188,7 @@ function ManageUser(props) {
                   <tr className="usertablebox" key={item.memberid}>
                     <td className="userid">{item.memberid}</td>
                     <td className="username">{item.membername}</td>
-                    <td className="useremail">번호</td>
+                    <td className="useremail">{item.email}</td>
                     <td className="userwork">
                       <button
                         className="userworkbtn"
@@ -198,7 +206,11 @@ function ManageUser(props) {
                         className="usereditbtn"
                         style={{ color: "black" }}
                         onClick={() =>
-                          editUserInfo(item.memberid, roleInfo[index].role)
+                          editUserInfo(
+                            item.memberid,
+                            roleInfo[index].role,
+                            item.email
+                          )
                         }
                       >
                         역할 수정하기
@@ -209,9 +221,9 @@ function ManageUser(props) {
               })}
             </tbody>
           </table>
-          {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
         </div>
       </div>
+      {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
     </div>
   );
 }

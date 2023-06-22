@@ -11,7 +11,7 @@ function Kakao(props) {
 
       var searchInput = new kakao.maps.services.Places();
 
-      const mapCenter = new kakao.maps.LatLng(33.450701, 126.570667);
+      const mapCenter = new kakao.maps.LatLng(37.537187, 127.005476);
 
       var options = {
         center: mapCenter,
@@ -143,6 +143,11 @@ function Kakao(props) {
 
   return (
     <div style={{ display: "flex", height: "100%", alignItems: "flex-end" }}>
+      {/* {toggle === true ? (
+        <div id="map" style={{ width: "95%", height: "100%" }}></div>
+      ) : (
+        <div id="roadview" style={{ width: "95%", height: "100%" }}></div>
+      )} */}
       <div id="map" style={{ width: "95%", height: "100%" }}></div>
       <div
         id="roadview"

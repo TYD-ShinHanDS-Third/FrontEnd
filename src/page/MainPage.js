@@ -17,18 +17,21 @@ import BankMenu from "./bank/BankMenu";
 import BankMainPage from "./bank/BankMainPage";
 import PanSubMenu from "./pan/PanSubMenu";
 import AdminUserPage from "./admin/AdminUserPage";
+import LoanSubMenu from "./loan/LoanSubMenu";
+import NoAuth from "./NoAuth";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
     return <AdminMenu />;
   } else if (location.pathname.includes("/hows/bank")) {
     return <BankMenu />;
+  } else if (location.pathname.includes("/hows/noauth")) {
+    return "";
   } else if (location.pathname.includes("/hows")) {
     return <MainMenu />;
   }
 }
 
-// link 만 가변적으로 두면 될거같은! 더 좋은 생각이 있을 듯 함!
 function logo(location) {
   if (location.pathname.includes("/hows/admin")) {
     return (
@@ -55,17 +58,24 @@ function MainPage(props) {
   const location = useLocation();
 
   const [loc, setLocation] = useState("전체");
+  const [bank, setBank] = useState("전체");
 
   const [userPageNum, setUserPageNum] = useState("0");
   const [userPageTotal, setUserListTotal] = useState("0");
 
   function findLocation(new_location) {
-    setLocation(new_location);
+    setLocation(new_location.newloc);
+  }
+
+  function findBank(new_location) {
+    setBank(new_location);
   }
 
   function submenu(location) {
     if (location.pathname.includes("/hows/notice")) {
       return <PanSubMenu findLocation={findLocation} />;
+    } else if (location.pathname.includes("/hows/loan")) {
+      return <LoanSubMenu findBank={findBank} />;
     }
   }
 
@@ -96,7 +106,7 @@ function MainPage(props) {
           <Routes>
             <Route path="notice/*" element={<PanList loc={loc} />}></Route>
             <Route path="find" element={<HouseMap />}></Route>
-            <Route path="loan" element={<LoanList />}></Route>
+            <Route path="loan" element={<LoanList bank={bank} />}></Route>
             <Route path="loan/detail" element={<LoanDetail />}></Route>
             <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
@@ -104,6 +114,7 @@ function MainPage(props) {
             {/* <Route path="my/mypage" element={<MyPage />}></Route>
             <Route path="my/myedit" element={<MyEdit />}></Route> */}
             <Route path="bank/*" element={<BankMainPage />}></Route>
+            <Route path="noauth/*" element={<NoAuth />} />
           </Routes>
         </div>
       </div>

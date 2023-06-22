@@ -9,6 +9,7 @@ import reset from "styled-reset";
 import { useCallback } from "react";
 import { Cookies } from "react-cookie";
 import axios from "axios";
+import Maincam from "./Maincam";
 
 function LoanApply(props) {
   const [msg, setMsg] = useState("");
@@ -154,6 +155,7 @@ function LoanApply(props) {
     <div className="loanapply">
       <div className="loanapply_detail" id="loanapply_detail">
         <h1>여기 상품 설명</h1>
+        <Maincam />
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />

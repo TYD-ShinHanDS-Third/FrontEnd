@@ -23,7 +23,7 @@ function BankManageApplyLoan(props) {
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
-    const listurl = "/hows/admin/form";
+    const listurl = "/hows/bank/form";
 
     await axios
       .get(listurl, {
@@ -69,7 +69,7 @@ function BankManageApplyLoan(props) {
     setUserPageNum(p);
   };
   return (
-    <div>
+    <div className="manageruser">
       <div className="usertopbar">{createBtn(userPageTotal)}</div>
       <div className="manageuser">
         <div className="userdetailtable">
@@ -90,44 +90,48 @@ function BankManageApplyLoan(props) {
               </tr>
             </thead>
             <tbody>
-              {userList.map((item, index) => {
-                return (
-                  <tr
-                    className="userloanbox"
-                    style={{ backgroundColor: "#F9FBE7" }}
-                  >
-                    <td className="userid" key={item.memberid}>
-                      {item.memberid}
-                    </td>
-                    <td className="username">{item.membername}</td>
+              {userList &&
+                userList.map((item, index) => {
+                  return (
+                    <tr
+                      className="userloanbox"
+                      style={{ backgroundColor: "#F9FBE7" }}
+                    >
+                      <td className="userid" key={item.memberid}>
+                        {item.memberid}
+                      </td>
+                      <td className="username">{item.membername}</td>
 
-                    <td className="userloan">{item.bday} </td>
+                      <td className="userloan">{item.bday} </td>
 
-                    <td className="userstate"></td>
-                    <td className="userdocs">
-                      <Link
-                        to="/hows/bank/loanlist/detail"
-                        state={{
-                          membername: userList[index].membername,
-                          loanname: userList[index].loanname,
-                        }}
-                        style={{
-                          textDecoration: "none",
-                          width: "100%",
-                          color: "green",
-                        }}
-                      >
-                        <button
-                          className="usereditbtn"
-                          style={{ color: "black", backgroundColor: "#609966" }}
+                      <td className="userstate"></td>
+                      <td className="userdocs">
+                        <Link
+                          to="/hows/bank/loanlist/detail"
+                          state={{
+                            membername: userList[index].membername,
+                            loanname: userList[index].loanname,
+                          }}
+                          style={{
+                            textDecoration: "none",
+                            width: "100%",
+                            color: "green",
+                          }}
                         >
-                          서류확인
-                        </button>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
+                          <button
+                            className="usereditbtn"
+                            style={{
+                              color: "black",
+                              backgroundColor: "#609966",
+                            }}
+                          >
+                            서류확인
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>

@@ -1,29 +1,33 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useState } from "react";
+import { useLocation } from "react-router";
 
 function LoanDescription(props) {
-  function getDetail() {
+  const location = useLocation();
+
+  const [divHtml, setDivHtml] = useState([]);
+  const arr = [];
+
+  function getDetail(loan, bank) {
     const url = "/hows/loan/detail";
-    const loan = { loanname: "버팀목 전세자금 대출", bankname: "신한" };
     axios
       .get(url, {
         headers: {
           "Content-Type": `application/json`,
         },
         params: {
-          loanname:
-            "하나 청년전세론 청년층 주거비용 경감을 위해 임차보증금의 90%이내, 최대 2억원까지(전세,반전세 계약 모두 가능합니다)",
-          bankname: "하나",
+          loanname: loan,
+          bankname: bank,
         },
       })
       .then((res) => {
         console.dir(res);
-        document.getElementById("detail").innerHTML += res.data.html1;
-        document.getElementById("detail").innerHTML += res.data.html2;
-        document.getElementById("detail").innerHTML += res.data.html3;
-        document.getElementById("detail").innerHTML += res.data.html4;
-        document.getElementById("detail").innerHTML += res.data.html5;
-        document.getElementById("detail").innerHTML += res.data.html6;
+        for (let key in res.data) {
+          arr.push(res.data[key]);
+        }
+        setDivHtml(arr);
+        console.log(arr);
       })
       .catch((ex) => {
         console.log("requset fail : " + ex);
@@ -31,10 +35,24 @@ function LoanDescription(props) {
   }
 
   useEffect(() => {
-    getDetail();
-  });
+    const loanname = location.state.loanname;
+    const bankname = location.state.bankname;
+    console.log(location.state.bankname);
+    getDetail(loanname, bankname);
+  }, []);
 
-  return <div id="detail">대출 상세 정보 볼수 있는 페이지</div>;
+  return (
+    <div id="detail">
+      {divHtml.map((item1, index) => {
+        if (index > 2) {
+          return (
+            // <div dangerouslySetInnerHTML={{ __html: divHtml[index] }}></div>
+            <div dangerouslySetInnerHTML={{ __html: item1 }}></div>
+          );
+        }
+      })}
+    </div>
+  );
 }
 
 export default LoanDescription;
