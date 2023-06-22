@@ -1,15 +1,77 @@
 import React, { useEffect, useState } from "react";
 import "../../css/loan/LoanList.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import Modal from "./Modal";
+import { confirmAlert } from "react-confirm-alert";
 
 function LoanList({ bank }) {
   const [loanlist, setLoanList] = useState([]);
 
   const cookies = new Cookies();
   const token = cookies.get("jwtToken");
+
+  const navigate = useNavigate();
+
+  //상담하기 시작하기 전에 회원 등급 체크
+  async function checkGrade(token, loan, bank) {
+    // confirmAlert({
+    //   title: "마이페이지에서 회원 정보를 모두 입력해주세요.",
+    //   message: "그 후에 상담 신청 가능합니다.",
+    //   buttons: [
+    //     {
+    //       label: "확인",
+    //       onClick: () => {
+    //         navigate("/hows/loan/detail/consult", {
+    //           state: {
+    //             bankname: bank,
+    //             loanname: loan,
+    //             token: token,
+    //           },
+    //         });
+    //       },
+    //       style: { backgroundColor: "#518e65" },
+    //     },
+    //   ],
+    // });
+
+    const url = "http://192.168.0.55:8888/hows/auth/request";
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": `application/json`,
+          token: token,
+        },
+      })
+      .then((res) => {
+        console.dir(res);
+        if (res.data === "success") {
+          navigate("/hows/loan/detail/consult", {
+            state: {
+              bankname: bank,
+              loanname: loan,
+              token: token,
+            },
+          });
+        } else {
+          confirmAlert({
+            title: "마이페이지에서 회원 정보를 모두 입력해주세요.",
+            message: "그 후에 상담 신청 가능합니다.",
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {},
+                style: { backgroundColor: "#518e65" },
+              },
+            ],
+          });
+        }
+      })
+      .catch((ex) => {
+        console.log("requset fail : " + ex);
+      });
+  }
 
   //목록 가져오기
   async function getList(bank) {
@@ -50,47 +112,48 @@ function LoanList({ bank }) {
 
       <div className="loanbody">
         <hr className="loanhr" />
-        {loanlist.map((pro) => {
-          return (
-            <div className="loan">
-              <Link
-                to="/hows/loan/detail"
-                style={{ textDecoration: "none", color: "black" }}
-                state={{
-                  bankname: pro.bankname,
-                  loanname: pro.loanname,
-                }}
-              >
-                <div className="loantitle">
-                  <h2>{pro.loanname}</h2>
-                </div>
-                <div className="loandis">
-                  <p>{pro.type}</p>
-                </div>
-              </Link>
-              <div className="loanbtn">
-                <Modal
-                  loanname={pro.loanname}
-                  bankname={pro.bankname}
-                  consult="0"
-                />
+        <div className="scrollbody">
+          {loanlist.map((pro) => {
+            return (
+              <div className="loan">
                 <Link
-                  to="/hows/loan/detail/consult"
-                  style={{ width: "12%" }}
+                  to="/hows/loan/detail"
+                  style={{ textDecoration: "none", color: "black" }}
                   state={{
                     bankname: pro.bankname,
                     loanname: pro.loanname,
-                    token: token,
                   }}
                 >
-                  <button className="consultbtn">상담신청</button>
+                  <div className="loantitle">
+                    <h2>
+                      [{pro.bankname}] {pro.loanname}
+                    </h2>
+                  </div>
+                  <div className="loandis">
+                    <p>{pro.type}</p>
+                  </div>
                 </Link>
+                <div className="loanbtn">
+                  <div className="limitbtn">
+                    <Modal
+                      loanname={pro.loanname}
+                      bankname={pro.bankname}
+                      consult="0"
+                    />
+                  </div>
+                  <button
+                    className="consultbtn"
+                    onClick={() =>
+                      checkGrade(token, pro.loanname, pro.bankname)
+                    }
+                  >
+                    상담신청
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
-
-        <hr />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
