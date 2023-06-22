@@ -90,7 +90,9 @@ function ManageApplyLoan(props) {
                     </td>
                     <td className="username">{item.memberid.membername}</td>
 
-                    <td className="userloan">{item.loanname.loanname} </td>
+                    <td className="userloan">
+                      [{item.bankname}] {item.loanname.loanname}{" "}
+                    </td>
 
                     <td className="userstate">{item.loanstate}</td>
                     <td className="userdocs">
@@ -99,6 +101,8 @@ function ManageApplyLoan(props) {
                         state={{
                           membername: userList[index].memberid.membername,
                           loanname: userList[index].loanname.loanname,
+                          loanid: userList[index].loanid,
+                          tel: userList[index].memberid.phone,
                         }}
                         style={{
                           textDecoration: "none",
