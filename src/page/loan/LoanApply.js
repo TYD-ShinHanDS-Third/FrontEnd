@@ -9,7 +9,6 @@ import reset from "styled-reset";
 import { useCallback } from "react";
 import { Cookies } from "react-cookie";
 import axios from "axios";
-import Maincam from "./Maincam";
 import Modal from "./Modal";
 
 function LoanApply(props) {
@@ -107,7 +106,6 @@ function LoanApply(props) {
     `;
 
   const onText = (event) => {
-    console.log(event.target.value);
     setMsg(event.target.value);
   };
 
@@ -156,7 +154,6 @@ function LoanApply(props) {
     <div className="loanapply">
       <div className="loanapply_detail" id="loanapply_detail">
         <h1>여기 상품 설명</h1>
-        <Maincam />
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />
