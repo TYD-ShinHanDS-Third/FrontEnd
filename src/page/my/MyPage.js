@@ -68,7 +68,7 @@ export default function MyPage(props) {
       })
       .then(function (response) {
         console.dir(response.data);
-        //setMyPanList(response.data);
+        setMyPanList(response.data);
         for (const [index, element] of response.data.entries()) {
           let endDate = new Date(element.end);
           console.log(element.end);
@@ -155,7 +155,6 @@ export default function MyPage(props) {
                     <TableCell>
                       <button
                         onClick={() => {
-                          // navigate(loan.applyurl, { state: loan.memloanid });
                           navigate("/hows/loan/detail/limit/uploaddocs", {
                             state: {
                               memloanid: loan.memloanid,
@@ -164,8 +163,17 @@ export default function MyPage(props) {
                             },
                           });
                         }}
+                        disabled={
+                          loan.loanstate === "상담신청" ||
+                          loan.loanstate === "상담완료"
+                            ? false
+                            : true
+                        }
                       >
-                        링크
+                        {loan.loanstate === "상담신청" ||
+                        loan.loanstate === "상담완료"
+                          ? "링크"
+                          : "완료"}
                       </button>
                     </TableCell>
                   </TableRow>
