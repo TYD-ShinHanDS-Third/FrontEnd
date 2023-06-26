@@ -39,3 +39,21 @@
   height: 950px;
   overflow: hidden;
 }
+.loanModal {
+  display: flex;
+
+  justify-content: center;
+  justify-content: center;
+}
+.loanModalBody {
+  height: 30px;
+  width: 10px;
+}
+.react-pdf__Page__canvas {
+  height: 30px;
+  width: 10px;
+}
+.react-pdf__Page__annotations annotationLayer {
+  height: 30px;
+  width: 10px;
+}
