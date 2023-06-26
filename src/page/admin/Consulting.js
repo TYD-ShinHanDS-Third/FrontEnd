@@ -1,5 +1,10 @@
 import React from "react";
 import "../../css/admin/Consulting.css";
+import { ContextProvider, SocketContext } from "../../SocketContext";
+import { useContext } from "react";
+import Options from "../loan/webtrc/Options";
+import { Notifications } from "@mui/icons-material";
+import VideoPlayer from "../loan/webtrc/VideoPlayer";
 
 function Consulting(props) {
   return (
@@ -14,7 +19,9 @@ function Consulting(props) {
         <hr className="loanhr" />
         <div className="consulting">
           <div className="loanapply_detail">
-            <h1>여기 상품 설명</h1>
+            <ContextProvider>
+              <My />
+            </ContextProvider>
           </div>
           <div className="loanapply_chat">
             <div className="chat_context">
@@ -36,7 +43,7 @@ function Consulting(props) {
                 style={{
                   width: "100%",
                   height: "90%",
-                  textAlign: "left"
+                  textAlign: "left",
                 }}
               />
               <button className="send">전송</button>
@@ -47,5 +54,16 @@ function Consulting(props) {
     </div>
   );
 }
+
+const My = () => {
+  return (
+    <div>
+      <Options>
+        <Notifications />
+      </Options>
+      <VideoPlayer />
+    </div>
+  );
+};
 
 export default Consulting;

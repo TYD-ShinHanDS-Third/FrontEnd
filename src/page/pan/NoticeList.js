@@ -105,61 +105,66 @@ function NoticeList({
       <hr className="line" />
 
       <div className="noticeTable">
-        <tr className="tablebox">
-          <th className="panid">번호</th>
-          <th className="panname">이름</th>
-          <th className="location">지역</th>
-          <th className="startdate">게시일</th>
-          <th className="enddate">마감일</th>
-          <th className="state">상태</th>
-          <th className="favorite"></th>
-        </tr>
-
-        {panList.map((item, index) => {
-          return (
-            <tr className="tablebox tablebody">
-              <td name="panid" key={item.panid} className="panid">
-                <Link
-                  to={"detail"}
-                  state={{ panInfo: item }}
-                  style={{ textDecoration: "none", color: "green" }}
-                >
-                  {item.panid}
-                </Link>
-              </td>
-              <td name="panname" className="panname">
-                {item.panname}
-              </td>
-              <td name="location" className="location">
-                {item.location}
-              </td>
-              <td name="panstartdate" className="startdate">
-                {item.panstartdate}
-              </td>
-              <td name="panenddate" className="enddate">
-                {item.panenddate}
-              </td>
-              <td name="panstate" className="state">
-                {item.panstate}
-              </td>
-              <td name="favorite" className="favorite">
-                {favlist[index] && (
-                  <button
-                    className="favbtn"
-                    name={item.panid}
-                    onClick={() => clicklikebtn(item.panid, index)}
-                  >
-                    {favlist[index].like === 1 ? (
-                      <HomeIcon />
-                    ) : (
-                      <HomeOutlinedIcon />
-                    )}
-                  </button>
-                )}
-              </td>
+        <table>
+          <thead>
+            <tr className="tablebox" key={0}>
+              <th className="panid">번호</th>
+              <th className="panname">이름</th>
+              <th className="location">지역</th>
+              <th className="startdate">게시일</th>
+              <th className="enddate">마감일</th>
+              <th className="state">상태</th>
+              <th className="favorite"></th>
             </tr>
-          );
-        })}
+          </thead>
+          <tbody>
+            {panList.map((item, index) => {
+              return (
+                <tr className="tablebox tablebody" key={item.panid}>
+                  <td name="panid" className="panid">
+                    <Link
+                      to={"detail"}
+                      state={{ panInfo: item }}
+                      style={{ textDecoration: "none", color: "green" }}
+                    >
+                      {item.panid}
+                    </Link>
+                  </td>
+                  <td name="panname" className="panname">
+                    {item.panname}
+                  </td>
+                  <td name="location" className="location">
+                    {item.location}
+                  </td>
+                  <td name="panstartdate" className="startdate">
+                    {item.panstartdate}
+                  </td>
+                  <td name="panenddate" className="enddate">
+                    {item.panenddate}
+                  </td>
+                  <td name="panstate" className="state">
+                    {item.panstate}
+                  </td>
+                  <td name="favorite" className="favorite">
+                    {favlist[index] && (
+                      <button
+                        className="favbtn"
+                        name={item.panid}
+                        onClick={() => clicklikebtn(item.panid, index)}
+                      >
+                        {favlist[index].like === 1 ? (
+                          <HomeIcon />
+                        ) : (
+                          <HomeOutlinedIcon />
+                        )}
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
