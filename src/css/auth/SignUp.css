@@ -72,7 +72,7 @@ input {
   display: none;
   margin-bottom: 3%;
   justify-content: space-between;
-  align-items: flex-end
+  align-items: flex-end;
 }
 
 .act {
@@ -103,7 +103,7 @@ input {
   display: none;
 }
 
-.select input[type="radio"]+label {
+.select input[type="radio"] + label {
   display: inline-block;
   height: 22px;
   width: 100px;
@@ -115,12 +115,12 @@ input {
   font-size: 15px;
 }
 
-.select input[type="radio"]+label {
+.select input[type="radio"] + label {
   background-color: #fff;
   color: #518e65;
 }
 
-.select input[type="radio"]:checked+label {
+.select input[type="radio"]:checked + label {
   background-color: #518e65;
   color: #fff;
 }
@@ -154,5 +154,30 @@ span {
 }
 
 .error {
-  color: #F97B22;
+  color: #f97b22;
+}
+
+#fileUpload {
+  background-color: aquamarine;
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.uploadBtn {
+  width: max-content;
+  height: 30px;
+  font-size: 15px;
+  background-color: #edf1d6;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.fileInput {
+  width: 80%;
+  margin-right: 10px;
 }

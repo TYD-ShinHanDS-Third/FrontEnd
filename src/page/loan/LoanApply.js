@@ -14,6 +14,7 @@ import VideoPlayer from "./webtrc/VideoPlayer";
 import Notifications from "./webtrc/Notifications";
 import { ContextProvider, SocketContext } from "../../SocketContext";
 import { useContext } from "react";
+import Modal from "./Modal";
 
 function LoanApply(props) {
   const [msg, setMsg] = useState("");
@@ -110,7 +111,6 @@ function LoanApply(props) {
     `;
 
   const onText = (event) => {
-    console.log(event.target.value);
     setMsg(event.target.value);
   };
 
@@ -198,9 +198,7 @@ function LoanApply(props) {
         </div>
       </div>
 
-      <Link to="/hows/loan/detail/limit/uploaddocs">
-        <button className="consultbtn">대출 자료 제출</button>
-      </Link>
+      <Modal loanname={loanname} bankname={bankname} consult="1" />
     </div>
   );
 }

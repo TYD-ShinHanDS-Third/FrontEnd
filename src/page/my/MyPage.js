@@ -68,7 +68,7 @@ export default function MyPage(props) {
       })
       .then(function (response) {
         console.dir(response.data);
-        //setMyPanList(response.data);
+        setMyPanList(response.data);
         for (const [index, element] of response.data.entries()) {
           let endDate = new Date(element.end);
           console.log(element.end);
@@ -110,7 +110,6 @@ export default function MyPage(props) {
     const cookies = new Cookies();
     const jwtToken = cookies.get("jwtToken");
     getFavorites(jwtToken);
-    //getLoanList(jwtToken);
     getChatList(jwtToken);
 
     console.log("mouted");
@@ -138,9 +137,9 @@ export default function MyPage(props) {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell>대출 상품</TableCell>
-                  <TableCell>진행 상태</TableCell>
-                  <TableCell>신청 링크</TableCell>
+                  <TableCell>대출상품</TableCell>
+                  <TableCell>진행상태</TableCell>
+                  <TableCell>신청</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -156,10 +155,25 @@ export default function MyPage(props) {
                     <TableCell>
                       <button
                         onClick={() => {
-                          navigate(loan.applyurl, { state: loan.memloanid });
+                          navigate("/hows/loan/detail/limit/uploaddocs", {
+                            state: {
+                              memloanid: loan.memloanid,
+                              bankname: loan.bankname,
+                              loanname: loan.loanname,
+                            },
+                          });
                         }}
+                        disabled={
+                          loan.loanstate === "상담신청" ||
+                          loan.loanstate === "상담완료"
+                            ? false
+                            : true
+                        }
                       >
-                        링크
+                        {loan.loanstate === "상담신청" ||
+                        loan.loanstate === "상담완료"
+                          ? "링크"
+                          : "완료"}
                       </button>
                     </TableCell>
                   </TableRow>

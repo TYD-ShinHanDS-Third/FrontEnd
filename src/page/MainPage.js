@@ -71,7 +71,7 @@ function MainPage(props) {
   function submenu(location) {
     if (location.pathname.includes("/hows/notice")) {
       return <PanSubMenu findLocation={findLocation} />;
-    } else if (location.pathname.includes("/hows/loan")) {
+    } else if (location.pathname === "/hows/loan") {
       return <LoanSubMenu findBank={findBank} />;
     }
   }

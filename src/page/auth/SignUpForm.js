@@ -41,6 +41,7 @@ function SignUpForm(props) {
         hiredate: null,
         marry: null,
         haschild: null,
+        file: null,
       });
     }
   };
@@ -61,6 +62,7 @@ function SignUpForm(props) {
     haschild: "",
     jobname: "",
     email: "",
+    file: "",
   };
 
   const [member, setMember] = useState(memberInit);
@@ -328,6 +330,30 @@ function SignUpForm(props) {
       });
   }
 
+  //재직증명서 파일 업로드
+  const [fileName, setFileName] = useState("");
+
+  const printFileName = (e) => {
+    //파일 확장자 관리
+    const fileType = e.target.value.split(".").pop();
+    if (
+      !["jpeg", "png", "jpg", "JPG", "PNG", "JPEG", "pdf", "PDF"].includes(
+        fileType
+      )
+    ) {
+      alert("jpg, png, jpg, pdf 파일만 업로드가 가능합니다.");
+      return;
+    }
+
+    setMember({ ...member, file: e.target.file });
+    var filename = e.target.value; // 파일 주소
+
+    // 파일 이름만 분리 출력
+    var filename_list = filename.split("\\");
+    filename = filename_list.slice(-1);
+    setFileName(filename);
+  };
+
   return (
     <div>
       <img className="logoSignup" src="../../image/Logo.svg" alt="hows" />
@@ -546,8 +572,21 @@ function SignUpForm(props) {
               display: member.roles === "USER" ? "none" : "flex",
             }}
           >
-            <span>재직 증명서 제출</span>
-            <input type="file" id="fileUpload" />
+            <input
+              defaultValue={fileName}
+              placeholder="재직증명서 첨부파일"
+              name="file"
+              className="fileInput"
+            ></input>
+            <label for="fileUpload" className="uploadBtn">
+              업로드
+            </label>
+            <input
+              type="file"
+              id="fileUpload"
+              name="fileUpload"
+              onChange={printFileName}
+            />
           </div>
         </Grid>
         <Grid item xs={12} sm={8}>

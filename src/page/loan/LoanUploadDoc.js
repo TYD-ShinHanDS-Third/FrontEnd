@@ -206,6 +206,7 @@ function LoanUploadDoc(props) {
       <div className="loanapplybtn">
         <div className="file_desc">
           <p>
+            모든 서류를 제출해야만 신청이 완료됩니다. <br />
             지정된 서류가 맞는지 다시 확인 부탁드립니다. <br />
             서류 확인 후 심사까지는 최소 3~4일까지 소요됩니다. <br />
             심사 후 결과는 핸드폰 번호로 안내될 예정입니다.

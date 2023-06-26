@@ -1,7 +1,7 @@
 .loanList {
   display: grid;
   height: 900px;
-  grid-template-rows: 0.5fr 5fr;
+  grid-template-rows: 0.3fr 5fr;
   grid-template-columns: 0.3fr 5fr 0.3fr;
   grid-template-areas: ". loanheader ." ". loanbody .";
 }
@@ -22,20 +22,24 @@
 .loanbody {
   grid-area: loanbody;
   height: 700px;
+}
+
+.scrollbody {
+  height: 700px;
   overflow-y: auto;
 }
 
-.loanbody::-webkit-scrollbar {
+.scrollbody::-webkit-scrollbar {
   width: 10px; /* 스크롤바의 너비 */
 }
 
-.loanbody::-webkit-scrollbar-thumb {
+.scrollbody::-webkit-scrollbar-thumb {
   height: 30%; /* 스크롤바의 길이 */
   background: #609966; /* 스크롤바의 색상 */
   border-radius: 10px;
 }
 
-.loanbody::-webkit-scrollbar-track {
+.scrollbody::-webkit-scrollbar-track {
   background: rgba(100, 100, 100, 0.1); /*스크롤바 뒷 배경 색상*/
 }
 
@@ -70,21 +74,18 @@
   margin-right: 10px;
 }
 
-/* .applybtn{
-    background-color: #031389;
-    color: #FFFFFF;
-    width: 100%;
-    border-radius: 10px;
-} */
-
 .limitbtn {
   background-color: #fffedd;
-  width: 100%;
+  width: 100px;
+  height: 40px;
   border-radius: 10px;
+  margin-right: 10px;
+  background-color: #fffedd;
 }
 .consultbtn {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
   background-color: #031389;
   color: #ffffff;
-  width: 100%;
-  border-radius: 10px;
 }

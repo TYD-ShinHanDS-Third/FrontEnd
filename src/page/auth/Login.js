@@ -22,6 +22,12 @@ function Login(props) {
     console.log(user);
   };
 
+  const onCheckEnter = (e) => {
+    if (e.key === "Enter") {
+      signIn();
+    }
+  };
+
   //로그인
   async function signIn() {
     const URL = "/hows/auth/login";
@@ -32,7 +38,7 @@ function Login(props) {
         },
       })
       .then((res) => {
-        console.dir("res", res);
+        console.log("res", res);
 
         if (res.headers.authorization === undefined) {
           document.getElementById("failLogin").style.display = "block";
@@ -44,8 +50,15 @@ function Login(props) {
 
           //cookie로 저장
           const cookies = new Cookies();
-          cookies.set("jwtToken", res.headers.authorization);
-          window.location.href = "/hows";
+          cookies.set("jwtToken", res.headers.authorization, { path: "/" });
+          console.log(res.headers.roles);
+          if (res.headers.roles === "[USER]") {
+            window.location.href = "/hows";
+          } else if (res.headers.roles === "[ADMIN]") {
+            window.location.href = "/hows/admin";
+          } else if (res.headers.roles === "[TELLER]") {
+            window.location.href = "/hows/bank";
+          }
         }
       })
       .catch((ex) => {
@@ -61,7 +74,7 @@ function Login(props) {
     <div>
       <img className="logoLogin" src="/image/Logo.svg" alt="hows" />
       <div className="loginBox">
-        <div className="loginForm">
+        <div className="loginForm" onKeyPress={onCheckEnter}>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={2}></Grid>
             <Grid item xs={12} sm={8}>
