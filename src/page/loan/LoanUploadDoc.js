@@ -4,7 +4,21 @@ import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
 
+import { Document, Page } from "react-pdf";
+import { pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 function LoanUploadDoc(props) {
+  // 파일 담는 변수들
+  const [file1, setFile1] = useState("");
+  const [file2, setFile2] = useState("");
+  const [file3, setFile3] = useState("");
+  const [file4, setFile4] = useState("");
+  const [file5, setFile5] = useState("");
+
+  const [image1, setImage] = useState("");
+
+  // 이름 보여주기 위한 리스트
   const [filelist, setFilelist] = useState({
     file1: "",
     file2: "",
@@ -12,14 +26,14 @@ function LoanUploadDoc(props) {
     file4: "",
     file5: "",
   });
-  const [files, setFiles] = useState([]);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  // 파일 보기
+  function onDocumentLoadSucess({ numPages }) {
+    setNumPages(numPages);
+  }
 
   const printFileName = (e) => {
-    setFiles((files) => [...files, e.target.files[0]]);
-
-    var filename = e.target.value; // 파일 주소
-    var fileindex = e.target.name; // 파일 인덱스
-
     //파일 확장자 관리
     const fileType = e.target.value.split(".").pop();
     if (
@@ -30,6 +44,31 @@ function LoanUploadDoc(props) {
       alert("jpg, png, jpg, pdf 파일만 업로드가 가능합니다.");
       return;
     }
+    // eslint-disable-next-line default-case
+    switch (e.target.name) {
+      case "file1": {
+        setFile1(e.target.files[0]);
+        break;
+      }
+      case "file2": {
+        setFile2(e.target.files[0]);
+        break;
+      }
+      case "file3": {
+        setFile3(e.target.files[0]);
+        break;
+      }
+      case "file4": {
+        setFile4(e.target.files[0]);
+        break;
+      }
+      case "file5": {
+        setFile5(e.target.files[0]);
+        break;
+      }
+    }
+    var filename = e.target.value; // 파일 주소
+    var fileindex = e.target.name; // 파일 인덱스
 
     // 파일 이름만 분리 출력
     var filename_list = filename.split("\\");
@@ -39,30 +78,39 @@ function LoanUploadDoc(props) {
     setFilelist(tmplist);
   };
 
-  const submitFile = (e) => {
+  async function submitFile(e) {
     const formData = new FormData();
-    for (let a in files) {
-      formData.append("files", files[a]);
-    }
+    formData.append("file", file1);
+    formData.append("file", file2);
+    formData.append("file", file3);
+    formData.append("file", file4);
+    formData.append("file", file5);
+
+    console.log(formData.getAll("file"));
 
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
-    const listurl = "/hows/loan/detail/uploaddocs";
-    axios
-      .post(listurl, formData, {
-        headers: {
-          token: token,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+    // const listurl = "/hows/loan/detail/limit/uploaddocs";
+    // axios
+    //   .post(
+    //     listurl,
+    //     { files: formData },
+    //     {
+    //       headers: {
+    //         token: token,
+    //         "Content-Type": "multipart/form-data"
+    //       }
+    //     }
+    //   )
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
+
   return (
     <div className="uplods">
       <div className="files">
@@ -71,11 +119,11 @@ function LoanUploadDoc(props) {
             주민등록 등본 :
             <input
               className="upload-name"
-              value={filelist.file1}
+              defaultValue={filelist.file1}
               placeholder="첨부파일"
             ></input>
           </h2>
-          <label for="file1" name="file1" className="upload_user_btn">
+          <label htmlFor="file1" name="file1" className="upload_user_btn">
             파일 찾기
           </label>
           <input type="file" id="file1" name="file1" onChange={printFileName} />
@@ -84,13 +132,13 @@ function LoanUploadDoc(props) {
           <h2 className="filename">
             확정 일자부 임대차 계약서 :
             <input
-              class="upload-name"
-              value={filelist.file2}
+              className="upload-name"
+              defaultValue={filelist.file2}
               placeholder="첨부파일"
               name="file2"
             ></input>
           </h2>
-          <label for="file2" className="upload_user_btn">
+          <label htmlFor="file2" className="upload_user_btn">
             파일 찾기
           </label>
           <input type="file" id="file2" name="file2" onChange={printFileName} />
@@ -99,13 +147,13 @@ function LoanUploadDoc(props) {
           <h2 className="filename">
             임차주택 건물 등기부등본 :
             <input
-              class="upload-name"
-              value={filelist.file3}
+              className="upload-name"
+              defaultValue={filelist.file3}
               placeholder="첨부파일"
               name="file3"
             ></input>
           </h2>
-          <label for="file3" className="upload_user_btn">
+          <label htmlFor="file3" className="upload_user_btn">
             파일 찾기
           </label>
           <input type="file" id="file3" name="file3" onChange={printFileName} />
@@ -114,13 +162,13 @@ function LoanUploadDoc(props) {
           <h2 className="filename">
             결혼예정 증빙 서류 :
             <input
-              class="upload-name"
-              value={filelist.file4}
+              className="upload-name"
+              defaultValue={filelist.file4}
               placeholder="첨부파일"
               name="file4"
             ></input>
           </h2>
-          <label for="file4" className="upload_user_btn">
+          <label htmlFor="file4" className="upload_user_btn">
             파일 찾기
           </label>
           <input type="file" id="file4" name="file4" onChange={printFileName} />
@@ -129,16 +177,29 @@ function LoanUploadDoc(props) {
           <h2 className="filename">
             근로자 | 건강보험 자격 실득 확인서 :
             <input
-              class="upload-name"
-              value={filelist.file5}
+              className="upload-name"
+              defaultValue={filelist.file5}
               placeholder="첨부파일"
               name="file5"
             ></input>
           </h2>
-          <label for="file5" className="upload_user_btn">
+          <label htmlFor="file5" className="upload_user_btn">
             파일 찾기
           </label>
           <input type="file" id="file5" name="file5" onChange={printFileName} />
+        </div>
+
+        <div className="file5 file">
+          <h2 className="filename">
+            파일 확인하기
+            <input
+              className="upload-name"
+              placeholder="첨부파일"
+              style={{ display: "none" }}
+            ></input>
+          </h2>
+
+          <input type="button" value={"파일 확인"} />
         </div>
       </div>
 
@@ -151,24 +212,21 @@ function LoanUploadDoc(props) {
             심사 후 결과는 핸드폰 번호로 안내될 예정입니다.
           </p>
         </div>
-        <Link to="/hows/loan/detail/consult/success">
-          <button
-            className="finalapply_btn"
-            onClick={() => submitFile()}
-            disabled={
-              filelist.file1 === "" ||
-              filelist.file2 === "" ||
-              filelist.file3 === "" ||
-              filelist.file4 === "" ||
-              filelist.file5 === ""
-                ? true
-                : false
-            }
-          >
-            신청하기
-          </button>
-        </Link>
+        {/* <Link to="/hows/loan/detail/consult/success"> */}
+        <button className="finalapply_btn" onClick={() => submitFile()}>
+          신청하기
+        </button>
+        {/* </Link> */}
       </div>
+
+      <Document
+        file={{
+          url: "https://s3.ap-southeast-2.amazonaws.com/shinhandshowsbucket/bb0305c1fe704f3fa2f5668e720c0b5b.pdf",
+        }}
+        onLoadSuccess={onDocumentLoadSucess}
+      >
+        <Page pageNumber={pageNumber}></Page>
+      </Document>
     </div>
   );
 }
