@@ -8,9 +8,6 @@
 }
 .loanlimit_header {
   grid-area: loanlimit_header;
-  display: grid;
-  grid-template-columns: 3fr 2.5fr 3fr;
-  grid-template-areas: "loanlimit_title . .";
 }
 .loanlimit_body {
   grid-area: loanlimit_body;

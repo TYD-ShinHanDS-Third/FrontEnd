@@ -37,9 +37,10 @@ function BankManageApplyLoan(props) {
         },
       })
       .then(function (response) {
-        setUserList(response.data.obj);
+        console.log(response.data);
+        setUserList(response.data);
         console.log(userList);
-        setUserListTotal(response.data.total);
+        setUserListTotal(response.data[0].total);
       })
       .catch(function (error) {
         console.log(error);
@@ -97,20 +98,24 @@ function BankManageApplyLoan(props) {
                       className="userloanbox"
                       style={{ backgroundColor: "#F9FBE7" }}
                     >
-                      <td className="userid" key={item.memberid}>
-                        {item.memberid}
+                      <td className="userid" key={item.memberid.memberid}>
+                        {item.memberid.memberid}
                       </td>
-                      <td className="username">{item.membername}</td>
+                      <td className="username">{item.memberid.membername}</td>
 
-                      <td className="userloan">{item.bday} </td>
+                      <td className="userloan">
+                        [{item.bankname}] {item.loanname.loanname}{" "}
+                      </td>
 
-                      <td className="userstate"></td>
+                      <td className="userstate">{item.loanstate}</td>
                       <td className="userdocs">
                         <Link
                           to="/hows/bank/loanlist/detail"
                           state={{
-                            membername: userList[index].membername,
-                            loanname: userList[index].loanname,
+                            membername: userList[index].memberid.membername,
+                            loanname: userList[index].loanname.loanname,
+                            tel: userList[index].memberid.phone,
+                            loanid: item.loanid,
                           }}
                           style={{
                             textDecoration: "none",

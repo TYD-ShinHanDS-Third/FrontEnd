@@ -7,7 +7,7 @@ function AdminMenu(props) {
 
   const signout = (e) => {
     const cookies = new Cookies();
-    cookies.remove("jwtToken");
+    cookies.remove("jwtToken", { path: "/" });
     setToken(undefined);
     window.location.href = "/hows";
   };
