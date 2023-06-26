@@ -172,7 +172,6 @@ function PanList({ loc }) {
     console.log("favorite : " + favorite);
 
     if (favorite) {
-      console.log("axios");
       await axios
         .post(
           listurl,
