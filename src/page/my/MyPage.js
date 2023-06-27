@@ -146,7 +146,7 @@ export default function MyPage(props) {
       })
       .then(function (response) {
         console.dir(response.data);
-        //setMyPanList(response.data);
+        setMyPanList(response.data);
         for (const [index, element] of response.data.entries()) {
           let endDate = new Date(element.end);
           console.log(element.end);

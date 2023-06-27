@@ -9,7 +9,12 @@ import reset from "styled-reset";
 import { useCallback } from "react";
 import { Cookies } from "react-cookie";
 import axios from "axios";
-import Maincam from "./Maincam";
+import Options from "./webtrc/Options";
+import VideoPlayer from "./webtrc/VideoPlayer";
+import Notifications from "./webtrc/Notifications";
+import { ContextProvider, SocketContext } from "../../SocketContext";
+import { useContext } from "react";
+import Modal from "./Modal";
 
 function LoanApply(props) {
   const [msg, setMsg] = useState("");
@@ -21,7 +26,7 @@ function LoanApply(props) {
   const [loanname, setLoanname] = useState("");
   const ws = useRef(null); //webSocket을 담는 변수,
   //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
-
+  const context = useContext(SocketContext);
   //스크롤
   const scrollRef = useRef();
 
@@ -106,7 +111,6 @@ function LoanApply(props) {
     `;
 
   const onText = (event) => {
-    console.log(event.target.value);
     setMsg(event.target.value);
   };
 
@@ -155,7 +159,15 @@ function LoanApply(props) {
     <div className="loanapply">
       <div className="loanapply_detail" id="loanapply_detail">
         <h1>여기 상품 설명</h1>
-        <Maincam />
+
+        <ContextProvider>
+          <div>
+            <Options>
+              <Notifications />
+            </Options>
+            <VideoPlayer loanname={loanname} />
+          </div>
+        </ContextProvider>
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />
@@ -186,9 +198,7 @@ function LoanApply(props) {
         </div>
       </div>
 
-      <Link to="/hows/loan/detail/limit/uploaddocs">
-        <button className="consultbtn">대출 자료 제출</button>
-      </Link>
+      <Modal loanname={loanname} bankname={bankname} consult="1" />
     </div>
   );
 }

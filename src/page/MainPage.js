@@ -60,9 +60,6 @@ function MainPage(props) {
   const [loc, setLocation] = useState("전체");
   const [bank, setBank] = useState("전체");
 
-  const [userPageNum, setUserPageNum] = useState("0");
-  const [userPageTotal, setUserListTotal] = useState("0");
-
   function findLocation(new_location) {
     setLocation(new_location.newloc);
   }
@@ -74,7 +71,7 @@ function MainPage(props) {
   function submenu(location) {
     if (location.pathname.includes("/hows/notice")) {
       return <PanSubMenu findLocation={findLocation} />;
-    } else if (location.pathname.includes("/hows/loan")) {
+    } else if (location.pathname === "/hows/loan") {
       return <LoanSubMenu findBank={findBank} />;
     }
   }

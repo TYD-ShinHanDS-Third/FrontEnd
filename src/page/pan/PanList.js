@@ -65,7 +65,6 @@ function PanList({ loc }) {
   }
 
   async function filterLocation(loc, pageNum) {
-    console.log(loc);
     if (loc == "전체") {
       getList("1");
     } else {
@@ -173,7 +172,6 @@ function PanList({ loc }) {
     console.log("favorite : " + favorite);
 
     if (favorite) {
-      console.log("axios");
       await axios
         .post(
           listurl,

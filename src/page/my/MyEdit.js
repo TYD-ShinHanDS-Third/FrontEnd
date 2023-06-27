@@ -52,7 +52,7 @@ function MyEdit(props) {
 
   //저장된 회원정보 가져오기
   useEffect(() => {
-    const URL = "/member/mypage";
+    const URL = "/hows/auth/mypage";
 
     axios
       .get(URL, {
@@ -61,12 +61,13 @@ function MyEdit(props) {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setUserInfo(res.data);
         setBank(res.data.accBank);
         //날짜 데이터 변환
         console.log(res.data.bday);
         let birth = res.data.bday.substring(0, 10);
-        setUserInfo({ ...userInfo, bday: birth });
+        //setUserInfo({ ...userInfo, bday: birth });
       })
       .catch((ex) => {
         console.log("fail : " + ex);
