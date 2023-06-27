@@ -1,7 +1,11 @@
 import axios from "axios";
+import { Cookies } from "react-cookie";
+import { useState } from "preact/hooks";
 import React from "react";
+import { useEffect } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useLocation } from "react-router-dom";
+import LoanModal from "../admin/LoanModal";
 
 function BankManageDocs(props) {
   const location = useLocation();
@@ -10,6 +14,53 @@ function BankManageDocs(props) {
   const memberphone = location.state.tel.replaceAll("-", "");
   const loanname = location.state.loanname;
   const loanid = location.state.loanid;
+
+  const [EmploymentProof, setEmploymentProof] = useState("");
+  const [LeaseContract, setLeaseContract] = useState("");
+  const [MarriageProof, setMarriageProof] = useState("");
+  const [PropertyRegistration, setPropertyRegistration] = useState("");
+  const [ResidenceRegistration, setResidenceRegistration] = useState("");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState("");
+
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  // 파일 보기
+  function onDocumentLoadSucess({ numPages }) {
+    setNumPages(numPages);
+  }
+
+  useEffect(() => {
+    getFiles();
+  }, [loanid]);
+
+  async function getFiles() {
+    const cookies = new Cookies();
+    const token = cookies.get("jwtToken");
+    const listurl = "/hows/loan/detail/getdocs";
+    await axios
+      .get(listurl, {
+        headers: {
+          token: token,
+        },
+        params: {
+          loanid: loanid,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+
+        setEmploymentProof(response.data.EmploymentProof);
+        setLeaseContract(response.data.LeaseContract);
+        setMarriageProof(response.data.MarriageProof);
+        setPropertyRegistration(response.data.PropertyRegistration);
+        setResidenceRegistration(response.data.ResidenceRegistration);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   //승인 및 거절
   const apply = () => {
@@ -88,6 +139,15 @@ function BankManageDocs(props) {
         console.log("request end");
       });
   };
+
+  const openModal = (pdfUrl) => {
+    setPdfUrl(pdfUrl);
+  };
+
+  function closeModal() {
+    setModalOpen(false);
+  }
+
   return (
     <div className="managedocs">
       <div className="managedocs_header">
@@ -105,17 +165,26 @@ function BankManageDocs(props) {
               <h2 style={{ backgroundColor: "#A4BC92" }}>주민등록 등본</h2>
               <button
                 className="upload_btn"
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(EmploymentProof);
+                }}
                 style={{ backgroundColor: "#EAE7B1", color: "black" }}
               >
                 확인
               </button>
             </div>
+
             <div className="file2 file">
               <h2 style={{ backgroundColor: "#A4BC92" }}>
                 확정 일자부 임대차 계약서
               </h2>
               <button
                 className="upload_btn"
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(EmploymentProof);
+                }}
                 style={{ backgroundColor: "#EAE7B1", color: "black" }}
               >
                 확인
@@ -127,6 +196,10 @@ function BankManageDocs(props) {
               </h2>
               <button
                 className="upload_btn"
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(LeaseContract);
+                }}
                 style={{ backgroundColor: "#EAE7B1", color: "black" }}
               >
                 확인
@@ -136,6 +209,10 @@ function BankManageDocs(props) {
               <h2 style={{ backgroundColor: "#A4BC92" }}>결혼예정 증빙 서류</h2>
               <button
                 className="upload_btn"
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(MarriageProof);
+                }}
                 style={{ backgroundColor: "#EAE7B1", color: "black" }}
               >
                 확인
@@ -147,6 +224,10 @@ function BankManageDocs(props) {
               </h2>
               <button
                 className="upload_btn"
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(ResidenceRegistration);
+                }}
                 style={{ backgroundColor: "#EAE7B1", color: "black" }}
               >
                 확인
@@ -155,14 +236,14 @@ function BankManageDocs(props) {
           </div>
           <div className="loanapplybtn">
             <button
-              className="finalapply_btn"
+              className="finalapply_btn app"
               style={{ backgroundColor: "#285430", color: "white" }}
               onClick={apply}
             >
               승인하기
             </button>
             <button
-              className="finalapply_btn"
+              className="finalapply_btn ref"
               style={{ backgroundColor: "#285430", color: "white" }}
               onClick={refuse}
             >
@@ -170,6 +251,16 @@ function BankManageDocs(props) {
             </button>
           </div>
         </div>
+      </div>
+      <div className="loanModaldiv">
+        {modalOpen && (
+          <LoanModal
+            pdfUrl={{ pdfUrl }}
+            pageNumber={{ pageNumber }}
+            closeModal={closeModal}
+            className="loanModaldiv"
+          />
+        )}
       </div>
     </div>
   );

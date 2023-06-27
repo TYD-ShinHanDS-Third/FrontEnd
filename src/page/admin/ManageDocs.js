@@ -146,6 +146,10 @@ function ManageDocs(props) {
     setPdfUrl(pdfUrl);
   };
 
+  function closeModal() {
+    setModalOpen(false);
+  }
+
   return (
     <div className="managedocs">
       <div className="managedocs_header">
@@ -176,7 +180,10 @@ function ManageDocs(props) {
               <h2>확정 일자부 임대차 계약서</h2>
               <button
                 className="upload_btn"
-                onClick={() => openModal(EmploymentProof)}
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(EmploymentProof);
+                }}
               >
                 확인
               </button>
@@ -185,7 +192,10 @@ function ManageDocs(props) {
               <h2>임차주택 건물 등기부등본</h2>
               <button
                 className="upload_btn"
-                onClick={() => openModal(LeaseContract)}
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(LeaseContract);
+                }}
               >
                 확인
               </button>
@@ -194,7 +204,10 @@ function ManageDocs(props) {
               <h2>결혼예정 증빙 서류</h2>
               <button
                 className="upload_btn"
-                onClick={() => openModal(MarriageProof)}
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(MarriageProof);
+                }}
               >
                 확인
               </button>
@@ -203,25 +216,35 @@ function ManageDocs(props) {
               <h2>근로자 | 건강보험 자격 실득 확인서</h2>
               <button
                 className="upload_btn"
-                onClick={() => openModal(ResidenceRegistration)}
+                onClick={() => {
+                  setModalOpen(true);
+                  openModal(ResidenceRegistration);
+                }}
               >
                 확인
               </button>
             </div>
           </div>
           <div className="loanapplybtn">
-            <button className="finalapply_btn" onClick={apply}>
+            <button className="finalapply_btn app" onClick={apply}>
               승인하기
             </button>
-            <button className="finalapply_btn" onClick={refuse}>
+            <button className="finalapply_btn ref" onClick={refuse}>
               거절하기
             </button>
           </div>
         </div>
       </div>
-      {modalOpen && (
-        <LoanModal pdfUrl={{ pdfUrl }} pageNumber={{ pageNumber }} />
-      )}
+      <div className="loanModaldiv">
+        {modalOpen && (
+          <LoanModal
+            pdfUrl={{ pdfUrl }}
+            pageNumber={{ pageNumber }}
+            closeModal={closeModal}
+            className="loanModaldiv"
+          />
+        )}
+      </div>
     </div>
   );
 }
