@@ -14,18 +14,20 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { object } from "prop-types";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
 import { confirmAlert } from "react-confirm-alert";
+import Modal from "./Modal";
 
 export default function MyPage(props) {
   //token 가져오기
   const cookies = new Cookies();
   const token = cookies.get("jwtToken");
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   //은행명
   const [bank, setBank] = useState("");
@@ -184,8 +186,6 @@ export default function MyPage(props) {
       });
   }
 
-  const viewPic = (e) => {};
-
   useEffect(() => {
     const cookies = new Cookies();
     const jwtToken = cookies.get("jwtToken");
@@ -234,20 +234,20 @@ export default function MyPage(props) {
     setVersion(version * -1);
   }
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
   return (
     <div className="myPage">
       <div className="myContainer1">
         <div className="myInfo">
           <div className="memberTitle">
             <h2>회원정보</h2>
-            {/* <Link to="/hows/my/myedit" className="editLink">
-              <p>회원정보 수정</p>
-            </Link> */}
             <button
-              id="saveBtn"
               onClick={() => editInfo(token)}
               disabled={version === -1 && !isPasswordConfirm}
-              className="editBtn"
+              className="editSaveBtn"
             >
               {version === 1 ? "회원정보 수정" : "회원정보 저장"}
             </button>
@@ -506,8 +506,16 @@ export default function MyPage(props) {
                         <TableCell>
                           [{loan.bankname}] {loan.loanname}
                         </TableCell>
-                        <TableCell onClick={viewPic}>
+                        <TableCell onClick={() => openModal()}>
                           {loan.loanstate}
+                          {modalOpen && (
+                            <Modal
+                              setModalOpen={setModalOpen}
+                              loanname={loan.loanname}
+                              bankname={loan.bankname}
+                              state={loan.loanstate}
+                            ></Modal>
+                          )}
                         </TableCell>
                         <TableCell>
                           <button
