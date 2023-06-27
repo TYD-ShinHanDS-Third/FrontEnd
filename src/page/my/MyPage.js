@@ -3,6 +3,10 @@ import "../../css/my/MyPage.css";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -16,8 +20,50 @@ import axios from "axios";
 import { object } from "prop-types";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
+import { confirmAlert } from "react-confirm-alert";
 
 export default function MyPage(props) {
+  //token 가져오기
+  const cookies = new Cookies();
+  const token = cookies.get("jwtToken");
+
+  //은행명
+  const [bank, setBank] = useState("");
+
+  const bankChange = (event) => {
+    setBank(event.target.value);
+    setUserInfo({ ...userInfo, accBank: event.target.value });
+  };
+
+  //비밀번호 확인
+  const [passwordConfirmMessage, setPasswordConfirmMessage] =
+    useState("비밀번호를 입력하세요.");
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+
+  const inputChange = (e) => {
+    if (e.target.name !== "pswdChk") {
+      setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+    }
+    if (e.target.name === "pswdChk") {
+      if (userInfo.pswd === e.target.value) {
+        setPasswordConfirmMessage("비밀번호 일치");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호 불일치");
+        setIsPasswordConfirm(false);
+      }
+    } else if (e.target.name === "pswd") {
+      const passChk = document.getElementById("pswdChk").value;
+      if (passChk === e.target.value) {
+        setPasswordConfirmMessage("비밀번호 일치");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호 불일치");
+        setIsPasswordConfirm(false);
+      }
+    }
+  };
+
   //내 대출 정보
   const [myPanList, setMyPanList] = useState([]);
   const [myLoanList, setMyLoanList] = useState([]);
@@ -30,9 +76,12 @@ export default function MyPage(props) {
 
   const [userInfo, setUserInfo] = useState({});
 
+  //회원정보 조회 및 수정 버전 확인
+  const [version, setVersion] = useState(1);
+
   //저장된 회원정보 가져오기
   async function getUserInfo(token) {
-    const URL = "/hows/mypage";
+    const URL = "/hows/auth/mypage";
 
     axios
       .get(URL, {
@@ -41,11 +90,13 @@ export default function MyPage(props) {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setUserInfo(res.data);
+        setBank(res.data.accBank);
         //날짜 데이터 변환
         console.log(res.data.bday);
         let birth = res.data.bday.substring(0, 10);
-        setUserInfo({ ...userInfo, bday: birth });
+        //setUserInfo({ ...userInfo, bday: birth });
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -133,6 +184,8 @@ export default function MyPage(props) {
       });
   }
 
+  const viewPic = (e) => {};
+
   useEffect(() => {
     const cookies = new Cookies();
     const jwtToken = cookies.get("jwtToken");
@@ -143,34 +196,285 @@ export default function MyPage(props) {
     console.log("mouted");
   }, []);
 
+  //회원 정보 수정
+  function editInfo(token) {
+    if (version === -1) {
+      const url = "/member/update";
+      axios
+        .put(url, JSON.stringify(userInfo), {
+          headers: {
+            "Content-Type": `application/json`,
+            token: token,
+          },
+        })
+        .then((res) => {
+          if (res.data === "success") {
+            console.log("update success");
+            confirmAlert({
+              title: "수정완료",
+              buttons: [
+                {
+                  label: "확인",
+                  style: { backgroundColor: "#518e65" },
+                  onClick: () => {},
+                },
+              ],
+            });
+          } else {
+            console.log("update fail");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log("request end");
+        });
+    }
+    setVersion(version * -1);
+  }
+
   return (
     <div className="myPage">
       <div className="myContainer1">
         <div className="myInfo">
           <div className="memberTitle">
             <h2>회원정보</h2>
-            <Link to="/hows/my/myedit" className="editLink">
+            {/* <Link to="/hows/my/myedit" className="editLink">
               <p>회원정보 수정</p>
-            </Link>
+            </Link> */}
+            <button
+              id="saveBtn"
+              onClick={() => editInfo(token)}
+              disabled={version === -1 && !isPasswordConfirm}
+              className="editBtn"
+            >
+              {version === 1 ? "회원정보 수정" : "회원정보 저장"}
+            </button>
           </div>
           <div className="leftBox" id="userInfo">
             <div className="essential">
-              <p>이름 {userInfo.membername}</p>
-              <p>아이디 {userInfo.memberid}</p>
-              <p>비밀번호 {userInfo.membername}</p>
-              <p>생년월일 {userInfo.bday}</p>
-              <p>전화번호 {userInfo.phone}</p>
+              <table className={version === 1 ? "" : "essentialEdit"}>
+                <td>이름</td>
+                <td>{userInfo.membername}</td>
+                <tr />
+                <td>아이디</td>
+                <td>{userInfo.memberid}</td>
+                <tr />
+                <td>생년월일</td>
+                <td>{userInfo.bday}</td>
+                <tr />
+                <td>전화번호</td>
+                <td>{userInfo.phone}</td>
+                <tr />
+                <td>등급</td>
+                <td>{userInfo.memberLevel}</td>
+                <tr />
+                <td className={version === 1 ? "normal" : "editver"}>
+                  비밀번호
+                </td>
+                <td>
+                  <input
+                    id="pswd"
+                    name="pswd"
+                    type="password"
+                    placeholder="비밀번호"
+                    onChange={inputChange}
+                    className={version === 1 ? "normal" : "editver"}
+                  />
+                </td>
+                <tr />
+                <td className={version === 1 ? "normal" : "editver"}>
+                  비밀번호 확인
+                </td>
+                <td>
+                  <span
+                    id="passMsg"
+                    className={`message ${
+                      isPasswordConfirm ? "success" : "error"
+                    }`}
+                    style={{ display: version === 1 ? "none" : "block" }}
+                  >
+                    {passwordConfirmMessage}
+                  </span>
+                  <input
+                    id="pswdChk"
+                    name="pswdChk"
+                    type="password"
+                    placeholder="비밀번호 확인"
+                    className={version === 1 ? "normal" : "editver"}
+                    onChange={inputChange}
+                  />
+                </td>
+              </table>
             </div>
             <div className="additional">
-              <p>
-                계좌 [{userInfo.bankname}] {userInfo.accno}
-              </p>
-              <p>직장유무 {userInfo.hasjob}</p>
-              <p>
-                직장명 {userInfo.jobname} : {userInfo.hiredate}
-              </p>
-              <p>결혼 {userInfo.marry}</p>
-              <p>자녀 {userInfo.haschild}</p>
+              <table>
+                <td>계좌</td>
+                <td className={version === 1 ? "editver" : "normal"}>
+                  [{userInfo.accBank}] {userInfo.accno}
+                </td>
+                <td className={version === 1 ? "normal" : "editver"}>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: 80 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      은행
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      onChange={bankChange}
+                      label="은행명"
+                      value={bank}
+                    >
+                      <MenuItem value={"신한"}>신한</MenuItem>
+                      <MenuItem value={"국민"}>국민</MenuItem>
+                      <MenuItem value={"우리"}>우리</MenuItem>
+                      <MenuItem value={"하나"}>하나</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <input
+                    type="text"
+                    placeholder="계좌번호"
+                    value={userInfo.accno}
+                  />
+                </td>
+                <tr />
+                <td>직장</td>
+                <td className={version === 1 ? "editver" : "normal"}>
+                  {userInfo.hasjob === 1
+                    ? "유직"
+                    : userInfo.hasjob === 0
+                    ? "무직"
+                    : ""}
+                </td>
+                <td className={version === 1 ? "normal" : "editver"}>
+                  <div className="select">
+                    <input
+                      type="radio"
+                      id="select1"
+                      name="hasjob"
+                      value="1"
+                      label="hasjob"
+                      checked={userInfo.hasjob === 1 || userInfo.hasjob === "1"}
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select1">유</label>
+                    <input
+                      type="radio"
+                      id="select2"
+                      name="hasjob"
+                      value="0"
+                      label="hasjob"
+                      checked={userInfo.hasjob === 0 || userInfo.hasjob === "0"}
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select2">무</label>
+                  </div>
+                </td>
+                <tr />
+                <td>직장명</td>
+                <td className={version === 1 ? "editver" : "normal"}>
+                  {userInfo.jobname} {userInfo.hiredate}
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    placeholder="직장명"
+                    value={userInfo.jobname}
+                    className={version === 1 ? "normal" : "editver"}
+                  />
+                  <input
+                    type="text"
+                    placeholder="입사년도"
+                    value={userInfo.hiredate}
+                    className={version === 1 ? "normal" : "editver"}
+                  />
+                </td>
+                <tr />
+                <td>결혼</td>
+                <td className={version === 1 ? "editver" : "normal"}>
+                  {userInfo.marry === 1
+                    ? "기혼"
+                    : userInfo.marry === 0
+                    ? "미혼"
+                    : ""}
+                </td>
+                <td className={version === 1 ? "normal" : "editver"}>
+                  <div className="select">
+                    <input
+                      type="radio"
+                      id="select3"
+                      name="marry"
+                      value="0"
+                      label="marry"
+                      checked={userInfo.marry === 0 || userInfo.marry === "0"}
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select3">미혼</label>
+                    <input
+                      type="radio"
+                      id="select4"
+                      name="marry"
+                      value="1"
+                      label="marry"
+                      checked={userInfo.marry === 1 || userInfo.marry === "1"}
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select4">기혼</label>
+                  </div>
+                </td>
+                <tr />
+                <td>자녀</td>
+                <td className={version === 1 ? "editver" : "normal"}>
+                  {userInfo.haschild === 0
+                    ? "없음"
+                    : userInfo.haschild === 1
+                    ? "1명"
+                    : userInfo.haschild === 2
+                    ? "2명이상"
+                    : ""}
+                </td>
+                <td className={version === 1 ? "normal" : "editver"}>
+                  <div className="select">
+                    <input
+                      type="radio"
+                      id="select5"
+                      name="haschild"
+                      value="0"
+                      label="haschild"
+                      checked={
+                        userInfo.haschild === 0 || userInfo.haschild === "0"
+                      }
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select5">무</label>
+                    <input
+                      type="radio"
+                      id="select6"
+                      name="haschild"
+                      value="1"
+                      label="haschild"
+                      checked={
+                        userInfo.haschild === 1 || userInfo.haschild === "1"
+                      }
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select6">1명</label>
+                    <input
+                      type="radio"
+                      id="select7"
+                      name="haschild"
+                      value="2"
+                      label="haschild"
+                      checked={
+                        userInfo.haschild === 2 || userInfo.haschild === "2"
+                      }
+                      onChange={inputChange}
+                    />
+                    <label htmlFor="select7">2명이상</label>
+                  </div>
+                </td>
+              </table>
             </div>
           </div>
         </div>
@@ -188,7 +492,7 @@ export default function MyPage(props) {
                     <TableRow>
                       <TableCell>대출 상품</TableCell>
                       <TableCell>진행 상태</TableCell>
-                      <TableCell>신청 링크</TableCell>
+                      <TableCell>신청</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -202,7 +506,9 @@ export default function MyPage(props) {
                         <TableCell>
                           [{loan.bankname}] {loan.loanname}
                         </TableCell>
-                        <TableCell>{loan.loanstate}</TableCell>
+                        <TableCell onClick={viewPic}>
+                          {loan.loanstate}
+                        </TableCell>
                         <TableCell>
                           <button
                             onClick={() => {

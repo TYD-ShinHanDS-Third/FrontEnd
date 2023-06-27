@@ -19,18 +19,9 @@
 }
 
 .memberTitle {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.memberTitle h2 {
-  grid-column: 1/2;
-}
-
-.memberTitle p {
-  grid-column: 2/3;
-  text-align: right;
-  margin-right: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .myContainer2 {
@@ -118,4 +109,26 @@
 .leftBox::-webkit-scrollbar-track {
   background: rgba(100, 100, 100, 0.1);
   /*스크롤바 뒷 배경 색상*/
+}
+
+.editBtn {
+  width: 10%;
+  height: 40px;
+  color: white;
+}
+
+table input {
+  height: 25px;
+}
+
+.normal {
+  display: none;
+}
+
+.editver {
+  display: block;
+}
+
+.essentialEdit td {
+  padding: 8px;
 }
