@@ -120,3 +120,9 @@ body::-webkit-scrollbar {
   height: 500px;
   overflow: hidden;
 }
+.displayMain {
+  display: flex !important;
+  justify-content: center;
+  width: 850px;
+  height: 800px;
+}
