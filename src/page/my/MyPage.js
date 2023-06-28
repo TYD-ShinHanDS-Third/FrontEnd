@@ -394,12 +394,14 @@ export default function MyPage(props) {
                     placeholder="직장명"
                     value={userInfo.jobname}
                     className={version === 1 ? "normal" : "editver"}
+                    onChange={inputChange}
                   />
                   <input
                     type="text"
                     placeholder="입사년도"
                     value={userInfo.hiredate}
                     className={version === 1 ? "normal" : "editver"}
+                    onChange={inputChange}
                   />
                 </td>
                 <tr />
@@ -597,7 +599,7 @@ export default function MyPage(props) {
           <FullCalendar
             defaultView="dayGridMonth"
             plugins={[dayGridPlugin]}
-            height={"auto"}
+            height={"600px"}
             events={myPanList}
             displayEventTime={false}
           />

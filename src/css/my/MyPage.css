@@ -5,6 +5,7 @@
   align-items: center;
   justify-items: center;
   grid-template-columns: repeat(3, 1fr);
+  margin-top: -50px;
 }
 
 .myContainer1 {
@@ -15,13 +16,14 @@
   align-items: center;
   justify-items: center;
   grid-template-rows: repeat(3, 1fr);
-  gap: 2% 2%;
+  gap: 5% 2%;
 }
 
 .memberTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 40px;
 }
 
 .myContainer2 {
@@ -38,7 +40,7 @@
 .calendar {
   grid-row: 1 / 6;
   width: 90%;
-  height: 650px;
+  height: 630px;
   padding: 5%;
   margin-right: 50px;
   background-color: white;
@@ -48,7 +50,7 @@
 
 .leftBox {
   width: 90%;
-  height: 60%;
+  height: 100%;
   padding: 5%;
   background-color: white;
   border-radius: 20px;
