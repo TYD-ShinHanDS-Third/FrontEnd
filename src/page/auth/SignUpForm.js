@@ -350,7 +350,23 @@ function SignUpForm(props) {
       })
       .then((res) => {
         if (res.data === "success.") {
-          submitWork();
+          if (member.roles !== "USER") {
+            submitWork();
+          } else {
+            confirmAlert({
+              title: "회원가입 성공",
+              message: "로그인해주세요",
+              buttons: [
+                {
+                  label: "확인",
+                  onClick: () => {
+                    window.location.href = "/hows/auth/login";
+                  },
+                  style: { backgroundColor: "#518e65" },
+                },
+              ],
+            });
+          }
         } else {
           confirmAlert({
             title: "회원가입 실패",
