@@ -1,11 +1,13 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import { useLocation } from "react-router-dom";
-import LoanModal from "../admin/LoanModal";
+import LoanModal from "../bank/LoanModal";
+import { Document, pdfjs, Page } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function BankManageDocs(props) {
   const location = useLocation();
@@ -237,7 +239,7 @@ function BankManageDocs(props) {
           <div className="loanapplybtn">
             <button
               className="finalapply_btn app"
-              style={{ backgroundColor: "#285430", color: "white" }}
+              style={{ backgroundColor: "#DB4455", color: "white" }}
               onClick={apply}
             >
               승인하기
