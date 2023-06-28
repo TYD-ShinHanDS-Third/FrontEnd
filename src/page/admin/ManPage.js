@@ -8,6 +8,7 @@ import ManageApplyLoan from "./ManageApplyLoan";
 import Consulting from "./Consulting";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import AdminImgCom from "./AdminImgCom";
 
 function ManPage(props) {
   document.body.style.backgroundColor = "#DDE6ED";
@@ -37,9 +38,11 @@ function ManPage(props) {
         }
       });
   }, []);
+
   return (
     <div>
       <Routes>
+        <Route path="/" element={<AdminImgCom />}></Route>
         <Route path="user" element={<ManageUser />}></Route>
         <Route path="consult" element={<ConsultingList />}></Route>
         <Route path="form" element={<ManageApplyLoan />}></Route>
