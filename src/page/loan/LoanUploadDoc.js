@@ -80,35 +80,31 @@ function LoanUploadDoc(props) {
 
   async function submitFile(e) {
     const formData = new FormData();
-    formData.append("file", file1);
-    formData.append("file", file2);
-    formData.append("file", file3);
-    formData.append("file", file4);
-    formData.append("file", file5);
+    formData.append("files", file1);
+    formData.append("files", file2);
+    formData.append("files", file3);
+    formData.append("files", file4);
+    formData.append("files", file5);
 
-    console.log(formData.getAll("file"));
+    console.log(formData.getAll("files"));
 
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
-    // const listurl = "/hows/loan/detail/limit/uploaddocs";
-    // axios
-    //   .post(
-    //     listurl,
-    //     { files: formData },
-    //     {
-    //       headers: {
-    //         token: token,
-    //         "Content-Type": "multipart/form-data"
-    //       }
-    //     }
-    //   )
-    //   .then(function (response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    const listurl = "/hows/loan/detail/uploaddocs";
+    axios
+      .post(listurl, formData, {
+        headers: {
+          token: token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   return (

@@ -39,6 +39,88 @@
   height: 950px;
   overflow: hidden;
 }
+.loanModal {
+  display: grid;
+  margin-top: 15px;
+  width: 1500px;
+  height: 800px;
+  justify-content: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.modal_body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 400px;
+  height: 600px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+  transform: translateX(-50%) translateY(-50%);
+}
+.loanodalbtn {
+  display: flex;
+  justify-content: center;
+  justify-content: center;
+}
+.loanmodalclose {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.closeloanmodal {
+  color: white;
+  width: 50px;
+  height: 30px;
+  background-color: #526d82;
+}
+/*
+.loanModalBody {
+  height: 30px;
+  width: 10px;
+}
+.react-pdf__Page__canvas {
+  height: 30px;
+  width: 10px;
+}
+*/
+.annotationLayer {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.react-pdf__Page__canvas {
+  margin: 0 auto;
+  width: 550px !important;
+  height: 750px !important;
+}
+
+.loanleft {
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 50px;
+  height: 30px;
+  color: white;
+  background-color: #526d82;
+}
+.loanright {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 50px;
+  height: 30px;
+  color: white;
+  background-color: #526d82;
+}
 
 .loanModalBody {
   height: 30px;
