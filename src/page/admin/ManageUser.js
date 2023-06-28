@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import "../../css/admin/ManagerUser.css";
 
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Cookies } from "react-cookie";
 import axios from "axios";
@@ -57,7 +56,6 @@ function ManageUser(props) {
         },
       })
       .then(function (response) {
-        console.log(response.data.obj);
         setUserList(response.data.obj);
         setUserListTotal(response.data.total);
       })
@@ -67,8 +65,6 @@ function ManageUser(props) {
   }
 
   async function editUserInfo(userid, userrole, useremail) {
-    console.log(userrole);
-    console.log(userid);
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
     const listurl = "/hows/admin/user";
@@ -90,7 +86,6 @@ function ManageUser(props) {
         }
       )
       .then(function (response) {
-        console.log(response);
         if (response.data === "발송성공") {
           alert("회원에게 메일 전송이 완료 되었습니다.");
         } else {
@@ -114,7 +109,6 @@ function ManageUser(props) {
         },
       })
       .then(function (response) {
-        console.log(response.data);
         setWorkFile(response.data.workdocs);
       })
       .catch(function (error) {

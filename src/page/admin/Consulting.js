@@ -50,7 +50,6 @@ function Consulting(props) {
         },
       })
       .then((res) => {
-        console.dir(res);
         if (res.data.message === "관리자입니다, 이전 채팅방에 입장합니다.") {
           let historylist = [];
           res.data.chathistory.map((history) => {
@@ -90,10 +89,7 @@ function Consulting(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
-
         let birth = res.data.bday.substring(0, 10);
-
         let hire = res.data.hiredate.substring(0, 4);
         setUser({
           hiredate: hire,
@@ -105,7 +101,6 @@ function Consulting(props) {
           haschild: res.data.haschild,
           marry: res.data.marry,
         });
-        console.log(user);
       })
       .catch((ex) => {
         console.log("requset fail : " + ex);
@@ -144,7 +139,6 @@ function Consulting(props) {
     `;
 
   const onText = (event) => {
-    console.log(event.target.value);
     setMsg(event.target.value);
   };
 

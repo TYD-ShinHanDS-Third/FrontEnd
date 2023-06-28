@@ -136,8 +136,6 @@ export default function MyPage(props) {
         },
       })
       .then(function (response) {
-        console.dir(response.data);
-        console.log("loan", response.data);
         setMyLoanList(response.data[0]);
         setMyChat(response.data[1]);
       })
@@ -159,14 +157,11 @@ export default function MyPage(props) {
         },
       })
       .then(function (response) {
-        console.dir(response.data);
         setMyPanList(response.data);
         for (const [index, element] of response.data.entries()) {
           let endDate = new Date(element.end);
-          console.log(element.end);
-          console.log(endDate);
           endDate.setDate(endDate.getDate() + 1);
-          console.log(endDate);
+
           const favorite = {
             title: element.title,
             start: element.start,
@@ -192,9 +187,6 @@ export default function MyPage(props) {
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
       });
   }
 
@@ -204,8 +196,6 @@ export default function MyPage(props) {
     getUserInfo(jwtToken);
     getFavorites(jwtToken);
     getChatList(jwtToken);
-
-    console.log("mouted");
   }, []);
 
   //회원 정보 수정
@@ -221,7 +211,6 @@ export default function MyPage(props) {
         })
         .then((res) => {
           if (res.data === "success") {
-            console.log("update success");
             confirmAlert({
               title: "수정완료",
               buttons: [
@@ -238,9 +227,6 @@ export default function MyPage(props) {
         })
         .catch(function (error) {
           console.log(error);
-        })
-        .finally(() => {
-          console.log("request end");
         });
     }
     setVersion(version * -1);

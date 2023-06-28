@@ -18,7 +18,6 @@ function LoanModal({ pageNumber, pdfUrl, closeModal }) {
   };
   function onDocumentLoadSucess({ numPages }) {
     setNumPages(numPages);
-    console.log(numPages);
   }
   const nextPage = () => {
     if (numPages > page) {

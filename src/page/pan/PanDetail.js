@@ -17,7 +17,6 @@ import { useState } from "react";
 import axios from "axios";
 
 function PanDetail({ favorite, pageNum, getList, loc }) {
-  console.log(loc);
   const location = useLocation();
   const panInfo = location.state.panInfo;
   const [fav, setFav] = useState(panInfo.favorite);
@@ -69,9 +68,10 @@ function PanDetail({ favorite, pageNum, getList, loc }) {
           <button className="goList" onClick={() => goList()}>
             목록으로 돌아가기
           </button>
+
           <h2 className="noticeTitle">{panInfo.panname}</h2>
           <div className="noticeFav">
-            {panInfo.favorite === true ? (
+            {panInfo.like == 1 ? (
               <button className="tag" onClick={() => like(panInfo)}>
                 <HomeIcon />
               </button>

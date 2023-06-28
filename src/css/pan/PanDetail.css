@@ -3,10 +3,10 @@
   align-items: start;
   justify-items: center;
   height: 850px;
-  width: 100%;
   border: 2px solid #609966;
   border-radius: 10px;
   margin-bottom: 10px;
+  margin-top: 40px;
 }
 .notice::-webkit-scrollbar {
   width: 7px; /* 스크롤바의 너비 */

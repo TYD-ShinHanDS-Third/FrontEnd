@@ -42,8 +42,6 @@ function NoticeList({
       b_like = 1;
     }
     setFavlist(tmp);
-    console.log(favlist);
-
     favorite(id, b_like);
   };
 

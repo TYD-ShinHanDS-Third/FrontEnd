@@ -86,8 +86,6 @@ function LoanUploadDoc(props) {
     formData.append("files", file4);
     formData.append("files", file5);
 
-    console.log(formData.getAll("files"));
-
     const cookies = new Cookies();
     const token = cookies.get("jwtToken");
 
@@ -99,9 +97,7 @@ function LoanUploadDoc(props) {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });

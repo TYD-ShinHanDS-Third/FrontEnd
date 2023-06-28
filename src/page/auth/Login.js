@@ -19,7 +19,6 @@ function Login(props) {
       ...user,
       [e.target.name]: e.target.value,
     });
-    console.log(user);
   };
 
   const onCheckEnter = (e) => {
@@ -38,8 +37,6 @@ function Login(props) {
         },
       })
       .then((res) => {
-        console.log("res", res);
-
         if (res.headers.authorization === undefined) {
           document.getElementById("failLogin").style.display = "block";
           document.getElementById("memberid").value = "";
@@ -51,7 +48,7 @@ function Login(props) {
           //cookie로 저장
           const cookies = new Cookies();
           cookies.set("jwtToken", res.headers.authorization, { path: "/" });
-          console.log(res.headers.roles);
+
           if (res.headers.roles === "[USER]") {
             window.location.href = "/hows";
           } else if (res.headers.roles === "[ADMIN]") {
@@ -62,7 +59,6 @@ function Login(props) {
         }
       })
       .catch((ex) => {
-        console.log("login requset fail : " + ex);
         document.getElementById("failLogin").style.display = "block";
         document.getElementById("memberid").value = "";
         document.getElementById("pswd").value = "";

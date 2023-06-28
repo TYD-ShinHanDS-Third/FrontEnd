@@ -38,7 +38,6 @@ function ConsultingList(props) {
       })
       .then(function (response) {
         setUserConsultList(response.data);
-        console.log(response.data);
         setUserListTotal(response.data[0].total);
       })
       .catch(function (error) {

@@ -56,7 +56,6 @@ function LoanApply(props) {
         },
       })
       .then((res) => {
-        console.dir(res);
         if (
           res.data.message ===
           "상담 신청 내역이 있습니다, 이전 채팅방에 입장합니다."
@@ -99,12 +98,10 @@ function LoanApply(props) {
         },
       })
       .then((res) => {
-        console.dir(res);
         for (let key in res.data) {
           arr.push(res.data[key]);
         }
         setDivHtml(arr);
-        console.log(arr);
       })
       .catch((ex) => {
         console.log("requset fail : " + ex);

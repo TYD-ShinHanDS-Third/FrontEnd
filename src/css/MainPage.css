@@ -16,7 +16,7 @@ body::-webkit-scrollbar {
   grid-template-columns: 1fr 6fr;
   grid-template-areas: "logo menubar";
   width: 90%;
-  max-width: 1800px;
+  max-width: 2000px;
   height: 90px;
   margin: 0 auto;
 }
@@ -94,7 +94,7 @@ button.menu {
   align-items: center;
   justify-content: center;
   width: 90%;
-  max-width: 1800px;
+  max-width: 2000px;
   height: 970px;
   margin: 0 auto;
   border-radius: 38px;
@@ -104,7 +104,7 @@ button.menu {
 .img_con {
   position: relative;
   width: 100%;
-  max-width: 1600px;
+  max-width: 2000px;
   height: 90%;
   /* border: solid 3px #518e65; */
   border-radius: 10px;

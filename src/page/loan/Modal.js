@@ -46,7 +46,6 @@ function Modal({ loanname, bankname, consult }) {
         },
       })
       .then(function (response) {
-        console.dir("res", response);
         if (response.data == "1") {
           setIsCheckIdf(true);
           setIdfMessage("본인 인증 완료");
