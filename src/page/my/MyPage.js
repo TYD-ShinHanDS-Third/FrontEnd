@@ -340,9 +340,9 @@ export default function MyPage(props) {
                 <td>직장</td>
                 <td className={version === 1 ? "editver" : "normal"}>
                   {userInfo.hasjob === 1
-                    ? "유직"
+                    ? "O"
                     : userInfo.hasjob === 0
-                    ? "무직"
+                    ? "X"
                     : ""}
                 </td>
                 <td className={version === 1 ? "normal" : "editver"}>

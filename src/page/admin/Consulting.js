@@ -219,9 +219,7 @@ function Consulting(props) {
             <td>{user.phone}</td>
             <tr />
             <td>직장</td>
-            <td>
-              {user.hasjob === 1 ? "유직" : user.hasjob === 0 ? "무직" : ""}
-            </td>
+            <td>{user.hasjob === 1 ? "O" : user.hasjob === 0 ? "X" : ""}</td>
             <tr />
             <td>직장명</td>
             <td>{user.jobname}</td>
