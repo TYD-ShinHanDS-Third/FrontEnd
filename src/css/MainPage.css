@@ -123,6 +123,8 @@ body::-webkit-scrollbar {
 .displayMain {
   display: flex !important;
   justify-content: center;
-  width: 850px;
+  /* align-items: center; */
+  width: 700px;
   height: 800px;
+  margin-top: 20px;
 }
