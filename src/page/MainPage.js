@@ -19,6 +19,9 @@ import PanSubMenu from "./pan/PanSubMenu";
 import AdminUserPage from "./admin/AdminUserPage";
 import LoanSubMenu from "./loan/LoanSubMenu";
 import NoAuth from "./NoAuth";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function menu(location) {
   if (location.pathname.includes("/hows/admin")) {
@@ -76,6 +79,17 @@ function MainPage(props) {
     }
   }
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    infinite: true,
+    autoplaySpeed: 3000,
+  };
+
   return (
     <div className="mainpage">
       <div className="header">
@@ -100,6 +114,26 @@ function MainPage(props) {
             <Route path="bank/*" element={<BankMainPage />}></Route>
             <Route path="noauth/*" element={<NoAuth />} />
           </Routes>
+          <Slider {...settings}>
+            <div className="displayMain">
+              <img src="/image/mainImg/4.svg" />
+            </div>
+            <div className="displayMain">
+              <img src="/image/mainImg/2.svg" />
+            </div>
+            <div className="displayMain">
+              <img src="/image/mainImg/6.svg" />
+            </div>
+            <div className="displayMain">
+              <img src="/image/mainImg/1.svg" />
+            </div>
+            <div className="displayMain">
+              <img src="/image/mainImg/5.svg" />
+            </div>
+            <div className="displayMain">
+              <img src="/image/mainImg/3.svg" />
+            </div>
+          </Slider>
         </div>
       </div>
     </div>

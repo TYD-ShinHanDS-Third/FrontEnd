@@ -14,7 +14,6 @@ import Select from "@mui/material/Select";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 import CheckUserWork from "./CheckUserWork";
-import ModalBack from "./ModalBack";
 
 function ManageUser(props) {
   const [userList, setUserList] = useState([]);
@@ -23,6 +22,9 @@ function ManageUser(props) {
   const [role, setRole] = useState("");
   const [roleInfo, setRoleInfo] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [workFile, setWorkFile] = useState("");
+
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     getUserList();
@@ -105,6 +107,26 @@ function ManageUser(props) {
       });
   }
 
+  async function getFiles(memberid) {
+    const listurl = "/hows/loan/detail/getworkdocs";
+    await axios
+      .get(listurl, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+        params: {
+          memberid: memberid,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+        setWorkFile(response.data.workdocs);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   const printRole = (item, index) => {
     return (
       <Select
@@ -160,13 +182,13 @@ function ManageUser(props) {
   const changePage = (p) => {
     setUserPageNum(p);
   };
-  const openModal = () => {
+  const openModal = (memberid) => {
     setModalOpen(true);
+    getFiles(memberid);
   };
 
   return (
     <div className="manageruser">
-      {modalOpen && <ModalBack setModalOpen={setModalOpen} />}
       <div className="usertopbar">{createBtn(userPageTotal)}</div>
       <div className="manageuser">
         <div className="userdetailtable">
@@ -192,7 +214,7 @@ function ManageUser(props) {
                     <td className="userwork">
                       <button
                         className="userworkbtn"
-                        onClick={() => openModal()}
+                        onClick={() => openModal(item.memberid)}
                       >
                         재직증명서 확인
                       </button>
@@ -223,7 +245,13 @@ function ManageUser(props) {
           </table>
         </div>
       </div>
-      {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <CheckUserWork
+          setModalOpen={setModalOpen}
+          workFile={workFile}
+          pageNumber={{ pageNumber }}
+        />
+      )}
     </div>
   );
 }
