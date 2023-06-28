@@ -33,6 +33,7 @@ function Modal({ setModalOpen, loanname, bankname, state }) {
                   ? "/image/loanstate/state5.svg"
                   : ""
               }
+              alt="loanstate"
               width={"500px"}
             />
           </ModalView>

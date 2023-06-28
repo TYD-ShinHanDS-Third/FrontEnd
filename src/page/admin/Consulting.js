@@ -79,7 +79,7 @@ function Consulting(props) {
 
   //사용자 정보 불러오기
   async function getUserInfo(id) {
-    const url = "http://192.168.0.8:8888/hows/admin/userinfoshow";
+    const url = "/hows/admin/userinfoshow";
     axios
       .get(url, {
         headers: {
@@ -190,7 +190,7 @@ function Consulting(props) {
   });
 
   const endChatting = (e) => {
-    const url = "http://192.168.0.8:8888/hows/admin/chatend";
+    const url = "/hows/admin/chatend";
     axios
       .put(url, null, {
         headers: {

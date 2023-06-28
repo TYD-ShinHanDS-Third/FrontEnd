@@ -795,18 +795,18 @@ function SignUpForm(props) {
             id="signUpBtn"
             className="signupBtn"
             onClick={() => signup()}
-            // disabled={
-            //   !(
-            //     isPhone &&
-            //     isBirth &&
-            //     isPasswordConfirm &&
-            //     isCheckId &&
-            //     isCheckPhone &&
-            //     member.membername !== "" &&
-            //     !member.memberid !== "" &&
-            //     !member.pswd !== ""
-            //   )
-            // }
+            disabled={
+              !(
+                isPhone &&
+                isBirth &&
+                isPasswordConfirm &&
+                isCheckId &&
+                isCheckPhone &&
+                member.membername !== "" &&
+                !member.memberid !== "" &&
+                !member.pswd !== ""
+              )
+            }
           >
             회원가입
           </button>

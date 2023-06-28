@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../../css/admin/Modal.css";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
-import { useState } from "react";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function CheckUserWork({ setModalOpen, workFile, pageNumber }) {

@@ -67,7 +67,7 @@ function ManageDocs(props) {
 
   //승인 및 거절
   const apply = () => {
-    const url = "http://192.168.0.55:8888/hows/admin/approval";
+    const url = "/hows/admin/approval";
     axios
       .put(url, null, {
         headers: {
@@ -104,7 +104,7 @@ function ManageDocs(props) {
       });
   };
   const refuse = () => {
-    const url = "http://192.168.0.55:8888/hows/admin/refusal";
+    const url = "/hows/admin/refusal";
     axios
       .put(url, null, {
         headers: {
