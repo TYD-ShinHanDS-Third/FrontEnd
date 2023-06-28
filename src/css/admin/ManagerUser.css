@@ -26,8 +26,7 @@
   align-items: center;
   justify-items: center;
 }
-.usereditbtn {
-}
+
 .userworkbtn {
   background-color: #9db2bf;
 }
@@ -47,6 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 35px;
 }
 .userpagebtn {
   background-color: #9db2bf;

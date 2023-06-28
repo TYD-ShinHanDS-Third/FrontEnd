@@ -30,9 +30,7 @@ function BankManageApplyLoan(props) {
         },
       })
       .then(function (response) {
-        console.log(response.data);
         setUserList(response.data);
-        console.log(userList);
         setUserListTotal(response.data[0].total);
       })
       .catch(function (error) {

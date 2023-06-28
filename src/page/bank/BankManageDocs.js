@@ -51,8 +51,6 @@ function BankManageDocs(props) {
         },
       })
       .then(function (response) {
-        console.log(response.data);
-
         setEmploymentProof(response.data.EmploymentProof);
         setLeaseContract(response.data.LeaseContract);
         setMarriageProof(response.data.MarriageProof);
@@ -81,7 +79,6 @@ function BankManageDocs(props) {
       })
       .then((res) => {
         if (res.data === "success") {
-          console.log("update success");
           confirmAlert({
             title: "승인 완료",
             buttons: [
@@ -98,9 +95,6 @@ function BankManageDocs(props) {
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
       });
   };
   const refuse = () => {
@@ -119,7 +113,6 @@ function BankManageDocs(props) {
       })
       .then((res) => {
         if (res.data === "success") {
-          console.log("update success");
           confirmAlert({
             title: "거절 완료",
             buttons: [
@@ -136,9 +129,6 @@ function BankManageDocs(props) {
       })
       .catch(function (error) {
         console.log(error);
-      })
-      .finally(() => {
-        console.log("request end");
       });
   };
 

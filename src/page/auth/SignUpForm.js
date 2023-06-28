@@ -297,7 +297,7 @@ function SignUpForm(props) {
     const url = "/hows/loan/detail/workdocs/" + member.memberid;
     const formData = new FormData();
     formData.append("file", files);
-    console.log(formData.getAll("file"));
+
     axios
       .post(url, formData, {
         headers: {
@@ -334,7 +334,6 @@ function SignUpForm(props) {
         }
       })
       .catch(function (error) {
-        console.log(formData.getAll("file"));
         console.log(error);
       });
   }

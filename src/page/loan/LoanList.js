@@ -25,7 +25,6 @@ function LoanList({ bank }) {
         },
       })
       .then((res) => {
-        console.dir(res);
         if (res.data === "success") {
           navigate("/hows/loan/detail/consult", {
             state: {
@@ -68,17 +67,14 @@ function LoanList({ bank }) {
         },
       })
       .then(function (response) {
-        console.dir("list", response.data);
         setLoanList(response.data.obj);
       })
       .catch(function (error) {
         console.log(error);
       });
-    console.log(loanlist);
   }
 
   useEffect(() => {
-    console.log(bank);
     getList(bank.item == null ? "전체" : bank.item);
   }, [bank]);
 

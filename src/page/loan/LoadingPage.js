@@ -11,7 +11,7 @@ function LoadingPage(props) {
 
   const getLimit = () => {
     const url = "/hows/loan/detail/limit";
-    console.log("jumin", location.state.jumin);
+
     axios
       .get(url, {
         headers: {
@@ -23,7 +23,6 @@ function LoadingPage(props) {
         },
       })
       .then(function (response) {
-        console.log("res", response);
         setLimit(response.data.maxloan);
         setName(response.data.myname);
       })

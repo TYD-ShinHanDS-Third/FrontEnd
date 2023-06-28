@@ -30,7 +30,6 @@ function ManageApplyLoan(props) {
       })
       .then(function (response) {
         setUserList(response.data);
-        console.log(response.data);
         setUserListTotal(response.data[0].total);
       })
       .catch(function (error) {
@@ -76,7 +75,6 @@ function ManageApplyLoan(props) {
             </thead>
             <tbody>
               {userList.map((item, index) => {
-                console.log(item);
                 return (
                   <tr className="userloanbox">
                     <td className="userid" key={item.memberid.memberid}>

@@ -24,9 +24,7 @@ function BankMainPage(props) {
           url: requestUrl,
         },
       })
-      .then((res) => {
-        console.dir(res);
-      })
+      .then((res) => {})
       .catch((ex) => {
         console.log("requset fail : " + ex);
         if (ex.response.status === 403) {

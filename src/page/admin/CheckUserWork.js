@@ -16,7 +16,6 @@ function CheckUserWork({ setModalOpen, workFile, pageNumber }) {
   };
   function onDocumentLoadSucess({ numPages }) {
     setNumPages(numPages);
-    console.log(numPages);
   }
   const nextPage = () => {
     if (numPages > page) {

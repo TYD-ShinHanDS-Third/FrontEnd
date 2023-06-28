@@ -22,12 +22,10 @@ function LoanDescription(props) {
         },
       })
       .then((res) => {
-        console.dir(res);
         for (let key in res.data) {
           arr.push(res.data[key]);
         }
         setDivHtml(arr);
-        console.log(arr);
       })
       .catch((ex) => {
         console.log("requset fail : " + ex);
@@ -37,7 +35,7 @@ function LoanDescription(props) {
   useEffect(() => {
     const loanname = location.state.loanname;
     const bankname = location.state.bankname;
-    console.log(location.state.bankname);
+
     getDetail(loanname, bankname);
   }, []);
 

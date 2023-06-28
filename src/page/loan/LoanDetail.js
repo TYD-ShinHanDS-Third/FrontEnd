@@ -36,7 +36,6 @@ function LoanDetail(props) {
         },
       })
       .then((res) => {
-        console.dir(res);
         if (res.data === "success") {
           navigate("/hows/loan/detail/consult", {
             state: {

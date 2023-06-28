@@ -62,9 +62,7 @@ function HouseMapKakao(props) {
         })
       );
 
-      console.log(positions);
       positions = positions[0];
-      console.log(positions);
 
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성합니다

@@ -183,9 +183,7 @@ function PanList({ loc }) {
             },
           }
         )
-        .then(function (response) {
-          console.log(response);
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         });
@@ -199,9 +197,7 @@ function PanList({ loc }) {
             panid: panid,
           },
         })
-        .then(function (response) {
-          console.log(response);
-        })
+        .then(function (response) {})
         .catch(function (error) {
           console.log(error);
         });

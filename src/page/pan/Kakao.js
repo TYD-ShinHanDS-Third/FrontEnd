@@ -36,9 +36,6 @@ function Kakao(props) {
           });
 
           infowindow.open(map, marker);
-
-          console.log(coords);
-
           map.setCenter(coords);
 
           // 로드뷰 코드
