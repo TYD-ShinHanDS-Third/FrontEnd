@@ -93,12 +93,24 @@ export default function MyPage(props) {
       })
       .then((res) => {
         console.log(res.data);
-        setUserInfo(res.data);
-        setBank(res.data.accBank);
-        //날짜 데이터 변환
-        console.log(res.data.bday);
+        let hire = res.data.hiredate.substring(0, 4);
         let birth = res.data.bday.substring(0, 10);
-        //setUserInfo({ ...userInfo, bday: birth });
+        setUserInfo({
+          hiredate: hire,
+          bday: birth,
+          membername: res.data.membername,
+          memberid: res.data.memberid,
+          phone: res.data.phone,
+          memberLevel: res.data.memberLevel,
+          accBank: res.data.accBank,
+          accno: res.data.accno,
+          hasjob: res.data.hasjob,
+          jobname: res.data.jobname,
+          marry: res.data.marry,
+          haschild: res.data.haschild,
+        });
+
+        setBank(res.data.accBank);
       })
       .catch((ex) => {
         console.log("fail : " + ex);
@@ -519,9 +531,15 @@ export default function MyPage(props) {
                         </TableCell>
                         <TableCell>
                           <button
+                            className="mypageBtn"
+                            id="linkBtn"
                             onClick={() => {
-                              navigate(loan.applyurl, {
-                                state: loan.memloanid,
+                              navigate("/hows/loan/detail/limit/uploaddocs", {
+                                state: {
+                                  loanid: loan.memloanid,
+                                  bankname: loan.bankname,
+                                  loanname: loan.loanname,
+                                },
                               });
                             }}
                           >
@@ -557,11 +575,12 @@ export default function MyPage(props) {
                         </TableCell>
                         <TableCell>
                           <button
+                            className="mypageBtn"
                             onClick={() => {
                               moveChatRoom(chatroom);
                             }}
                           >
-                            상담
+                            상담하기
                           </button>
                         </TableCell>
                       </TableRow>
