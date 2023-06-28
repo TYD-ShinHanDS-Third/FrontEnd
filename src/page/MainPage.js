@@ -93,10 +93,9 @@ function MainPage(props) {
       <div
         className="content"
         style={{
-          display: location.pathname.includes("/hows/my") ? "none" : "block",
-          backgroundColor: location.pathname.includes("/hows/my")
-            ? "#eeeeee"
-            : "f5f5f5",
+          display: window.location.pathname.includes("my/mypage")
+            ? "none"
+            : "block",
         }}
       >
         <div className="img_con" id="img_con">
