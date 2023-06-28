@@ -22,6 +22,9 @@ function ManageUser(props) {
   const [role, setRole] = useState("");
   const [roleInfo, setRoleInfo] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [workFile, setWorkFile] = useState("");
+
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     getUserList();
@@ -104,6 +107,26 @@ function ManageUser(props) {
       });
   }
 
+  async function getFiles(memberid) {
+    const listurl = "/hows/loan/detail/getworkdocs";
+    await axios
+      .get(listurl, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+        params: {
+          memberid: memberid,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+        setWorkFile(response.data.workdocs);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   const printRole = (item, index) => {
     return (
       <Select
@@ -159,8 +182,9 @@ function ManageUser(props) {
   const changePage = (p) => {
     setUserPageNum(p);
   };
-  const openModal = () => {
+  const openModal = (memberid) => {
     setModalOpen(true);
+    getFiles(memberid);
   };
 
   return (
@@ -190,7 +214,7 @@ function ManageUser(props) {
                     <td className="userwork">
                       <button
                         className="userworkbtn"
-                        onClick={() => openModal()}
+                        onClick={() => openModal(item.memberid)}
                       >
                         재직증명서 확인
                       </button>
@@ -221,7 +245,13 @@ function ManageUser(props) {
           </table>
         </div>
       </div>
-      {modalOpen && <CheckUserWork setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <CheckUserWork
+          setModalOpen={setModalOpen}
+          workFile={workFile}
+          pageNumber={{ pageNumber }}
+        />
+      )}
     </div>
   );
 }

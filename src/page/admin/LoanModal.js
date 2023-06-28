@@ -1,10 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import "../../css/admin/Modal.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
-import { width } from "@mui/system";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function LoanModal({ pageNumber, pdfUrl, closeModal }) {
@@ -24,7 +22,6 @@ function LoanModal({ pageNumber, pdfUrl, closeModal }) {
   }
   const nextPage = () => {
     if (numPages > page) {
-      console.log(page + 1);
       setPageNumber(page + 1);
     }
     if (numPages === page) {
