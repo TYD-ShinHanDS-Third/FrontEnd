@@ -9,6 +9,7 @@
   grid-area: loanheader;
   display: grid;
   height: 80px;
+  margin-top: 30px;
   grid-template-columns: 3fr 3fr 1fr;
   grid-template-areas: "pageTitle . comSelector";
 }
@@ -21,11 +22,11 @@
 
 .loanbody {
   grid-area: loanbody;
-  height: 700px;
+  height: 800px;
 }
 
 .scrollbody {
-  height: 700px;
+  height: 800px;
   overflow-y: auto;
 }
 

@@ -19,8 +19,8 @@
   height: 60px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: "userid username useremail userbd userrole userwork useredit";
+  grid-template-columns: 1fr 1fr 2fr 2fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: "userid username useremail userbd userrole userwork userwant useredit";
   background-color: #ebf2f7;
   border-radius: 15px;
   align-items: center;

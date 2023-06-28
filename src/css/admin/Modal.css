@@ -39,3 +39,8 @@
   height: 950px;
   overflow: hidden;
 }
+
+.loanModalBody {
+  height: 30px;
+  width: 10px;
+}

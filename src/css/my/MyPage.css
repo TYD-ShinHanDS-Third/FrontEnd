@@ -48,7 +48,7 @@
 
 .leftBox {
   width: 90%;
-  height: 50%;
+  height: 60%;
   padding: 5%;
   background-color: white;
   border-radius: 20px;
@@ -111,10 +111,12 @@
   /*스크롤바 뒷 배경 색상*/
 }
 
-.editBtn {
+.editSaveBtn {
   width: 10%;
   height: 40px;
-  color: white;
+  background-color: #edf1d6;
+  border-radius: 15px;
+  box-shadow: 0.5px 0.5px 0.5px 0px gray;
 }
 
 table input {
@@ -131,4 +133,14 @@ table input {
 
 .essentialEdit td {
   padding: 8px;
+}
+
+.mypageBtn {
+  background-color: #edf1d6;
+  height: fit-content;
+  width: fit-content;
+}
+
+#linkBtn {
+  width: 40px;
 }
