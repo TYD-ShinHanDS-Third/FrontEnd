@@ -13,6 +13,7 @@
   display: grid;
   grid-template-columns: 5fr 4fr;
   grid-template-areas: "loandetail_title loandetail_btn";
+  margin-top: 30px;
 }
 .loandetail_body {
   grid-area: loandetail_body;

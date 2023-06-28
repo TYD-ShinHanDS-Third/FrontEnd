@@ -83,10 +83,22 @@ function MainPage(props) {
         <div>{logo(location)}</div>
         {menu(location)}
       </div>
+
       <div className="common">
         <div className="submenubar">{submenu(location)}</div>
       </div>
-      <div className="content">
+      <Routes>
+        <Route path="my/mypage" element={<MyPage />}></Route>
+        <Route path="my/myedit" element={<MyEdit />}></Route>
+      </Routes>
+      <div
+        className="content"
+        style={{
+          display: window.location.pathname.includes("my/mypage")
+            ? "none"
+            : "block",
+        }}
+      >
         <div className="img_con" id="img_con">
           <Routes>
             <Route path="/" element={<MainImageCom />}></Route>
@@ -97,8 +109,8 @@ function MainPage(props) {
             <Route path="loan/detail/limit/*" element={<LoanLimit />}></Route>
             <Route path="loan/detail/consult" element={<LoanApply />}></Route>
             <Route path="admin/*" element={<ManPage />}></Route>
-            <Route path="my/mypage" element={<MyPage />}></Route>
-            <Route path="my/myedit" element={<MyEdit />}></Route>
+            {/* <Route path="my/mypage" element={<MyPage />}></Route>
+            <Route path="my/myedit" element={<MyEdit />}></Route> */}
             <Route path="bank/*" element={<BankMainPage />}></Route>
             <Route path="noauth/*" element={<NoAuth />} />
           </Routes>

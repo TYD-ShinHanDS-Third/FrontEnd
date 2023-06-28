@@ -39,26 +39,6 @@ function LoadingPage(props) {
     }, 3000);
   }, []);
 
-  // useEffect(() => {
-  //   const swiftUpElements = document.querySelectorAll(".swift-up-text");
-
-  //   swiftUpElements.forEach((elem) => {
-  //     const words = elem.textContent.split(" ");
-  //     elem.innerHTML = "";
-
-  //     words.forEach((el, index) => {
-  //       words[index] = `<span><i>${words[index]}</i></span>`;
-  //     });
-
-  //     elem.innerHTML = words.join(" ");
-
-  //     const children = document.querySelectorAll("span > i");
-  //     children.forEach((node, index) => {
-  //       node.style.animationDelay = `${index * 0.2}s`;
-  //     });
-  //   });
-  // }, [timer]);
-
   return (
     <div>
       <div
@@ -117,7 +97,6 @@ function LoadingPage(props) {
           <div className="double-bounce1"></div>
           <div className="double-bounce2"></div>
         </div>
-        {/* <h3>한도 조회중...</h3> */}
         <div class="loading">
           <span>한</span>
           <span>도</span>

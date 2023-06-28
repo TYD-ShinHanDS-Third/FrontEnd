@@ -66,7 +66,7 @@ function BankManageDocs(props) {
 
   //승인 및 거절
   const apply = () => {
-    const url = "http://192.168.0.55:8888/hows/bank/approval";
+    const url = "/hows/bank/approval";
     axios
       .put(url, null, {
         headers: {
@@ -104,7 +104,7 @@ function BankManageDocs(props) {
       });
   };
   const refuse = () => {
-    const url = "http://192.168.0.55:8888/hows/bank/refusal";
+    const url = "/hows/bank/refusal";
     axios
       .put(url, null, {
         headers: {

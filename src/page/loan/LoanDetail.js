@@ -27,7 +27,7 @@ function LoanDetail(props) {
 
   //상담하기 시작하기 전에 회원 등급 체크
   const checkGrade = (token, loan, bank) => {
-    const url = "http://192.168.0.55:8888/hows/auth/request";
+    const url = "/hows/auth/request";
     axios
       .get(url, {
         headers: {

@@ -1,3 +1,4 @@
+import { file } from "@babel/types";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Collapse,
@@ -41,7 +42,6 @@ function SignUpForm(props) {
         hiredate: null,
         marry: null,
         haschild: null,
-        file: null,
       });
     }
   };
@@ -62,10 +62,15 @@ function SignUpForm(props) {
     haschild: "",
     jobname: "",
     email: "",
-    file: "",
   };
 
   const [member, setMember] = useState(memberInit);
+
+  const [files, setFiles] = useState("");
+
+  const handleFile = (e) => {
+    setFiles(e.target.files);
+  };
 
   //오류메시지 상태저장
   const [idMessage, setIdMessage] = useState("중복인지 확인해주세요");
@@ -102,10 +107,11 @@ function SignUpForm(props) {
 
   //input창에 입력 시 처리(+유효성 검사)
   const handleSignup = (e) => {
-    if (e.target.name !== "pswdChk") {
+    if (e.target.name === "fileUpload") {
+      setMember({ ...member, [e.target.name]: e.target.files });
+    } else if (e.target.name !== "pswdChk") {
       setMember({ ...member, [e.target.name]: e.target.value });
     }
-
     if (e.target.name === "memberid") {
       setIsCheckId(false);
     } else if (e.target.name === "phone") {
@@ -286,18 +292,20 @@ function SignUpForm(props) {
     }
   };
 
-  //회원가입
-  function signup() {
-    const url = "/hows/auth/signup";
-
+  //재직 증명서 제출
+  function submitWork() {
+    const url = "/hows/loan/detail/workdocs/" + member.memberid;
+    const formData = new FormData();
+    formData.append("file", files);
+    console.log(formData.getAll("file"));
     axios
-      .post(url, JSON.stringify(member), {
+      .post(url, formData, {
         headers: {
-          "Content-Type": `application/json`,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
-        if (res.data === "success.") {
+        if (res.data === "success") {
           confirmAlert({
             title: "회원가입 성공",
             message: "로그인해주세요",
@@ -311,6 +319,39 @@ function SignUpForm(props) {
               },
             ],
           });
+        } else {
+          confirmAlert({
+            title: "회원가입 실패",
+            message: "다시 시도해주세요",
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {},
+                style: { backgroundColor: "#518e65" },
+              },
+            ],
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(formData.getAll("file"));
+        console.log(error);
+      });
+  }
+
+  //회원가입
+  function signup() {
+    const url = "/hows/auth/signup";
+
+    axios
+      .post(url, JSON.stringify(member), {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+      })
+      .then((res) => {
+        if (res.data === "success.") {
+          submitWork();
         } else {
           confirmAlert({
             title: "회원가입 실패",
@@ -345,7 +386,8 @@ function SignUpForm(props) {
       return;
     }
 
-    setMember({ ...member, file: e.target.file });
+    //setMember({ ...member, file: e.target.file });
+    setFiles(e.target.files[0]);
     var filename = e.target.value; // 파일 주소
 
     // 파일 이름만 분리 출력

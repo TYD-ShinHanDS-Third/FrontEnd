@@ -121,3 +121,8 @@
   color: white;
   background-color: #526d82;
 }
+
+.loanModalBody {
+  height: 30px;
+  width: 10px;
+}

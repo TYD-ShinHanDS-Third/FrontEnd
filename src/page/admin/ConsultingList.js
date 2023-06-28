@@ -102,6 +102,7 @@ function ConsultingList(props) {
                           loanid: item.loanid,
                           room: item.roomnumber,
                           token: token,
+                          userid: item.memberid.memberid,
                         }}
                       >
                         상담방 입장

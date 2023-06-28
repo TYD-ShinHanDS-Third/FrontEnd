@@ -45,10 +45,7 @@ function LoanDescription(props) {
     <div id="detail">
       {divHtml.map((item1, index) => {
         if (index > 2) {
-          return (
-            // <div dangerouslySetInnerHTML={{ __html: divHtml[index] }}></div>
-            <div dangerouslySetInnerHTML={{ __html: item1 }}></div>
-          );
+          return <div dangerouslySetInnerHTML={{ __html: item1 }}></div>;
         }
       })}
     </div>

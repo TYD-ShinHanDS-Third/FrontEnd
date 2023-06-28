@@ -24,11 +24,16 @@ function LoanApply(props) {
   const [socketData, setSocketData] = useState();
   const [bankname, setBankname] = useState("");
   const [loanname, setLoanname] = useState("");
+  const [loanstate, setLoanstate] = useState("");
   const ws = useRef(null); //webSocket을 담는 변수,
   //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
   const context = useContext(SocketContext);
   //스크롤
   const scrollRef = useRef();
+
+  //대출 상품 정보 조회
+  const [divHtml, setDivHtml] = useState([]);
+  const arr = [];
 
   const msgBox = chatt.map((item, idx) => (
     <div key={idx} className={item.myname === myname ? "me" : "you"}>
@@ -81,11 +86,37 @@ function LoanApply(props) {
       });
   }
 
+  function getDetail(loan, bank) {
+    const url = "/hows/loan/detail";
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+        params: {
+          loanname: loan,
+          bankname: bank,
+        },
+      })
+      .then((res) => {
+        console.dir(res);
+        for (let key in res.data) {
+          arr.push(res.data[key]);
+        }
+        setDivHtml(arr);
+        console.log(arr);
+      })
+      .catch((ex) => {
+        console.log("requset fail : " + ex);
+      });
+  }
+
   const location = useLocation();
 
   useEffect(() => {
     setBankname(location.state.bankname);
     setLoanname(location.state.loanname);
+    setLoanstate(location.state.loanstate);
     setRoom(location.state.room === undefined ? "" : location.state.room);
     const cookies = new Cookies();
     makeRoom(
@@ -93,6 +124,7 @@ function LoanApply(props) {
       location.state.bankname,
       location.state.loanname
     );
+    getDetail(location.state.loanname, location.state.bankname);
   }, []);
 
   useEffect(() => {
@@ -158,24 +190,31 @@ function LoanApply(props) {
   return (
     <div className="loanapply">
       <div className="loanapply_detail" id="loanapply_detail">
-        <h1>여기 상품 설명</h1>
+        {divHtml.map((item1, index) => {
+          if (index > 2) {
+            return <div dangerouslySetInnerHTML={{ __html: item1 }}></div>;
+          }
+        })}
 
-        <ContextProvider>
+        {/* <ContextProvider>
           <div>
             <Options>
               <Notifications />
             </Options>
             <VideoPlayer loanname={loanname} />
           </div>
-        </ContextProvider>
+        </ContextProvider> */}
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />
         <div id="chat_context">
           <div id="chatt">
-            <h3 id="title">
-              [{bankname}] {loanname}
-            </h3>
+            <div id="chatTitle">
+              <h3 id="title">
+                [{bankname}] {loanname}
+              </h3>
+              <Modal loanname={loanname} bankname={bankname} consult="1" />
+            </div>
             <br />
             <div id="talk">
               {msgBox}
@@ -184,21 +223,20 @@ function LoanApply(props) {
             <div id="sendZone">
               <textarea
                 id="msg"
-                value={msg}
+                value={loanstate !== "상담신청" ? "종료된 채팅방입니다." : msg}
                 onChange={onText}
                 onKeyDown={(ev) => {
                   if (ev.keyCode === 13) {
                     send();
                   }
                 }}
+                disabled={loanstate !== "상담신청"}
               ></textarea>
               <input type="button" value="전송" id="btnSend" onClick={send} />
             </div>
           </div>
         </div>
       </div>
-
-      <Modal loanname={loanname} bankname={bankname} consult="1" />
     </div>
   );
 }

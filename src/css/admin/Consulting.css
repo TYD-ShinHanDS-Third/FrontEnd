@@ -1,10 +1,21 @@
-.consulting{
-    display: grid;
-    grid-template-columns:  3fr 2fr;
-    grid-template-areas: 
-    "loanapply_detail loanapply_chat";
-    overflow-y: auto;
-    height: 580px;
-    align-items: center;
-    justify-items: center;
+.endChat {
+  background-color: #fffedd;
+  height: fit-content;
+  box-shadow: 1px 1px 1px 0px gray;
+}
+
+.loanapply_detail_admin {
+  display: flex;
+}
+
+.loanapply_detail_admin td {
+  padding: 10px;
+  font-size: 20px;
+}
+
+#chatTitle {
+  display: flex;
+  justify-content: space-around;
+  /* justify-content: space-between; */
+  align-items: center;
 }

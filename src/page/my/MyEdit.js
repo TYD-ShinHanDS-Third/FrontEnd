@@ -202,6 +202,7 @@ function MyEdit(props) {
             <input
               id="pswd"
               name="pswd"
+              type="password"
               placeholder="비밀번호"
               onChange={inputChange}
             />

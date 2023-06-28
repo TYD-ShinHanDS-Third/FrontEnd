@@ -9,6 +9,7 @@
   border: 2px solid #609966;
   border-radius: 10px;
   margin-bottom: 10px;
+  margin-top: 40px;
 }
 .checkBox {
   grid-area: checkbox;

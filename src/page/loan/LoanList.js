@@ -16,27 +16,7 @@ function LoanList({ bank }) {
 
   //상담하기 시작하기 전에 회원 등급 체크
   async function checkGrade(token, loan, bank) {
-    // confirmAlert({
-    //   title: "마이페이지에서 회원 정보를 모두 입력해주세요.",
-    //   message: "그 후에 상담 신청 가능합니다.",
-    //   buttons: [
-    //     {
-    //       label: "확인",
-    //       onClick: () => {
-    //         navigate("/hows/loan/detail/consult", {
-    //           state: {
-    //             bankname: bank,
-    //             loanname: loan,
-    //             token: token,
-    //           },
-    //         });
-    //       },
-    //       style: { backgroundColor: "#518e65" },
-    //     },
-    //   ],
-    // });
-
-    const url = "http://192.168.0.55:8888/hows/auth/request";
+    const url = "/hows/auth/request";
     axios
       .get(url, {
         headers: {

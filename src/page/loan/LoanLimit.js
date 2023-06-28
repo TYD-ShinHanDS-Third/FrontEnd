@@ -20,11 +20,7 @@ function LoanLimit(props) {
       <div className="loanlimit_body">
         <hr className="loanhr" />
         <Routes>
-          <Route
-            path="/"
-            // element={<LoanLimitDetail props={location.state.loanname} />}
-            element={<LoanLimitDetail />}
-          ></Route>
+          <Route path="/" element={<LoanLimitDetail />}></Route>
           <Route path="loading" element={<LoadingPage />}></Route>
           <Route path="uploaddocs" element={<LoanUploadDoc />}></Route>
         </Routes>

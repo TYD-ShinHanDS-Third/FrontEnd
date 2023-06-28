@@ -184,19 +184,6 @@ function LoanUploadDoc(props) {
           </label>
           <input type="file" id="file5" name="file5" onChange={printFileName} />
         </div>
-
-        <div className="file5 file">
-          <h2 className="filename">
-            파일 확인하기
-            <input
-              className="upload-name"
-              placeholder="첨부파일"
-              style={{ display: "none" }}
-            ></input>
-          </h2>
-
-          <input type="button" value={"파일 확인"} />
-        </div>
       </div>
 
       <div className="loanapplybtn">
@@ -209,20 +196,21 @@ function LoanUploadDoc(props) {
           </p>
         </div>
         {/* <Link to="/hows/loan/detail/consult/success"> */}
-        <button className="finalapply_btn" onClick={() => submitFile()}>
+        <button
+          className="finalapply_btn"
+          onClick={() => submitFile()}
+          disabled={
+            file1 === "" ||
+            file2 === "" ||
+            file3 === "" ||
+            file4 === "" ||
+            file5 === ""
+          }
+        >
           신청하기
         </button>
         {/* </Link> */}
       </div>
-
-      <Document
-        file={{
-          url: "https://s3.ap-southeast-2.amazonaws.com/shinhandshowsbucket/bb0305c1fe704f3fa2f5668e720c0b5b.pdf",
-        }}
-        onLoadSuccess={onDocumentLoadSucess}
-      >
-        <Page pageNumber={pageNumber}></Page>
-      </Document>
     </div>
   );
 }

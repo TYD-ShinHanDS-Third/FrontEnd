@@ -1,5 +1,9 @@
 body {
   background-color: #eeeeee;
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .link {
@@ -99,7 +103,7 @@ button.menu {
 
 .img_con {
   position: relative;
-  width: 95%;
+  width: 100%;
   max-width: 1600px;
   height: 90%;
   /* border: solid 3px #518e65; */

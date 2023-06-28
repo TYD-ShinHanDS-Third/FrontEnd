@@ -1,13 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../../css/admin/ManagerUser.css";
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -21,6 +14,7 @@ function ManageUser(props) {
   const [userPageTotal, setUserListTotal] = useState("0");
   const [role, setRole] = useState("");
   const [roleInfo, setRoleInfo] = useState([]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [workFile, setWorkFile] = useState("");
 
@@ -63,6 +57,7 @@ function ManageUser(props) {
         },
       })
       .then(function (response) {
+        console.log(response.data.obj);
         setUserList(response.data.obj);
         setUserListTotal(response.data.total);
       })
@@ -201,6 +196,7 @@ function ManageUser(props) {
                 <th className="userwork">재직증명서</th>
                 <th className="userbd">생년월일</th>
                 <th className="userrole">역할</th>
+                <th className="userwant">신청 역할</th>
                 <th className="useredit"></th>
               </tr>
             </thead>
@@ -215,6 +211,9 @@ function ManageUser(props) {
                       <button
                         className="userworkbtn"
                         onClick={() => openModal(item.memberid)}
+                        style={{
+                          display: item.email === null ? "none" : "block",
+                        }}
                       >
                         재직증명서 확인
                       </button>
@@ -223,6 +222,7 @@ function ManageUser(props) {
                     {roleInfo[index] && (
                       <td className="userrole">{printRole(item, index)}</td>
                     )}
+                    <td className="userwant">{item.wantRole}</td>
                     <td className="useredit">
                       <button
                         className="usereditbtn"
