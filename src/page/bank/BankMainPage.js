@@ -4,6 +4,7 @@ import BankManageDocs from "./BankManageDocs";
 import BankManageApplyLoan from "./BankManageApplyLoan";
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import BankImgCom from "./BankImgCom";
 
 function BankMainPage(props) {
   document.body.style.backgroundColor = "#eef1e6";
@@ -37,6 +38,7 @@ function BankMainPage(props) {
   return (
     <div>
       <Routes>
+        <Route path="/" element={<BankImgCom />}></Route>
         <Route path="loanlist" element={<BankManageApplyLoan />}></Route>
         <Route path="loanlist/detail" element={<BankManageDocs />}></Route>
       </Routes>
