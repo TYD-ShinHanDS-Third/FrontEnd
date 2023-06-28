@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/admin/Modal.css";
+import Cookies from "universal-cookie";
+import axios from "axios";
+import { Document, Page, pdfjs } from "react-pdf";
 
-function CheckUserWork({ setModalOpen, id, title, content, writer }) {
-  const closeModal = () => {
-    setModalOpen(false);
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+function CheckUserWork({ pdfUrl, closeModal }) {
+  // 파일 보기
+  const close = () => {
+    closeModal();
   };
   return (
-    <div className="modalcontainer">
-      <button className="modalclose" onClick={closeModal}>
-        X
-      </button>
-      <p>모달창입니다.</p>
+    <div className="loanModal">
+      <div className="loanmodalclose">
+        <button className="closeloanmodal" onClick={() => close()}>
+          X
+        </button>
+      </div>
+      <Document
+        file={pdfUrl.workFile}
+        //onLoadSuccess={onDocumentLoadSucess}
+        className="loanModalBody"
+      ></Document>
     </div>
   );
 }
