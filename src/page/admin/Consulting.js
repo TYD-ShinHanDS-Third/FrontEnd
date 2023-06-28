@@ -23,6 +23,8 @@ function Consulting(props) {
   const ws = useRef(null); //webSocket을 담는 변수,
   //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
 
+  const [user, setUser] = useState({});
+
   //스크롤
   const scrollRef = useRef();
 
@@ -75,6 +77,41 @@ function Consulting(props) {
       });
   }
 
+  //사용자 정보 불러오기
+  async function getUserInfo(id) {
+    const url = "http://192.168.0.8:8888/hows/admin/userinfoshow";
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+        params: {
+          memberid: id,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+
+        let birth = res.data.bday.substring(0, 10);
+
+        let hire = res.data.hiredate.substring(0, 4);
+        setUser({
+          hiredate: hire,
+          bday: birth,
+          membername: res.data.membername,
+          phone: res.data.phone,
+          hasjob: res.data.hasjob,
+          jobname: res.data.jobname,
+          haschild: res.data.haschild,
+          marry: res.data.marry,
+        });
+        console.log(user);
+      })
+      .catch((ex) => {
+        console.log("requset fail : " + ex);
+      });
+  }
+
   const location = useLocation();
 
   useEffect(() => {
@@ -88,6 +125,7 @@ function Consulting(props) {
       location.state.loanname,
       location.state.loanid
     );
+    getUserInfo(location.state.userid);
   }, []);
 
   useEffect(() => {
@@ -151,45 +189,107 @@ function Consulting(props) {
     setMsg("");
   });
 
-  return (
-    <div className="loanapply">
-      <div className="loanapply_detail" id="loanapply_detail">
-        <h1>여기 상품 설명</h1>
+  const endChatting = (e) => {
+    const url = "http://192.168.0.8:8888/hows/admin/chatend";
+    axios
+      .put(url, null, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+        params: {
+          memloanid: location.state.loanid,
+        },
+      })
+      .then((res) => {
+        if (res.data === "success") {
+          console.log("상담종료");
+        }
+      })
+      .catch((ex) => {
+        console.log("requset fail : " + ex);
+      });
+  };
 
-        <ContextProvider>
+  return (
+    <div>
+      <div className="loanapply">
+        <div className="loanapply_detail" id="loanapply_detail">
+          <table>
+            <td>이름</td>
+            <td>{user.membername}</td>
+            <tr />
+            <td>생년월일</td>
+            <td>{user.bday}</td>
+            <tr />
+            <td>전화번호</td>
+            <td>{user.phone}</td>
+            <tr />
+            <td>직장</td>
+            <td>
+              {user.hasjob === 1 ? "유직" : user.hasjob === 0 ? "무직" : ""}
+            </td>
+            <tr />
+            <td>직장명</td>
+            <td>{user.jobname}</td>
+            <tr />
+            <td>입사년도</td>
+            <td>{user.hiredate}</td>
+            <tr />
+            <td>결혼</td>
+            <td>
+              {user.marry === 1 ? "기혼" : user.marry === 0 ? "미혼" : ""}
+            </td>
+            <tr />
+            <td>자녀</td>
+            <td>
+              {user.haschild === 0
+                ? "없음"
+                : user.hasjob === 1
+                ? "1명"
+                : user.hasjob === 2
+                ? "2명 이상"
+                : ""}
+            </td>
+          </table>
+
+          {/* <ContextProvider>
           <My />
-        </ContextProvider>
-      </div>
-      <div className="loanapply_chat">
-        <GlobalStyle />
-        <div id="chat_context">
-          <div id="chatt">
-            <h3 id="title">
-              [{bankname}] {loanname}
-            </h3>
-            <br />
-            <div id="talk">
-              {msgBox}
-              <div ref={scrollRef}></div>
-            </div>
-            <div id="sendZone">
-              <textarea
-                id="msg"
-                value={msg}
-                onChange={onText}
-                onKeyDown={(ev) => {
-                  if (ev.keyCode === 13) {
-                    send();
-                  }
-                }}
-              ></textarea>
-              <input type="button" value="전송" id="btnSend" onClick={send} />
+        </ContextProvider> */}
+        </div>
+        <div className="loanapply_chat">
+          <GlobalStyle />
+          <div id="chat_context">
+            <div id="chatt">
+              <div id="chatTitle">
+                <h3 id="title">
+                  [{bankname}] {loanname}
+                </h3>
+                <button className="endChat" onClick={endChatting}>
+                  상담종료
+                </button>
+              </div>
+              <br />
+              <div id="talk">
+                {msgBox}
+                <div ref={scrollRef}></div>
+              </div>
+              <div id="sendZone">
+                <textarea
+                  id="msg"
+                  value={msg}
+                  onChange={onText}
+                  onKeyDown={(ev) => {
+                    if (ev.keyCode === 13) {
+                      send();
+                    }
+                  }}
+                ></textarea>
+                <input type="button" value="전송" id="btnSend" onClick={send} />
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <Modal loanname={loanname} bankname={bankname} consult="2" />
     </div>
   );
 }
