@@ -35,6 +35,7 @@ function Modal({ setModalOpen, loanname, bankname, state }) {
               }
               alt="loanstate"
               width={"500px"}
+              style={{ marginBottom: "20px" }}
             />
           </ModalView>
         </ModalBackdrop>

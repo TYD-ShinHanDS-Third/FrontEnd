@@ -187,20 +187,20 @@ function LoanApply(props) {
   return (
     <div className="loanapply">
       <div className="loanapply_detail" id="loanapply_detail">
-        {divHtml.map((item1, index) => {
+        {/* {divHtml.map((item1, index) => {
           if (index > 2) {
             return <div dangerouslySetInnerHTML={{ __html: item1 }}></div>;
           }
-        })}
+        })} */}
 
-        {/* <ContextProvider>
+        <ContextProvider>
           <div>
             <Options>
               <Notifications />
             </Options>
             <VideoPlayer loanname={loanname} />
           </div>
-        </ContextProvider> */}
+        </ContextProvider>
       </div>
       <div className="loanapply_chat">
         <GlobalStyle />

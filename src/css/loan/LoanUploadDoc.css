@@ -9,7 +9,7 @@
   grid-area: files;
 }
 
-.loanapplybtn {
+.loanapplydocbtn {
   display: grid;
   grid-area: loanapplybtn;
   margin-right: 10%;

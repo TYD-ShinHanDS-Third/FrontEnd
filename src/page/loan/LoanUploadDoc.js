@@ -152,7 +152,7 @@ function LoanUploadDoc(props) {
         </div>
         <div className="file4 file">
           <h2 className="filename">
-            결혼예정 증빙 서류 :
+            신분증 사본 :
             <input
               className="upload-name"
               defaultValue={filelist.file4}
@@ -182,7 +182,7 @@ function LoanUploadDoc(props) {
         </div>
       </div>
 
-      <div className="loanapplybtn">
+      <div className="loanapplydocbtn">
         <div className="file_desc">
           <p>
             모든 서류를 제출해야만 신청이 완료됩니다. <br />
@@ -191,7 +191,6 @@ function LoanUploadDoc(props) {
             심사 후 결과는 핸드폰 번호로 안내될 예정입니다.
           </p>
         </div>
-        {/* <Link to="/hows/loan/detail/consult/success"> */}
         <button
           className="finalapply_btn"
           onClick={() => submitFile()}
@@ -205,7 +204,6 @@ function LoanUploadDoc(props) {
         >
           신청하기
         </button>
-        {/* </Link> */}
       </div>
     </div>
   );
