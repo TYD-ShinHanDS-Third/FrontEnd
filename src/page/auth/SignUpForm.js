@@ -249,36 +249,33 @@ function SignUpForm(props) {
   //이메일 인증
   const checkEmail = (event) => {
     //난수 받아와서 사용자 입력과 같은지 비교
-    if (!isCheckEmail) {
-      confirmAlert({
-        title: "이메일을 입력해주세요",
-        message: "",
-        buttons: [
-          {
-            label: "확인",
-            onClick: () => {},
-            style: { backgroundColor: "#518e65" },
-          },
-        ],
-      });
-    } else {
-      var authbox = document.getElementById("authBox");
-      authbox.style.display = "block";
-      const url = "/member/send";
-      const email = member.email.replaceAll("-", "");
-      axios
-        .post(url, null, {
-          params: {
-            tel: email,
-          },
-        })
-        .then((res) => {
-          setEmailAns(res.data);
-        })
-        .catch(function (error) {
-          console.log(error);
+    var authbox = document.getElementById("authBox");
+    console.log(member);
+    authbox.style.display = "block";
+    const url = "/hows/auth/email";
+    axios
+      .post(url, null, {
+        params: {
+          email: member.email,
+        },
+      })
+      .then((res) => {
+        setEmailAns(res.data);
+        confirmAlert({
+          title: "이메일이 발송되었습니다.",
+          message: "메일함에 가서 확인해주세요.",
+          buttons: [
+            {
+              label: "확인",
+              onClick: () => {},
+              style: { backgroundColor: "#518e65" },
+            },
+          ],
         });
-    }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   //이메일 인증번호 확인
@@ -810,18 +807,18 @@ function SignUpForm(props) {
             id="signUpBtn"
             className="signupBtn"
             onClick={() => signup()}
-            disabled={
-              !(
-                isPhone &&
-                isBirth &&
-                isPasswordConfirm &&
-                isCheckId &&
-                isCheckPhone &&
-                member.membername !== "" &&
-                !member.memberid !== "" &&
-                !member.pswd !== ""
-              )
-            }
+            // disabled={
+            //   !(
+            //     isPhone &&
+            //     isBirth &&
+            //     isPasswordConfirm &&
+            //     isCheckId &&
+            //     isCheckPhone &&
+            //     member.membername !== "" &&
+            //     !member.memberid !== "" &&
+            //     !member.pswd !== ""
+            //   )
+            // }
           >
             회원가입
           </button>

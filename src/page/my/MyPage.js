@@ -94,7 +94,9 @@ export default function MyPage(props) {
         },
       })
       .then((res) => {
-        let hire = res.data.hiredate.substring(0, 4);
+        console.log(res.data);
+        let hire =
+          res.data.hiredate !== null ? res.data.hiredate.substring(0, 4) : null;
         let birth = res.data.bday.substring(0, 10);
         setUserInfo({
           hiredate: hire,
