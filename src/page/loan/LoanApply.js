@@ -169,7 +169,6 @@ function LoanApply(props) {
         //readyState는 웹 소켓 연결 상태를 나타냄
         ws.current.onopen = () => {
           //webSocket이 맺어지고 난 후, 실행
-          console.log(ws.current.readyState);
           ws.current.send(temp);
         };
       } else {
