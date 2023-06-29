@@ -220,7 +220,9 @@ export default function MyPage(props) {
                 {
                   label: "확인",
                   style: { backgroundColor: "#518e65" },
-                  onClick: () => {},
+                  onClick: () => {
+                    getUserInfo(token);
+                  },
                 },
               ],
             });

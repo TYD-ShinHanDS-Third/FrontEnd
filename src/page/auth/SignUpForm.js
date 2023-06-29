@@ -555,7 +555,7 @@ function SignUpForm(props) {
               type="radio"
               id="selectBanker"
               name="roles"
-              value="BANKER"
+              value="TELLER"
               label="roles"
               onChange={handleSignup}
             />
@@ -807,18 +807,18 @@ function SignUpForm(props) {
             id="signUpBtn"
             className="signupBtn"
             onClick={() => signup()}
-            // disabled={
-            //   !(
-            //     isPhone &&
-            //     isBirth &&
-            //     isPasswordConfirm &&
-            //     isCheckId &&
-            //     isCheckPhone &&
-            //     member.membername !== "" &&
-            //     !member.memberid !== "" &&
-            //     !member.pswd !== ""
-            //   )
-            // }
+            disabled={
+              !(
+                isPhone &&
+                isBirth &&
+                isPasswordConfirm &&
+                isCheckId &&
+                isCheckPhone &&
+                member.membername !== "" &&
+                !member.memberid !== "" &&
+                !member.pswd !== ""
+              )
+            }
           >
             회원가입
           </button>
