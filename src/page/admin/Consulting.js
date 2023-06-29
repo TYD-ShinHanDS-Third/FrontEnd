@@ -168,7 +168,6 @@ function Consulting(props) {
         //readyState는 웹 소켓 연결 상태를 나타냄
         ws.current.onopen = () => {
           //webSocket이 맺어지고 난 후, 실행
-          console.log(ws.current.readyState);
           ws.current.send(temp);
         };
       } else {
@@ -206,49 +205,51 @@ function Consulting(props) {
 
   return (
     <div>
-      <div className="loanapply">
+      <div className="loanapply" id="loanapply_admin">
         <div className="loanapply_detail" id="loanapply_detail">
-          <table>
-            <td>이름</td>
-            <td>{user.membername}</td>
-            <tr />
-            <td>생년월일</td>
-            <td>{user.bday}</td>
-            <tr />
-            <td>전화번호</td>
-            <td>{user.phone}</td>
-            <tr />
-            <td>직장</td>
-            <td>{user.hasjob === 1 ? "O" : user.hasjob === 0 ? "X" : ""}</td>
-            <tr />
-            <td>직장명</td>
-            <td>{user.jobname}</td>
-            <tr />
-            <td>입사년도</td>
-            <td>{user.hiredate}</td>
-            <tr />
-            <td>결혼</td>
-            <td>
-              {user.marry === 1 ? "기혼" : user.marry === 0 ? "미혼" : ""}
-            </td>
-            <tr />
-            <td>자녀</td>
-            <td>
-              {user.haschild === 0
-                ? "없음"
-                : user.hasjob === 1
-                ? "1명"
-                : user.hasjob === 2
-                ? "2명 이상"
-                : ""}
-            </td>
-          </table>
+          <div className="loanapply_detail_admin">
+            <table>
+              <td>이름</td>
+              <td>{user.membername}</td>
+              <tr />
+              <td>생년월일</td>
+              <td>{user.bday}</td>
+              <tr />
+              <td>전화번호</td>
+              <td>{user.phone}</td>
+              <tr />
+              <td>직장</td>
+              <td>{user.hasjob === 1 ? "O" : user.hasjob === 0 ? "X" : ""}</td>
+              <tr />
+              <td>직장명</td>
+              <td>{user.jobname}</td>
+              <tr />
+              <td>입사년도</td>
+              <td>{user.hiredate}</td>
+              <tr />
+              <td>결혼</td>
+              <td>
+                {user.marry === 1 ? "기혼" : user.marry === 0 ? "미혼" : ""}
+              </td>
+              <tr />
+              <td>자녀</td>
+              <td>
+                {user.haschild === 0
+                  ? "없음"
+                  : user.hasjob === 1
+                  ? "1명"
+                  : user.hasjob === 2
+                  ? "2명 이상"
+                  : ""}
+              </td>
+            </table>
+          </div>
 
           {/* <ContextProvider>
           <My />
         </ContextProvider> */}
         </div>
-        <div className="loanapply_chat">
+        <div className="loanapply_chat_admin">
           <GlobalStyle />
           <div id="chat_context">
             <div id="chatt">
@@ -261,11 +262,11 @@ function Consulting(props) {
                 </button>
               </div>
               <br />
-              <div id="talk">
+              <div id="talkAdmin">
                 {msgBox}
                 <div ref={scrollRef}></div>
               </div>
-              <div id="sendZone">
+              <div id="sendZoneAdmin">
                 <textarea
                   id="msg"
                   value={msg}
