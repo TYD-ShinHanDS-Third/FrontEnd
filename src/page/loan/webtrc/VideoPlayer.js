@@ -4,18 +4,12 @@ import { SocketContext, ContextProvider } from "../../../SocketContext";
 import { useEffect } from "react";
 import LoanApply from "../LoanApply";
 
-//material UI is not supported
-// import { Grid, Typography, Paper } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/styles';
-
-const VideoPlayer = ({ loanname }) => {
-  useEffect(() => {}, [loanname]);
-
+const VideoPlayer = () => {
   const context = useContext(SocketContext);
 
   return (
     <div className="videos" id="video">
-      {context.stream && context.myVideo && (
+      {context.stream && (
         <div>
           <div className="floatingName">
             <h3>{context.name || "사용자 이름"}</h3>
