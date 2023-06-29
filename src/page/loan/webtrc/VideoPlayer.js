@@ -11,9 +11,7 @@ const VideoPlayer = () => {
     <div className="videos" id="video">
       {context.stream && (
         <div>
-          <div className="floatingName">
-            <h3>{context.name || "사용자 이름"}</h3>
-          </div>
+          <div className="floatingName"></div>
 
           <video
             playsInline
@@ -26,10 +24,8 @@ const VideoPlayer = () => {
       )}
 
       {context.callAccepted && !context.callEnded && (
-        <div>
-          <div className="floatingName">
-            <h3>{"상대방"}</h3>
-          </div>
+        <div className="other">
+          <div className="floatingName"></div>
           <video
             playsInline
             muted={context.callMuted}
