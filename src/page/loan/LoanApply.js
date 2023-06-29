@@ -191,7 +191,9 @@ function LoanApply(props) {
             <Options>
               <Notifications />
             </Options>
-            <VideoPlayer loanname={loanname} />
+            <div className="loanvideo">
+              <VideoPlayer />
+            </div>
           </div>
           <br />
           {divHtml.map((item1, index) => {

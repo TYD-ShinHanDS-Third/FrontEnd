@@ -13,11 +13,11 @@ const Options = ({ children }) => {
         </div>
         <div className="option">
           <form noValidate autoComplete="off">
-            <label>Make A Call</label>
             <br />
             <input
               type="text"
               label="ID to call"
+              placeholder="번호를 입력하세요"
               value={idToCall}
               onChange={(e) => setIdToCall(e.target.value)}
             />
@@ -25,6 +25,7 @@ const Options = ({ children }) => {
           <br />
           {context.callAccepted && !context.callEnded ? (
             <button
+              className="videobtn"
               onClick={() => {
                 context.leaveCall();
               }}
@@ -32,7 +33,12 @@ const Options = ({ children }) => {
               Hang Up
             </button>
           ) : (
-            <button onClick={() => context.callUser(idToCall)}>Call</button>
+            <button
+              className="videobtn"
+              onClick={() => context.callUser(idToCall)}
+            >
+              Call
+            </button>
           )}
         </div>
       </div>
