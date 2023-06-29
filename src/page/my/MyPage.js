@@ -29,6 +29,8 @@ export default function MyPage(props) {
 
   const [modalOpen, setModalOpen] = useState(false);
 
+  const [idx, setIdx] = useState(0);
+
   //은행명
   const [bank, setBank] = useState("");
 
@@ -92,7 +94,6 @@ export default function MyPage(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
         let hire = res.data.hiredate.substring(0, 4);
         let birth = res.data.bday.substring(0, 10);
         setUserInfo({
@@ -200,8 +201,9 @@ export default function MyPage(props) {
 
   //회원 정보 수정
   function editInfo(token) {
+    console.log(userInfo);
     if (version === -1) {
-      const url = "/member/update";
+      const url = "/hows/my/myedit";
       axios
         .put(url, JSON.stringify(userInfo), {
           headers: {
@@ -232,8 +234,9 @@ export default function MyPage(props) {
     setVersion(version * -1);
   }
 
-  const openModal = () => {
+  const openModal = (index) => {
     setModalOpen(true);
+    setIdx(index);
   };
 
   return (
@@ -332,16 +335,18 @@ export default function MyPage(props) {
                   </FormControl>
                   <input
                     type="text"
-                    placeholder="계좌번호"
+                    name="accno"
                     value={userInfo.accno}
+                    onChange={inputChange}
+                    placeholder="계좌번호"
                   />
                 </td>
                 <tr />
                 <td>직장</td>
                 <td className={version === 1 ? "editver" : "normal"}>
-                  {userInfo.hasjob === 1
+                  {userInfo.hasjob === 1 || "1"
                     ? "O"
-                    : userInfo.hasjob === 0
+                    : userInfo.hasjob === 0 || "0"
                     ? "X"
                     : ""}
                 </td>
@@ -377,15 +382,17 @@ export default function MyPage(props) {
                 <td>
                   <input
                     type="text"
-                    placeholder="직장명"
+                    name="jobname"
                     value={userInfo.jobname}
+                    placeholder="직장명"
                     className={version === 1 ? "normal" : "editver"}
                     onChange={inputChange}
                   />
                   <input
                     type="text"
-                    placeholder="입사년도"
+                    name="hiredate"
                     value={userInfo.hiredate}
+                    placeholder="입사년도"
                     className={version === 1 ? "normal" : "editver"}
                     onChange={inputChange}
                   />
@@ -393,9 +400,9 @@ export default function MyPage(props) {
                 <tr />
                 <td>결혼</td>
                 <td className={version === 1 ? "editver" : "normal"}>
-                  {userInfo.marry === 1
+                  {userInfo.marry === "1" || 1
                     ? "기혼"
-                    : userInfo.marry === 0
+                    : userInfo.marry === "0" || 0
                     ? "미혼"
                     : ""}
                 </td>
@@ -426,11 +433,11 @@ export default function MyPage(props) {
                 <tr />
                 <td>자녀</td>
                 <td className={version === 1 ? "editver" : "normal"}>
-                  {userInfo.haschild === 0
+                  {userInfo.haschild === 0 || "0"
                     ? "없음"
-                    : userInfo.haschild === 1
+                    : userInfo.haschild === 1 || "1"
                     ? "1명"
-                    : userInfo.haschild === 2
+                    : userInfo.haschild === 2 || "2"
                     ? "2명이상"
                     : ""}
                 </td>
@@ -506,14 +513,20 @@ export default function MyPage(props) {
                         <TableCell>
                           [{loan.bankname}] {loan.loanname}
                         </TableCell>
-                        <TableCell onClick={() => openModal()}>
-                          {loan.loanstate}
+                        <TableCell>
+                          <button
+                            className="mypageBtn"
+                            id="stateBtn"
+                            onClick={() => openModal(index)}
+                          >
+                            {loan.loanstate}
+                          </button>
                           {modalOpen && (
                             <Modal
                               setModalOpen={setModalOpen}
-                              loanname={loan.loanname}
-                              bankname={loan.bankname}
-                              state={loan.loanstate}
+                              loanname={myLoanList[idx].loanname}
+                              bankname={myLoanList[idx].bankname}
+                              state={myLoanList[idx].loanstate}
                             ></Modal>
                           )}
                         </TableCell>
