@@ -201,7 +201,6 @@ export default function MyPage(props) {
 
   //회원 정보 수정
   function editInfo(token) {
-    console.log(userInfo);
     if (version === -1) {
       const url = "/hows/my/myedit";
       axios
@@ -400,9 +399,9 @@ export default function MyPage(props) {
                 <tr />
                 <td>결혼</td>
                 <td className={version === 1 ? "editver" : "normal"}>
-                  {userInfo.marry === "1" || 1
+                  {userInfo.marry == 1
                     ? "기혼"
-                    : userInfo.marry === "0" || 0
+                    : userInfo.marry == 0
                     ? "미혼"
                     : ""}
                 </td>
@@ -433,11 +432,11 @@ export default function MyPage(props) {
                 <tr />
                 <td>자녀</td>
                 <td className={version === 1 ? "editver" : "normal"}>
-                  {userInfo.haschild === 0 || "0"
+                  {userInfo.haschild == 0
                     ? "없음"
-                    : userInfo.haschild === 1 || "1"
+                    : userInfo.haschild == 1
                     ? "1명"
-                    : userInfo.haschild === 2 || "2"
+                    : userInfo.haschild == 2
                     ? "2명이상"
                     : ""}
                 </td>
