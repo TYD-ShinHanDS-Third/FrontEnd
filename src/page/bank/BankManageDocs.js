@@ -198,7 +198,7 @@ function BankManageDocs(props) {
               </button>
             </div>
             <div className="file4 file">
-              <h2 style={{ backgroundColor: "#A4BC92" }}>결혼예정 증빙 서류</h2>
+              <h2 style={{ backgroundColor: "#A4BC92" }}>신분증 사본</h2>
               <button
                 className="upload_btn"
                 onClick={() => {

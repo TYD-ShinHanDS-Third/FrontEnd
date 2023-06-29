@@ -7,6 +7,7 @@
 }
 .loanlimit_header {
   grid-area: loanlimit_header;
+  margin-top: 30px;
 }
 .loanlimit_body {
   grid-area: loanlimit_body;

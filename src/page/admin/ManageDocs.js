@@ -191,7 +191,7 @@ function ManageDocs(props) {
               </button>
             </div>
             <div className="file4 file">
-              <h2>결혼예정 증빙 서류</h2>
+              <h2>신분증 사본</h2>
               <button
                 className="upload_btn"
                 onClick={() => {

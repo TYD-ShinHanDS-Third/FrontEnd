@@ -50,7 +50,7 @@
 
 .leftBox {
   width: 90%;
-  height: 100%;
+  height: 70%;
   padding: 5%;
   background-color: white;
   border-radius: 20px;
@@ -64,6 +64,14 @@
 
 .essential {
   grid-column: 1 / 2;
+}
+
+.essential td {
+  padding-right: 20px;
+}
+
+.additional td {
+  padding-right: 20px;
 }
 
 .additional {
@@ -145,4 +153,8 @@ table input {
 
 #linkBtn {
   width: 40px;
+}
+
+#stateBtn {
+  background-color: #fff8de;
 }
