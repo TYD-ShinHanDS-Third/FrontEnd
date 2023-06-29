@@ -543,6 +543,7 @@ export default function MyPage(props) {
                                 },
                               });
                             }}
+                            disabled={loan.loanstate !== "대출상담완료"}
                           >
                             링크
                           </button>

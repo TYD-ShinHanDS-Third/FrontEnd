@@ -152,7 +152,7 @@ function LoanUploadDoc(props) {
         </div>
         <div className="file4 file">
           <h2 className="filename">
-            결혼예정 증빙 서류 :
+            신분증 사본 :
             <input
               className="upload-name"
               defaultValue={filelist.file4}

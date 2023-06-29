@@ -34,7 +34,7 @@
   height: 60px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
   grid-template-areas: "userid username userloan userloanstate enterroom";
   background-color: #ebf2f7;
   border-radius: 15px;
@@ -63,7 +63,7 @@
   height: 60px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
   grid-template-areas: "userid username userloan userstate userdocs";
   background-color: #ebf2f7;
   border-radius: 15px;

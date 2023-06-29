@@ -11,6 +11,7 @@ import { Cookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import Modal from "../loan/Modal";
+import { confirmAlert } from "react-confirm-alert";
 
 function Consulting(props) {
   const [msg, setMsg] = useState("");
@@ -20,6 +21,7 @@ function Consulting(props) {
   const [socketData, setSocketData] = useState();
   const [bankname, setBankname] = useState("");
   const [loanname, setLoanname] = useState("");
+  const [loanstate, setLoanstate] = useState("");
   const ws = useRef(null); //webSocket을 담는 변수,
   //컴포넌트가 변경될 때 객체가 유지되어야하므로 'ref'로 저장
 
@@ -113,6 +115,7 @@ function Consulting(props) {
     setBankname(location.state.bankname);
     setLoanname(location.state.loanname);
     setRoom(location.state.room);
+    setLoanstate(location.state.loanstate);
     const cookies = new Cookies();
     makeRoom(
       cookies.get("jwtToken"),
@@ -183,11 +186,14 @@ function Consulting(props) {
   });
 
   const endChatting = (e) => {
+    const cookiess = new Cookies();
+    const token = cookiess.get("jwtToken");
     const url = "/hows/admin/chatend";
     axios
       .put(url, null, {
         headers: {
           "Content-Type": `application/json`,
+          token: token,
         },
         params: {
           memloanid: location.state.loanid,
@@ -195,7 +201,19 @@ function Consulting(props) {
       })
       .then((res) => {
         if (res.data === "success") {
-          console.log("상담종료");
+          confirmAlert({
+            title: "상담이 종료되었습니다",
+            message: "",
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                  window.location.href = "/hows/admin/consult";
+                },
+                style: { backgroundColor: "#518e65" },
+              },
+            ],
+          });
         }
       })
       .catch((ex) => {
@@ -257,7 +275,11 @@ function Consulting(props) {
                 <h3 id="title">
                   [{bankname}] {loanname}
                 </h3>
-                <button className="endChat" onClick={endChatting}>
+                <button
+                  className="endChat"
+                  onClick={endChatting}
+                  disabled={loanstate !== "상담신청"}
+                >
                   상담종료
                 </button>
               </div>
@@ -269,13 +291,16 @@ function Consulting(props) {
               <div id="sendZoneAdmin">
                 <textarea
                   id="msg"
-                  value={msg}
+                  value={
+                    loanstate !== "상담신청" ? "종료된 채팅방입니다." : msg
+                  }
                   onChange={onText}
                   onKeyDown={(ev) => {
                     if (ev.keyCode === 13) {
                       send();
                     }
                   }}
+                  disabled={loanstate !== "상담신청"}
                 ></textarea>
                 <input type="button" value="전송" id="btnSend" onClick={send} />
               </div>

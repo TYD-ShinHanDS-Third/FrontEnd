@@ -16,7 +16,6 @@ function Modal({ loanname, bankname, consult }) {
 
   const handleModal = (e) => {
     setIdentify({ ...identify, [e.target.name]: e.target.value });
-    console.log(identify);
   };
 
   const openModalHandler = () => {
@@ -32,7 +31,6 @@ function Modal({ loanname, bankname, consult }) {
     const token = cookies.get("jwtToken");
     const url = "/hows/loan/verification";
 
-    console.log("identify", identify);
     axios
       .get(url, {
         headers: {
