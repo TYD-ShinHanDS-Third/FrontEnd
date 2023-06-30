@@ -185,8 +185,8 @@ function LoanApply(props) {
 
   return (
     <div className="loanapply">
-      <ContextProvider>
-        <div className="loanapply_detail" id="loanapply_detail">
+      <div className="loanapply_detail" id="loanapply_detail">
+        <ContextProvider>
           <div>
             <Options>
               <Notifications />
@@ -195,48 +195,46 @@ function LoanApply(props) {
               <VideoPlayer />
             </div>
           </div>
-          <br />
-          {divHtml.map((item1, index) => {
-            if (index > 2) {
-              return <div dangerouslySetInnerHTML={{ __html: item1 }}></div>;
-            }
-          })}
-        </div>
-        <div className="loanapply_chat">
-          <GlobalStyle />
-          <div id="chat_context">
-            <div id="chatt">
-              <div id="chatTitle">
-                <h3 id="title">
-                  [{bankname}] {loanname}
-                </h3>
-                <Modal loanname={loanname} bankname={bankname} consult="1" />
-              </div>
-              <br />
-              <div id="talk">
-                {msgBox}
-                <div ref={scrollRef}></div>
-              </div>
-              <div id="sendZone">
-                <textarea
-                  id="msg"
-                  value={
-                    loanstate !== "상담신청" ? "종료된 채팅방입니다." : msg
+        </ContextProvider>
+        <br />
+        {divHtml.map((item1, index) => {
+          if (index > 2) {
+            return <div dangerouslySetInnerHTML={{ __html: item1 }}></div>;
+          }
+        })}
+      </div>
+      <div className="loanapply_chat">
+        <GlobalStyle />
+        <div id="chat_context">
+          <div id="chatt">
+            <div id="chatTitle">
+              <h3 id="title">
+                [{bankname}] {loanname}
+              </h3>
+              <Modal loanname={loanname} bankname={bankname} consult="1" />
+            </div>
+            <br />
+            <div id="talk">
+              {msgBox}
+              <div ref={scrollRef}></div>
+            </div>
+            <div id="sendZone">
+              <textarea
+                id="msg"
+                value={loanstate !== "상담신청" ? "종료된 채팅방입니다." : msg}
+                onChange={onText}
+                onKeyDown={(ev) => {
+                  if (ev.keyCode === 13) {
+                    send();
                   }
-                  onChange={onText}
-                  onKeyDown={(ev) => {
-                    if (ev.keyCode === 13) {
-                      send();
-                    }
-                  }}
-                  disabled={loanstate !== "상담신청"}
-                ></textarea>
-                <input type="button" value="전송" id="btnSend" onClick={send} />
-              </div>
+                }}
+                disabled={loanstate !== "상담신청"}
+              ></textarea>
+              <input type="button" value="전송" id="btnSend" onClick={send} />
             </div>
           </div>
         </div>
-      </ContextProvider>
+      </div>
     </div>
   );
 }

@@ -22,7 +22,7 @@ const ContextProvider = ({ children }) => {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io.connect("http://localhost:8000");
+    socket.current = io.connect("http://192.168.0.107:8000");
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
@@ -40,21 +40,7 @@ const ContextProvider = ({ children }) => {
   }, [start]);
 
   useEffect(() => {
-    socket.current = io.connect("http://192.168.0.107:8000");
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        myVideo.current.srcObject = currentStream;
-      });
-
-    socket.current.on("me", (id) => {
-      setMe(id);
-    });
-
-    socket.current.on("callUser", ({ from, signal }) => {
-      setCall({ isReceivingCall: true, from, signal });
-    });
+    setStart(start + 1);
   }, []);
 
   const answerCall = () => {
@@ -98,10 +84,10 @@ const ContextProvider = ({ children }) => {
   };
 
   const leaveCall = () => {
-    //setCallEnded(true);
-    console.log(connectionRef.current);
+    setCallEnded(true);
+    //console.log(connectionRef.current);
     //connectionRef.current.destroy();
-    window.location.reload();
+    //window.location.reload();
   };
 
   const muteCall = () => {

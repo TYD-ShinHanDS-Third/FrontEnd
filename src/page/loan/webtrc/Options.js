@@ -30,14 +30,14 @@ const Options = ({ children }) => {
                 context.leaveCall();
               }}
             >
-              Hang Up
+              전화끊기
             </button>
           ) : (
             <button
               className="videobtn"
               onClick={() => context.callUser(idToCall)}
             >
-              Call
+              전화
             </button>
           )}
         </div>
