@@ -113,6 +113,7 @@ function Consulting(props) {
   const location = useLocation();
 
   useEffect(() => {
+    webSocketLogin();
     setBankname(location.state.bankname);
     setLoanname(location.state.loanname);
     setRoom(location.state.room);
