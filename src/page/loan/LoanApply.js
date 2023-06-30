@@ -111,6 +111,7 @@ function LoanApply(props) {
   const location = useLocation();
 
   useEffect(() => {
+    webSocketLogin();
     setBankname(location.state.bankname);
     setLoanname(location.state.loanname);
     setLoanstate(location.state.loanstate);

@@ -37,9 +37,10 @@ function BankManageDocs(props) {
     getFiles();
   }, [loanid]);
 
+  const cookies = new Cookies();
+  const token = cookies.get("jwtToken");
+
   async function getFiles() {
-    const cookies = new Cookies();
-    const token = cookies.get("jwtToken");
     const listurl = "/hows/loan/detail/getdocs";
     await axios
       .get(listurl, {
@@ -69,6 +70,7 @@ function BankManageDocs(props) {
       .put(url, null, {
         headers: {
           "Content-Type": `application/json`,
+          token: token,
         },
         params: {
           memloanid: loanid,
@@ -85,7 +87,9 @@ function BankManageDocs(props) {
               {
                 label: "확인",
                 style: { backgroundColor: "#9db2bf" },
-                onClick: () => {},
+                onClick: () => {
+                  window.location.href = "/hows/bank/loanlist";
+                },
               },
             ],
           });
@@ -103,6 +107,7 @@ function BankManageDocs(props) {
       .put(url, null, {
         headers: {
           "Content-Type": `application/json`,
+          token: token,
         },
         params: {
           memloanid: loanid,
@@ -119,7 +124,9 @@ function BankManageDocs(props) {
               {
                 label: "확인",
                 style: { backgroundColor: "#9db2bf" },
-                onClick: () => {},
+                onClick: () => {
+                  window.location.href = "/hows/bank/loanlist";
+                },
               },
             ],
           });

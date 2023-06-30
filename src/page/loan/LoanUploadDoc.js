@@ -97,7 +97,9 @@ function LoanUploadDoc(props) {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(function (response) {})
+      .then(function (response) {
+        window.location.href = "/hows/loan/detail/consult/success";
+      })
       .catch(function (error) {
         console.log(error);
       });
