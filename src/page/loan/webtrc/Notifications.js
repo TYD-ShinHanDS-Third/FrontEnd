@@ -10,7 +10,9 @@ const Notifications = () => {
       {call.isReceivingCall && !callAccepted && (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <h1>전화를 받으세요!</h1>
-          <button onClick={answerCall}>Answer</button>
+          <button className="videobtn" onClick={answerCall}>
+            Answer
+          </button>
         </div>
       )}
     </>
