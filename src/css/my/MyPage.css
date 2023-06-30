@@ -16,7 +16,7 @@
   align-items: center;
   justify-items: center;
   grid-template-rows: repeat(3, 1fr);
-  gap: 5% 2%;
+  gap: 0% 2%;
 }
 
 .memberTitle {
@@ -156,5 +156,6 @@ table input {
 }
 
 #stateBtn {
+  width: 60px;
   background-color: #fff8de;
 }
