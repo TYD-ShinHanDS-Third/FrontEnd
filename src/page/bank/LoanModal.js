@@ -3,6 +3,7 @@ import { useState } from "react";
 import "../../css/admin/Modal.css";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
+import { confirmAlert } from "react-confirm-alert";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function LoanModal({ pageNumber, pdfUrl, closeModal }) {
@@ -24,7 +25,17 @@ function LoanModal({ pageNumber, pdfUrl, closeModal }) {
       setPageNumber(page + 1);
     }
     if (numPages === page) {
-      alert("마지막 페이지 입니다.");
+      confirmAlert({
+        title: "",
+        message: "마지막 페이지입니다.",
+        buttons: [
+          {
+            label: "확인",
+            onClick: () => {},
+            style: { backgroundColor: "#eef1e6" },
+          },
+        ],
+      });
     }
   };
 
@@ -33,7 +44,17 @@ function LoanModal({ pageNumber, pdfUrl, closeModal }) {
       setPageNumber(page - 1);
     }
     if (1 === page) {
-      alert("첫번째 페이지 입니다.");
+      confirmAlert({
+        title: "",
+        message: "첫번째 페이지입니다.",
+        buttons: [
+          {
+            label: "확인",
+            onClick: () => {},
+            style: { backgroundColor: "#eef1e6" },
+          },
+        ],
+      });
     }
   };
   return (

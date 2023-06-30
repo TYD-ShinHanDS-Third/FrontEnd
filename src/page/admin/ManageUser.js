@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 import CheckUserWork from "./CheckUserWork";
+import { confirmAlert } from "react-confirm-alert";
 
 function ManageUser(props) {
   const [userList, setUserList] = useState([]);
@@ -87,7 +88,17 @@ function ManageUser(props) {
       )
       .then(function (response) {
         if (response.data === "발송성공") {
-          alert("회원에게 메일 전송이 완료 되었습니다.");
+          confirmAlert({
+            title: "회원 정보 수정 완료",
+            message: "회원에게 메일 전송이 완료 되었습니다.",
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {},
+                style: { backgroundColor: "#518e65" },
+              },
+            ],
+          });
         } else {
           alert("회원에게 메일 전송이 되지 않았습니다.");
         }
