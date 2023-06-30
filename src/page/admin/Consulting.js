@@ -3,14 +3,15 @@ import "../../css/admin/Consulting.css";
 import { ContextProvider, SocketContext } from "../../SocketContext";
 import { useContext } from "react";
 import Options from "../loan/webtrc/Options";
-import { Notifications } from "@mui/icons-material";
+
 import VideoPlayer from "../loan/webtrc/VideoPlayer";
+import Notifications from "../loan/webtrc/Notifications";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { Cookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
-import Modal from "../loan/Modal";
+
 import { confirmAlert } from "react-confirm-alert";
 
 function Consulting(props) {
@@ -227,7 +228,14 @@ function Consulting(props) {
         <div className="loanapply_detail" id="loanapply_detail">
           <div className="loanapply_detail_admin">
             <ContextProvider>
-              <My />
+              <div>
+                <Options>
+                  <Notifications />
+                </Options>
+                <div className="loanvideo">
+                  <VideoPlayer />
+                </div>
+              </div>
             </ContextProvider>
             <div className="admin_consult_table">
               <table>
@@ -314,16 +322,5 @@ function Consulting(props) {
     </div>
   );
 }
-
-const My = () => {
-  return (
-    <div>
-      <Options>
-        <Notifications />
-      </Options>
-      <VideoPlayer />
-    </div>
-  );
-};
 
 export default Consulting;

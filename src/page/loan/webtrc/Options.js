@@ -37,7 +37,7 @@ const Options = ({ children }) => {
               className="videobtn"
               onClick={() => context.callUser(idToCall)}
             >
-              전화
+              전화걸기
             </button>
           )}
         </div>
