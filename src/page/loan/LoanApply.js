@@ -221,7 +221,11 @@ function LoanApply(props) {
                 <textarea
                   id="msg"
                   value={
-                    loanstate !== "상담신청" ? "종료된 채팅방입니다." : msg
+                    loanstate !== ""
+                      ? msg
+                      : loanstate !== "상담신청"
+                      ? "종료된 채팅방입니다."
+                      : msg
                   }
                   onChange={onText}
                   onKeyDown={(ev) => {
@@ -229,7 +233,13 @@ function LoanApply(props) {
                       send();
                     }
                   }}
-                  disabled={loanstate !== "상담신청"}
+                  disabled={
+                    loanstate === ""
+                      ? false
+                      : loanstate === "상담신청"
+                      ? false
+                      : true
+                  }
                 ></textarea>
                 <input type="button" value="전송" id="btnSend" onClick={send} />
               </div>

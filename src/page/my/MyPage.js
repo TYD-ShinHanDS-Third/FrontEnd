@@ -201,6 +201,10 @@ export default function MyPage(props) {
     getChatList(jwtToken);
   }, []);
 
+  useEffect(() => {
+    getUserInfo(token);
+  }, [version]);
+
   //회원 정보 수정
   function editInfo(token) {
     if (version === -1) {
@@ -220,9 +224,7 @@ export default function MyPage(props) {
                 {
                   label: "확인",
                   style: { backgroundColor: "#518e65" },
-                  onClick: () => {
-                    getUserInfo(token);
-                  },
+                  onClick: () => {},
                 },
               ],
             });
