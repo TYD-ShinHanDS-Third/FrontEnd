@@ -226,46 +226,49 @@ function Consulting(props) {
       <div className="loanapply" id="loanapply_admin">
         <div className="loanapply_detail" id="loanapply_detail">
           <div className="loanapply_detail_admin">
-            <table>
-              <td>이름</td>
-              <td>{user.membername}</td>
-              <tr />
-              <td>생년월일</td>
-              <td>{user.bday}</td>
-              <tr />
-              <td>전화번호</td>
-              <td>{user.phone}</td>
-              <tr />
-              <td>직장</td>
-              <td>{user.hasjob === 1 ? "O" : user.hasjob === 0 ? "X" : ""}</td>
-              <tr />
-              <td>직장명</td>
-              <td>{user.jobname}</td>
-              <tr />
-              <td>입사년도</td>
-              <td>{user.hiredate}</td>
-              <tr />
-              <td>결혼</td>
-              <td>
-                {user.marry === 1 ? "기혼" : user.marry === 0 ? "미혼" : ""}
-              </td>
-              <tr />
-              <td>자녀</td>
-              <td>
-                {user.haschild === 0
-                  ? "없음"
-                  : user.hasjob === 1
-                  ? "1명"
-                  : user.hasjob === 2
-                  ? "2명 이상"
-                  : ""}
-              </td>
-            </table>
+            <ContextProvider>
+              <My />
+            </ContextProvider>
+            <div className="admin_consult_table">
+              <table>
+                <td>이름</td>
+                <td>{user.membername}</td>
+                <tr />
+                <td>생년월일</td>
+                <td>{user.bday}</td>
+                <tr />
+                <td>전화번호</td>
+                <td>{user.phone}</td>
+                <tr />
+                <td>직장</td>
+                <td>
+                  {user.hasjob === 1 ? "O" : user.hasjob === 0 ? "X" : ""}
+                </td>
+                <tr />
+                <td>직장명</td>
+                <td>{user.jobname}</td>
+                <tr />
+                <td>입사년도</td>
+                <td>{user.hiredate}</td>
+                <tr />
+                <td>결혼</td>
+                <td>
+                  {user.marry === 1 ? "기혼" : user.marry === 0 ? "미혼" : ""}
+                </td>
+                <tr />
+                <td>자녀</td>
+                <td>
+                  {user.haschild === 0
+                    ? "없음"
+                    : user.hasjob === 1
+                    ? "1명"
+                    : user.hasjob === 2
+                    ? "2명 이상"
+                    : ""}
+                </td>
+              </table>
+            </div>
           </div>
-
-          {/* <ContextProvider>
-          <My />
-        </ContextProvider> */}
         </div>
         <div className="loanapply_chat_admin">
           <GlobalStyle />

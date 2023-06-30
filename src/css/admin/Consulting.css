@@ -8,14 +8,29 @@
   padding-top: 30px;
 }
 
+.admin_consult_table {
+  display: grid;
+  justify-content: center;
+}
+
+.loanapply_detail_admin table {
+  border: 1px solid gray;
+  text-align: center;
+}
+.loanapply_detail_admin td {
+  padding: 5px;
+  font-size: 20px;
+}
+
+/* 
 .loanapply_detail_admin {
   display: flex;
 }
 
 .loanapply_detail_admin td {
-  padding: 10px;
-  font-size: 20px;
-}
+  padding: 5px;
+  font-size: 15px;
+} */
 
 #chatTitle {
   display: flex;
