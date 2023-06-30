@@ -7,9 +7,9 @@
     ". noticearea ."
     ". noticearea ."
     ". paging . ";
-  align-items: center;
+
   width: 100%;
-  height: 100%;
+  height: 90%;
 }
 
 .noticearea {
@@ -23,7 +23,6 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 1%;
 }
 .pagebtn {
   margin-right: 1%;
