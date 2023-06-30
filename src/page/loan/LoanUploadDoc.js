@@ -97,7 +97,9 @@ function LoanUploadDoc(props) {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(function (response) {})
+      .then(function (response) {
+        window.location.href = "/hows/loan/detail/consult/success";
+      })
       .catch(function (error) {
         console.log(error);
       });
@@ -191,17 +193,7 @@ function LoanUploadDoc(props) {
             심사 후 결과는 핸드폰 번호로 안내될 예정입니다.
           </p>
         </div>
-        <button
-          className="finalapply_btn"
-          onClick={() => submitFile()}
-          disabled={
-            file1 === "" ||
-            file2 === "" ||
-            file3 === "" ||
-            file4 === "" ||
-            file5 === ""
-          }
-        >
+        <button className="finalapply_btn" onClick={() => submitFile()}>
           신청하기
         </button>
       </div>

@@ -23,7 +23,7 @@ function Modal({ setModalOpen, loanname, bankname, state }) {
               src={
                 state === "상담신청"
                   ? "/image/loanstate/state1.svg"
-                  : state === "상담완료"
+                  : state === "대출상담완료"
                   ? "/image/loanstate/state2.svg"
                   : state === "대출심사대기"
                   ? "/image/loanstate/state3.svg"
@@ -31,6 +31,8 @@ function Modal({ setModalOpen, loanname, bankname, state }) {
                   ? "/image/loanstate/state4.svg"
                   : state === "대출승인완료"
                   ? "/image/loanstate/state5.svg"
+                  : state === "대출심사 부적격"
+                  ? "/image/loanstate/state6.svg"
                   : ""
               }
               alt="loanstate"

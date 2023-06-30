@@ -141,6 +141,7 @@ export default function MyPage(props) {
       .then(function (response) {
         setMyLoanList(response.data[0]);
         setMyChat(response.data[1]);
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
